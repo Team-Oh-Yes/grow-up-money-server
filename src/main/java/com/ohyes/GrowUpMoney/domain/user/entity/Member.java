@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.user.entity;
+package com.ohyes.GrowUpMoney.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,13 +24,13 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "int default 0")
     private Integer point_balance;
 
-    @Column(nullable = false)
-    private int is_active;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean is_active;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) default 'user'")
     private String tier;
 
     @Column(nullable = false)
