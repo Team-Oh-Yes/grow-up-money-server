@@ -16,9 +16,18 @@ public class MemberController {
 
 
     @PostMapping("/add")
+    @ResponseBody
     public String add(@RequestBody MemberDto requset){
         memberService.register(requset);
         return "회원가입 완료";
     }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public String login(@RequestBody MemberDto requset){
+        memberService.login(requset);
+        return "로그인 성공";
+    }
+
 
 }
