@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class MemberController {
 
     private final MemberRepository memberRepository;
