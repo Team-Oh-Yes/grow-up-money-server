@@ -21,10 +21,10 @@ public class MemberController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 
-    @PostMapping("/add")
+    @PostMapping("/signup")
     @ResponseBody
-    public String add(@RequestBody MemberDto requset){
-        memberService.register(requset);
+    public String signUp(@RequestBody MemberDto requset){
+        memberService.signUp(requset);
         return "회원가입 완료";
     }
 
