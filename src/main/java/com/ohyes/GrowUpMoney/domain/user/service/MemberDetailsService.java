@@ -1,6 +1,5 @@
 package com.ohyes.GrowUpMoney.domain.user.service;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
