@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.user.service;
 
 import com.ohyes.GrowUpMoney.domain.user.dto.MemberDto;
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
+import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +35,7 @@ public class MemberService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
-        Member member = new Member();
+        MemberEntity member = new MemberEntity();
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
