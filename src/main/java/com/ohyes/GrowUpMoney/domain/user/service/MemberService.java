@@ -14,7 +14,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(MemberDto request) {
+    public void signUp(MemberDto request) {
         if (request.getUsername().length() <= 3){
             throw new IllegalArgumentException("아이디를 3자리 이상으로 입력하세요");
         }
