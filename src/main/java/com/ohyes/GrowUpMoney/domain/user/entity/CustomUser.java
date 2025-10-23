@@ -23,7 +23,7 @@ public class CustomUser implements UserDetails {
 
     public Long getMemberId() {return id;}
 
-    @Override public Collection<? extends GrantedAuthority> getAuthorities() {return List.of();}
+    @Override public Collection<? extends GrantedAuthority> getAuthorities() {return authorities;}
 
     @Override public String getPassword() {return password;}
 
