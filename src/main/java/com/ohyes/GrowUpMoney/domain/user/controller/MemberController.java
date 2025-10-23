@@ -39,8 +39,7 @@ public class MemberController {
         );
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        System.out.println(jwtUtil.createToken(auth));
-        System.out.println(auth.getName());
+
         return "로그인 성공";
     }
 
