@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.global;
 
 import com.ohyes.GrowUpMoney.domain.user.service.MemberDetailsService;
+import com.ohyes.GrowUpMoney.global.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 
 @Slf4j
 @Configuration
@@ -43,19 +44,12 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
+        http.addFilterBefore(new JwtFilter(), ExceptionTranslationFilter.class);
 
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/**").permitAll()
                 );
-
-
-//        http.formLogin(form -> form
-//                .loginPage("/login")               // 커스텀 로그인 페이지
-//                .defaultSuccessUrl("/")            // 로그인 성공 시 이동
-//                .failureUrl("/fail")               // 로그인 실패 시 이동
-//                .permitAll()                       // 로그인 페이지는 인증 없이 접근 가능
-//        );
 
         http.logout(logout -> logout.logoutUrl("/logout"));
 
