@@ -36,6 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
+# macOS files
+.DS_Store
+
+# project
 src/main/resources/application.properties
 src/main/resources/application-oauth.propertiesclean-repo/
 clean-repo/
