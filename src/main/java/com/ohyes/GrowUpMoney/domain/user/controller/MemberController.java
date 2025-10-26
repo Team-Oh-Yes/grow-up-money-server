@@ -4,9 +4,11 @@ import com.ohyes.GrowUpMoney.domain.user.dto.LoginRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.user.exception.TokenGenerationException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseBody
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest request){
+    public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
         SignUpResponse responseBody = authService.signUp(request);
 
         return ResponseEntity
@@ -44,8 +46,8 @@ public class MemberController {
                 request.getPassword()
         );
 
-        if (responseBody.getToken() == null){
-            return ResponseEntity.status(403).body(responseBody);
+        if (responseBody.getToken() == null) {
+            throw new TokenGenerationException();
         }
 
         return ResponseEntity.ok(responseBody);
