@@ -5,6 +5,8 @@ import com.ohyes.GrowUpMoney.domain.user.dto.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
+import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateEmailException;
+import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateUserException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,10 @@ public class AuthService {
     public SignUpResponse signUp(SignUpRequest request) {
 
         if (memberRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+            throw new DuplicateUserException();
         }
         if (memberRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new DuplicateEmailException();
         }
 
         MemberEntity member = new MemberEntity();
@@ -45,16 +47,16 @@ public class AuthService {
 
     public LoginResponse login(String username, String password) {
 
-        // 1. 인증 토큰 생성
+        //인증 토큰 생성
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
 
-        // 2. 인증 시도 (Spring Security가 검증)
+        //인증 시도 (Spring Security가 검증)
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        // 3. JWT 생성
+        //JWT 생성
         String jwt = jwtUtil.createToken(auth);
 
-        // 4. CustomUser 정보 추출
+        //CustomUser 정보 추출
         String extractedUsername = null;
         Object principal = auth.getPrincipal();
 
@@ -62,7 +64,7 @@ public class AuthService {
             extractedUsername = customUser.getUsername();
         }
 
-        // 5. 응답 DTO 생성
+        //응답 DTO 생성
         return new LoginResponse(
                 "로그인에 성공했습니다.",
                 jwt,
