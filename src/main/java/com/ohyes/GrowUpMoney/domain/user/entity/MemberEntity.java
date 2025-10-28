@@ -40,7 +40,4 @@ public class MemberEntity {
     @CreationTimestamp
     private LocalDateTime updated_at;
 
-
-
-
 }
