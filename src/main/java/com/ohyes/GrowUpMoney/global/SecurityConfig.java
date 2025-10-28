@@ -2,6 +2,7 @@ package com.ohyes.GrowUpMoney.global;
 
 import com.ohyes.GrowUpMoney.domain.user.service.MemberDetailsService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtFilter;
+import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import org.springframework.security.web.access.ExceptionTranslationFilter;
 public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
+    private final JwtUtil jwtUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
