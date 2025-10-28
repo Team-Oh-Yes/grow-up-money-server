@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.user.service;
 
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.user.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +25,7 @@ public class MemberDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var result = memberRepository.findByUsername(username);
         if (result.isEmpty()){
-            throw new UsernameNotFoundException("존재하지 않는 아이디입니다.");
+            throw new UserNotFoundException();
         }
         var user = result.get();
 
