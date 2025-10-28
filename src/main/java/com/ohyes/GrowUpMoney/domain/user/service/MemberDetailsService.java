@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.user.service;
 
+import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +31,7 @@ public class MemberDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
 
-        return new User(user.getUsername(), user.getPassword(), authorities);
+        return new CustomUser(user.getId(), user.getUsername(), user.getPassword(), authorities);
     }
 
 }

@@ -3,6 +3,7 @@ package com.ohyes.GrowUpMoney.domain.user.controller;
 import com.ohyes.GrowUpMoney.domain.user.dto.MemberDto;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.MemberService;
+import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,7 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtUtil jwtUtil;
 
 
     @PostMapping("/signup")
@@ -38,7 +40,7 @@ public class MemberController {
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return "";
+        return "로그인 성공";
     }
 
 
