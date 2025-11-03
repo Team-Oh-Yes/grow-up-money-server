@@ -36,6 +36,7 @@ jobs:
               source: "build/libs/*.jar"
               target: "/home/ubuntu/GrowMoney"
 
+<<<<<<< Updated upstream
 
       name: Run Spring Boot on EC2
             uses: appleboy/ssh-action@v0.1.10
@@ -44,6 +45,15 @@ jobs:
               username: ubuntu
               key: ${{ secrets.AWS_EC2_KEY }}
               script: |
+=======
+      - name: Run Spring Boot on EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: ${{ secrets.AWS_EC2_HOST }}
+            username: ubuntu
+            key: ${{ secrets.AWS_EC2_KEY }}
+            script: |
+>>>>>>> Stashed changes
                 cd ~/app# 기존 실행 중인 앱 종료
                 PID=$(pgrep -f 'java -jar' || true)
                 if [ -n "$PID" ]; then
