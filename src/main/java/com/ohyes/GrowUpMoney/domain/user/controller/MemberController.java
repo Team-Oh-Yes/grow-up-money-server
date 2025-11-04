@@ -1,9 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.user.controller;
 
-import com.ohyes.GrowUpMoney.domain.user.dto.LoginRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.LoginResponse;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.request.LoginRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.exception.TokenGenerationException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
