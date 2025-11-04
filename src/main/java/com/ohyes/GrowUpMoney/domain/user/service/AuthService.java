@@ -24,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RefreshTokenService refreshTokenService;
 
     public SignUpResponse signUp(SignUpRequest request) {
 
@@ -52,8 +53,6 @@ public class AuthService {
         //인증 시도 (Spring Security가 검증)
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        //JWT 생성
-        String jwt = jwtUtil.createToken(auth);
 
         //CustomUser 정보 추출
         String extractedUsername = null;
@@ -63,10 +62,16 @@ public class AuthService {
             extractedUsername = customUser.getUsername();
         }
 
+        String accessToken = jwtUtil.createToken(auth);
+        String refreshToken = refreshTokenService.createRefreshToken(extractedUsername);
+
+
+
         //응답 DTO 생성
         return new LoginResponse(
                 "로그인에 성공했습니다.",
-                jwt,
+                accessToken,
+                refreshToken,
                 extractedUsername
         );
     }
