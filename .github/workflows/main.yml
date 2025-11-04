@@ -2,7 +2,7 @@ name: GrowMoneyServer
 
 on:
   push:
-    branches: [ "main" ]  # main 브랜치 푸시 시 자동 배포
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
@@ -17,6 +17,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
       - name: make application.properties
         run: |
           mkdir -p ./src/main/resources
@@ -29,30 +30,36 @@ jobs:
       - name: Copy jar to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_EC2_KEY }}
           source: "build/libs/*.jar"
-          target: "/home/ubuntu/GrowMoney"
-
-
-
+          target: "/home/ubuntu/app"
 
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
-            host: ${{ secrets.AWS_EC2_HOST }}
-            username: ubuntu
-            key: ${{ secrets.AWS_EC2_KEY }}
-            script: |
-                cd ~/app# 기존 실행 중인 앱 종료
-                PID=$(pgrep -f 'java -jar' || true)
-                if [ -n "$PID" ]; then
-                  echo "Killing existing process $PID"
-                  kill -9 $PID
-                fi
-      
-                  # 새 JAR 실행
-                  nohup java -jar $(ls -t *.jar | head -n 1) > GrowMoney.log 2>&1 &
-                  echo "App started successfully!"
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_EC2_KEY }}
+          script: |
+            cd ~/app
+
+            # 기존 프로세스 종료
+            PID=$(pgrep -f 'java -jar' || true)
+            if [ -n "$PID" ]; then
+              echo "Killing existing process $PID"
+              kill -9 $PID
+            fi
+
+            sleep 1
+
+            # JAR 파일 존재 확인 후 실행
+            JAR_FILE=$(ls -t *.jar | head -n 1)
+            if [ -z "$JAR_FILE" ]; then
+              echo "No JAR file found!"
+              exit 1
+            fi
+
+            nohup java -jar "$JAR_FILE" > GrowMoney.log 2>&1 &
+            echo "App started successfully with $JAR_FILE"
