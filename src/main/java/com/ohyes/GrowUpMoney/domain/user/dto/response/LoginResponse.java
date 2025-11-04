@@ -1,7 +1,6 @@
-package com.ohyes.GrowUpMoney.domain.user.dto;
+package com.ohyes.GrowUpMoney.domain.user.dto.response;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class LoginResponse {
