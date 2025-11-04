@@ -17,7 +17,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-
       - name: make application.properties
         run: |
           mkdir -p ./src/main/resources
@@ -30,27 +29,30 @@ jobs:
       - name: Copy jar to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
+
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.AWS_EC2_KEY }}
           source: "build/libs/*.jar"
           target: "/home/ubuntu/GrowMoney"
 
+
+
+
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.AWS_EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.AWS_EC2_KEY }}
-          script: |
-            cd ~/app
-            # 기존 실행 중인 앱 종료
-            PID=$(pgrep -f 'java -jar' || true)
-            if [ -n "$PID" ]; then
-              echo "Killing existing process $PID"
-              kill -9 $PID
-            fi
-
-            # 새 JAR 실행
-            nohup java -jar $(ls -t *.jar | head -n 1) > GrowMoney.log 2>&1 &
-            echo "App started successfully!"
+            host: ${{ secrets.AWS_EC2_HOST }}
+            username: ubuntu
+            key: ${{ secrets.AWS_EC2_KEY }}
+            script: |
+                cd ~/app# 기존 실행 중인 앱 종료
+                PID=$(pgrep -f 'java -jar' || true)
+                if [ -n "$PID" ]; then
+                  echo "Killing existing process $PID"
+                  kill -9 $PID
+                fi
+      
+                  # 새 JAR 실행
+                  nohup java -jar $(ls -t *.jar | head -n 1) > GrowMoney.log 2>&1 &
+                  echo "App started successfully!"
