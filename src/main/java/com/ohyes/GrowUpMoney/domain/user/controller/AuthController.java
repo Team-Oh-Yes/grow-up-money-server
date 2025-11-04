@@ -1,9 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.user.controller;
 
-import com.ohyes.GrowUpMoney.domain.user.dto.LoginRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.LoginResponse;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.request.LoginRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.exception.TokenGenerationException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
@@ -53,4 +53,30 @@ public class MemberController {
         return ResponseEntity.ok(responseBody);
     }
 
-}
+
+    //리프레시 토큰
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String,String> request){
+        String username = request.get("username");
+        String refreshToken = request.get("refreshToken");
+
+        if (!refreshTokenService.validteRefreshToken(username,refreshToken)){
+            return ResponseEntity.status(401).body("유효하지 않은 토큰");
+        }
+
+        MemberEntity member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                username, null,
+                Collections.singletonList(new SimpleGrantedAuthority("USER"))
+        );
+        String newAccessToken = jwtUtil.createToken(auth);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken",newAccessToken);
+        response.put("message","Token refreshred");
+
+        return ResponseEntity.ok(response);
+    }
+
