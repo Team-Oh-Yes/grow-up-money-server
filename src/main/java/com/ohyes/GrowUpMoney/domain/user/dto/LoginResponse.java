@@ -1,18 +1,15 @@
 package com.ohyes.GrowUpMoney.domain.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
+@AllArgsConstructor
 public class LoginResponse {
     private String message;
-    private String token;
+    private String accessToken;
+    private String refreshToken;
     private String username;
-
-
-    public LoginResponse(String message, String token, String username) {
-        this.message = message;
-        this.token = token;
-        this.username = username;
-    }
 }

@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.global;
+package com.ohyes.GrowUpMoney.global.config;
 
 import com.ohyes.GrowUpMoney.domain.user.service.MemberDetailsService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtFilter;
