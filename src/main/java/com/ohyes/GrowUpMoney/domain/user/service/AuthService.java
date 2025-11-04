@@ -1,8 +1,8 @@
 package com.ohyes.GrowUpMoney.domain.user.service;
 
-import com.ohyes.GrowUpMoney.domain.user.dto.LoginResponse;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
+import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
 import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateEmailException;
@@ -10,7 +10,6 @@ import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateUserException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RefreshTokenService refreshTokenService;
 
     public SignUpResponse signUp(SignUpRequest request) {
 
@@ -53,8 +53,6 @@ public class AuthService {
         //인증 시도 (Spring Security가 검증)
         var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        //JWT 생성
-        String jwt = jwtUtil.createToken(auth);
 
         //CustomUser 정보 추출
         String extractedUsername = null;
@@ -64,10 +62,16 @@ public class AuthService {
             extractedUsername = customUser.getUsername();
         }
 
+        String accessToken = jwtUtil.createToken(auth);
+        String refreshToken = refreshTokenService.createRefreshToken(extractedUsername);
+
+
+
         //응답 DTO 생성
         return new LoginResponse(
                 "로그인에 성공했습니다.",
-                jwt,
+                accessToken,
+                refreshToken,
                 extractedUsername
         );
     }
