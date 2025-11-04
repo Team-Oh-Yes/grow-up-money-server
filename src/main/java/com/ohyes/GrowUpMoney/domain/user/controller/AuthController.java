@@ -53,4 +53,30 @@ public class MemberController {
         return ResponseEntity.ok(responseBody);
     }
 
-}
+
+    //리프레시 토큰
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String,String> request){
+        String username = request.get("username");
+        String refreshToken = request.get("refreshToken");
+
+        if (!refreshTokenService.validteRefreshToken(username,refreshToken)){
+            return ResponseEntity.status(401).body("유효하지 않은 토큰");
+        }
+
+        MemberEntity member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                username, null,
+                Collections.singletonList(new SimpleGrantedAuthority("USER"))
+        );
+        String newAccessToken = jwtUtil.createToken(auth);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken",newAccessToken);
+        response.put("message","Token refreshred");
+
+        return ResponseEntity.ok(response);
+    }
+
