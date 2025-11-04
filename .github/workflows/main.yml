@@ -44,7 +44,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_EC2_KEY }}
           script: |
-            cd ~/GrowMoney
+            cd ~/GrowMoney/build/libs
             
             PID=$(pgrep -f 'java -jar' || true)
             if [ -n "$PID" ]; then
