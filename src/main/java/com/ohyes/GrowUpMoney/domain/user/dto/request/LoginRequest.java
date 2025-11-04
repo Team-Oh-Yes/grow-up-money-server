@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.user.dto;
+package com.ohyes.GrowUpMoney.domain.user.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
