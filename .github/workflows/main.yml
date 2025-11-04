@@ -34,7 +34,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_EC2_KEY }}
           source: "build/libs/*.jar"
-          target: "/home/ubuntu/GrowMoney"
+          target: "/home/ubuntu/GrowMoney/"
+          strip_prefix: "build/libs"
 
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.10
@@ -53,5 +54,11 @@ jobs:
             
             sleep 1
             
-            nohup java -jar $(ls -t *.jar | head -n 1) > GrowMoney.log 2>&1 &
-            echo "App started successfully!"
+            JAR_FILE=$(ls -t *.jar | grep -v plain | head -n 1)
+            if [ -z "$JAR_FILE" ]; then
+              echo "No JAR file found!"
+              exit 1
+            fi
+            
+            nohup java -jar "$JAR_FILE" > GrowMoney.log 2>&1 &
+            echo "App started successfully with $JAR_FILE"
