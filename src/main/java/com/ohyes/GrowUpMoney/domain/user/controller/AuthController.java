@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class MemberController {
+public class AuthController {
 
     private final MemberRepository memberRepository;
     private final AuthService authService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtUtil jwtUtil;
-
-
 
 
     @PostMapping("/signup")
