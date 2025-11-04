@@ -44,21 +44,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.AWS_EC2_KEY }}
           script: |
-            cd ~/GrowMoney/build/libs
-            
-            PID=$(pgrep -f 'java -jar' || true)
-            if [ -n "$PID" ]; then
-              echo "Killing existing process $PID"
-              kill -9 $PID
-            fi
-            
-            sleep 1
-            
-            JAR_FILE=$(ls -t *.jar | grep -v plain | head -n 1)
-            if [ -z "$JAR_FILE" ]; then
-              echo "No JAR file found!"
-              exit 1
-            fi
-            
-            nohup java -jar "$JAR_FILE" > GrowMoney.log 2>&1 &
-            echo "App started successfully with $JAR_FILE"
+            ./test_sh.sh
