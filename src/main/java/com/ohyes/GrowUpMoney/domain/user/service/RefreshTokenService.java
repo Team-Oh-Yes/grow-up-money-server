@@ -27,7 +27,7 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
-    public boolean validteRefreshToken(String username, String refreshToken){
+    public boolean validateRefreshToken(String username, String refreshToken) {
         String storedToken = redisTemplate.opsForValue().get("RT:" + username);
         return refreshToken.equals(storedToken);
     }
