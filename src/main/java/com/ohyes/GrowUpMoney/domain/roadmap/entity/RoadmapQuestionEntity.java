@@ -2,9 +2,11 @@ package com.ohyes.GrowUpMoney.domain.roadmap.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.w3c.dom.Text;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class RoadmapQuestionEntity {
@@ -28,7 +30,9 @@ public class RoadmapQuestionEntity {
     @Lob
     private String stem;
 
-    // json형식으로 객관식 만들어야함 다른 Entity로 뺄 생각
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "json")
+    private List<String> options;
 
     //정답
     @Column(nullable = false, length = 255)
