@@ -23,7 +23,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(
@@ -31,25 +31,30 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        if(cookies == null){
+
+        String authHeader = request.getHeader("Authorization");
+
+        // 1. Bearer 토큰이 없으면 통과
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        var jwtCookie = "";
-        for (Cookie cookie : cookies) {
-            if ("jwt".equals(cookie.getName())) {
-                jwtCookie = cookie.getValue();
-            }
-        }
+        String jwtToken = authHeader.substring(7);
 
-        System.out.println(jwtCookie);
+        if (!jwtToken.contains(".")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         Claims claim;
         try {
-            claim = jwtUtil.extractToken(jwtCookie);
-        }catch (ExpiredJwtException e){
+            claim = jwtUtil.extractToken(jwtToken);
+        } catch (ExpiredJwtException e) {
+            filterChain.doFilter(request, response);
+            return;
+        } catch (Exception e) {  // JWT 파싱 에러
+            System.out.println(e);
             filterChain.doFilter(request, response);
             return;
         }
@@ -58,12 +63,12 @@ public class JwtFilter extends OncePerRequestFilter {
         var authorities = Arrays.stream(arr)
                 .map(a -> new SimpleGrantedAuthority(a)).toList();
         Long userId = ((Number) claim.get("userId")).longValue();
+
         var customUser = new CustomUser(
                 userId,
                 claim.get("username").toString(),
                 "none",
                 authorities
-
         );
 
         var authToken = new UsernamePasswordAuthenticationToken(
@@ -72,15 +77,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 authorities
         );
         authToken.setDetails(new WebAuthenticationDetailsSource()
-                .buildDetails(request)
-        );
+                .buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
-
-
-        //요청들어올때마다 실행할코드~~
         filterChain.doFilter(request, response);
     }
-
-
 }

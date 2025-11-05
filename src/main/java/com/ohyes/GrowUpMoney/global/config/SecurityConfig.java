@@ -26,6 +26,8 @@ public class SecurityConfig {
     private final MemberDetailsService memberDetailsService;
     private final JwtUtil jwtUtil;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final JwtFilter jwtFilter;
+
 
 
     @Bean
@@ -50,15 +52,12 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        http.addFilterBefore(new JwtFilter(), ExceptionTranslationFilter.class);
+        http.addFilterBefore(jwtFilter, ExceptionTranslationFilter.class);
 
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/**").permitAll()
                 );
-
-        http.logout(logout -> logout.logoutUrl("/logout"));
-
         return http.build();
     }
 }
