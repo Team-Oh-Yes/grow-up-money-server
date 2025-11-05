@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Slf4j
 @Configuration
@@ -24,6 +25,10 @@ public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
     private final JwtUtil jwtUtil;
+    private final CorsConfigurationSource corsConfigurationSource;
+    private final JwtFilter jwtFilter;
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -41,20 +46,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource));
 
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        http.addFilterBefore(new JwtFilter(), ExceptionTranslationFilter.class);
+        http.addFilterBefore(jwtFilter, ExceptionTranslationFilter.class);
 
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/**").permitAll()
                 );
-
-        http.logout(logout -> logout.logoutUrl("/logout"));
-
         return http.build();
     }
 }
