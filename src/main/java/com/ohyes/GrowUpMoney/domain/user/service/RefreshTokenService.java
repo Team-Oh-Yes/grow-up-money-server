@@ -34,7 +34,13 @@ public class RefreshTokenService {
         if (value == null) {
             throw new RuntimeException("Invalid or expired refresh token");
         }
-        return value.substring(3);
+
+        // "RT:john:USER" → "john" 추출
+        String[] parts = value.split(":");
+        if (parts.length < 2) {
+            throw new RuntimeException("Invalid token format");
+        }
+        return parts[1];  // username만 반환
     }
 
     public String getAuthoritiesByRefreshToken(String refreshToken) {
@@ -52,9 +58,10 @@ public class RefreshTokenService {
     public boolean validateRefreshToken(String username, String refreshToken) {
         String storedValue = redisTemplate.opsForValue().get(refreshToken);
         if (storedValue == null) {
-            return false;  // 토큰이 없거나 만료됨
+            return false;
         }
-        return storedValue.equals("RT:" + username);
+        // "RT:john:USER" 형식이므로 username만 비교
+        return storedValue.startsWith("RT:" + username + ":");
     }
 
     public void deleteRefreshToken(String refreshToken) {

@@ -1,0 +1,100 @@
+0000000000000000000000000000000000000000 fce8237ba93655374c684742005492a1782a85a9 redjungi <150891110+redjungi09@users.noreply.github.com> 1758776487 +0900	clone: from https://github.com/Team-Oh-Yes/grow-up-money-server.git
+fce8237ba93655374c684742005492a1782a85a9 311a66860b12bc81ab642006261c3e9a7e2618d3 redjungi <150891110+redjungi09@users.noreply.github.com> 1758776491 +0900	checkout: moving from main to feature/main
+311a66860b12bc81ab642006261c3e9a7e2618d3 abd3d68f51805eb56daf52972014e6a4216fa6c3 redjungi <150891110+redjungi09@users.noreply.github.com> 1759241178 +0900	checkout: moving from feature/main to strawberry
+abd3d68f51805eb56daf52972014e6a4216fa6c3 874420f137a7e224fe947957bc15cc50266f0a5e redjungi <150891110+redjungi09@users.noreply.github.com> 1759241191 +0900	checkout: moving from strawberry to redjungi
+874420f137a7e224fe947957bc15cc50266f0a5e d372b85b439b4a1328333b2fae5f745843997e78 redjungi <150891110+redjungi09@users.noreply.github.com> 1759292484 +0900	checkout: moving from redjungi to feature/main
+d372b85b439b4a1328333b2fae5f745843997e78 874420f137a7e224fe947957bc15cc50266f0a5e redjungi <150891110+redjungi09@users.noreply.github.com> 1759292516 +0900	checkout: moving from feature/main to redjungi
+874420f137a7e224fe947957bc15cc50266f0a5e b87899984aaaa85221c353a9fdeb87bc9439dbb0 redjungi <150891110+redjungi09@users.noreply.github.com> 1759380978 +0900	commit: feat:jwt구현중
+b87899984aaaa85221c353a9fdeb87bc9439dbb0 b87899984aaaa85221c353a9fdeb87bc9439dbb0 redjungi <150891110+redjungi09@users.noreply.github.com> 1759381598 +0900	checkout: moving from redjungi to redjungi
+b87899984aaaa85221c353a9fdeb87bc9439dbb0 b87899984aaaa85221c353a9fdeb87bc9439dbb0 redjungi <150891110+redjungi09@users.noreply.github.com> 1759381660 +0900	checkout: moving from redjungi to redjungi
+b87899984aaaa85221c353a9fdeb87bc9439dbb0 b87899984aaaa85221c353a9fdeb87bc9439dbb0 redjungi <150891110+redjungi09@users.noreply.github.com> 1759381665 +0900	checkout: moving from redjungi to redjungi
+b87899984aaaa85221c353a9fdeb87bc9439dbb0 b87899984aaaa85221c353a9fdeb87bc9439dbb0 redjungi <150891110+redjungi09@users.noreply.github.com> 1759389552 +0900	checkout: moving from redjungi to redjungi
+b87899984aaaa85221c353a9fdeb87bc9439dbb0 0fb05d56065c629aee99116deb3d70be0642c237 redjungi <150891110+redjungi09@users.noreply.github.com> 1759389580 +0900	commit: Remove application-oauth.properties from repo
+0fb05d56065c629aee99116deb3d70be0642c237 0fb05d56065c629aee99116deb3d70be0642c237 redjungi <150891110+redjungi09@users.noreply.github.com> 1759389665 +0900	checkout: moving from redjungi to redjungi
+0fb05d56065c629aee99116deb3d70be0642c237 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760862801 +0900	commit: refactor:엔드포인트 수정
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f fce8237ba93655374c684742005492a1782a85a9 redjungi <150891110+redjungi09@users.noreply.github.com> 1760863164 +0900	checkout: moving from redjungi to main
+fce8237ba93655374c684742005492a1782a85a9 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760863329 +0900	checkout: moving from main to redjungi
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760863411 +0900	branch: Reset to origin/redjungi
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760863411 +0900	checkout: moving from redjungi to redjungi
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760863427 +0900	branch: Reset to origin/redjungi
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f 9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f redjungi <150891110+redjungi09@users.noreply.github.com> 1760863427 +0900	checkout: moving from redjungi to redjungi
+9e5eb4f360ce5c4dc1a9caba4f196ef6f6bc392f f730517341838bfb6ae0fe727772b49629b40c00 redjungi <150891110+redjungi09@users.noreply.github.com> 1761032802 +0900	commit: fix: 회원가입 유효성 검사 및 컨트롤러 수정
+f730517341838bfb6ae0fe727772b49629b40c00 2ccac479b7874031c0203746f8e305a6bd2bb884 redjungi <150891110+redjungi09@users.noreply.github.com> 1761032810 +0900	pull origin redjungi --rebase (start): checkout 2ccac479b7874031c0203746f8e305a6bd2bb884
+2ccac479b7874031c0203746f8e305a6bd2bb884 f730517341838bfb6ae0fe727772b49629b40c00 redjungi <150891110+redjungi09@users.noreply.github.com> 1761032957 +0900	rebase (abort): returning to refs/heads/redjungi
+f730517341838bfb6ae0fe727772b49629b40c00 3b231fdd6476a5de71c5ee71b5ece20e69d9ba02 redjungi <150891110+redjungi09@users.noreply.github.com> 1761033112 +0900	commit: chore: ignore clean-repo folder
+3b231fdd6476a5de71c5ee71b5ece20e69d9ba02 2ccac479b7874031c0203746f8e305a6bd2bb884 redjungi <150891110+redjungi09@users.noreply.github.com> 1761033121 +0900	pull origin redjungi --rebase (start): checkout 2ccac479b7874031c0203746f8e305a6bd2bb884
+2ccac479b7874031c0203746f8e305a6bd2bb884 8a51a87b0711e49fd06d6e1e24eb6a59a620d7de redjungi <150891110+redjungi09@users.noreply.github.com> 1761033224 +0900	rebase (continue): fix: 회원가입 유효성 검사 및 컨트롤러 수정
+8a51a87b0711e49fd06d6e1e24eb6a59a620d7de a5fe5090a4778e4dad9b300e6db185fab010a29f redjungi <150891110+redjungi09@users.noreply.github.com> 1761033248 +0900	rebase (continue): chore: ignore clean-repo folder
+a5fe5090a4778e4dad9b300e6db185fab010a29f a5fe5090a4778e4dad9b300e6db185fab010a29f redjungi <150891110+redjungi09@users.noreply.github.com> 1761033250 +0900	rebase (finish): returning to refs/heads/redjungi
+a5fe5090a4778e4dad9b300e6db185fab010a29f c0313b8af89e81f69d78d7059ed93f5e7ec7040a redjungi <150891110+redjungi09@users.noreply.github.com> 1761033351 +0900	commit: chore: ignore clean-repo folder
+c0313b8af89e81f69d78d7059ed93f5e7ec7040a 1f8795939a950a9191c8f6fc8ea2a5e9e33bb910 redjungi <150891110+redjungi09@users.noreply.github.com> 1761057020 +0900	reset: moving to origin/main
+1f8795939a950a9191c8f6fc8ea2a5e9e33bb910 1f8795939a950a9191c8f6fc8ea2a5e9e33bb910 redjungi <150891110+redjungi09@users.noreply.github.com> 1761099948 +0900	reset: moving to origin/main
+1f8795939a950a9191c8f6fc8ea2a5e9e33bb910 51ef0b09c8225c62fe73f0545c56162d3dc5e89c redjungi <150891110+redjungi09@users.noreply.github.com> 1761143693 +0900	commit: feat:JWT로그인 구현
+51ef0b09c8225c62fe73f0545c56162d3dc5e89c 8409bdfe1c9c2de00cfb8459c853d6d721ac57eb redjungi <150891110+redjungi09@users.noreply.github.com> 1761230487 +0900	commit: fix #2 : jwt 문제 해결
+8409bdfe1c9c2de00cfb8459c853d6d721ac57eb d0c7e7cd020c2a8353a81ee7606fa4bcaa9189f9 redjungi <150891110+redjungi09@users.noreply.github.com> 1761230909 +0900	commit: chore: remove all .DS_Store files
+d0c7e7cd020c2a8353a81ee7606fa4bcaa9189f9 3976cc6b106baa3f384c05d24cfff8091a0ee8ef redjungi <150891110+redjungi09@users.noreply.github.com> 1761275602 +0900	commit: refactor:AuthService안에 login추가
+3976cc6b106baa3f384c05d24cfff8091a0ee8ef c9017209141705549626792cc8f55c5c6fbfa5ee redjungi <150891110+redjungi09@users.noreply.github.com> 1761317955 +0900	commit: feat: SignUp 응답 ResponseEntity로 수정
+c9017209141705549626792cc8f55c5c6fbfa5ee 1324f34799ca9acccf8b2ef57b234c6e604a2f02 redjungi <150891110+redjungi09@users.noreply.github.com> 1761469001 +0900	commit: feat: 예외처리 시스템 개발
+1324f34799ca9acccf8b2ef57b234c6e604a2f02 2f0d170f420b9a4218f43b9e1c412905906ed357 redjungi <150891110+redjungi09@users.noreply.github.com> 1761640607 +0900	commit: MemberDetailsService수정
+2f0d170f420b9a4218f43b9e1c412905906ed357 fce8237ba93655374c684742005492a1782a85a9 redjungi <150891110+redjungi09@users.noreply.github.com> 1761640628 +0900	checkout: moving from redjungi to main
+fce8237ba93655374c684742005492a1782a85a9 fce8237ba93655374c684742005492a1782a85a9 redjungi <150891110+redjungi09@users.noreply.github.com> 1761640664 +0900	checkout: moving from main to main
+fce8237ba93655374c684742005492a1782a85a9 2f0d170f420b9a4218f43b9e1c412905906ed357 redjungi <150891110+redjungi09@users.noreply.github.com> 1761640732 +0900	checkout: moving from main to redjungi
+2f0d170f420b9a4218f43b9e1c412905906ed357 fce8237ba93655374c684742005492a1782a85a9 redjungi <150891110+redjungi09@users.noreply.github.com> 1761640837 +0900	checkout: moving from redjungi to main
+fce8237ba93655374c684742005492a1782a85a9 b7b4c900e59ac1816917a39e5d22ab9691030184 redjungi <150891110+redjungi09@users.noreply.github.com> 1761641005 +0900	commit (merge): error clear
+b7b4c900e59ac1816917a39e5d22ab9691030184 2f0d170f420b9a4218f43b9e1c412905906ed357 redjungi <150891110+redjungi09@users.noreply.github.com> 1761641031 +0900	checkout: moving from main to redjungi
+2f0d170f420b9a4218f43b9e1c412905906ed357 b7b4c900e59ac1816917a39e5d22ab9691030184 redjungi <150891110+redjungi09@users.noreply.github.com> 1761641051 +0900	checkout: moving from redjungi to main
+b7b4c900e59ac1816917a39e5d22ab9691030184 e8a0905e08299a6fb2623b03dfbc013044b15c8f redjungi <150891110+redjungi09@users.noreply.github.com> 1761641059 +0900	merge redjungi: Merge made by the 'ort' strategy.
+e8a0905e08299a6fb2623b03dfbc013044b15c8f 2f0d170f420b9a4218f43b9e1c412905906ed357 redjungi <150891110+redjungi09@users.noreply.github.com> 1761641130 +0900	checkout: moving from main to redjungi
+2f0d170f420b9a4218f43b9e1c412905906ed357 e8a0905e08299a6fb2623b03dfbc013044b15c8f redjungi <150891110+redjungi09@users.noreply.github.com> 1761641149 +0900	pull origin main: Fast-forward
+e8a0905e08299a6fb2623b03dfbc013044b15c8f 2fdb5f12bba0d3a926548745e02a508ff79afe75 redjungi <150891110+redjungi09@users.noreply.github.com> 1761641658 +0900	pull origin main: Fast-forward
+2fdb5f12bba0d3a926548745e02a508ff79afe75 c383c22e0f3f3bcb85b5799eceaa602e3f618139 redjungi <150891110+redjungi09@users.noreply.github.com> 1761649461 +0900	commit: deply
+c383c22e0f3f3bcb85b5799eceaa602e3f618139 e8a0905e08299a6fb2623b03dfbc013044b15c8f redjungi <150891110+redjungi09@users.noreply.github.com> 1761649525 +0900	checkout: moving from redjungi to main
+e8a0905e08299a6fb2623b03dfbc013044b15c8f c383c22e0f3f3bcb85b5799eceaa602e3f618139 redjungi <150891110+redjungi09@users.noreply.github.com> 1761649563 +0900	pull origin redjungi: Fast-forward
+c383c22e0f3f3bcb85b5799eceaa602e3f618139 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1761650007 +0900	commit: deploy main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762181406 +0900	reset: moving to HEAD
+cffc258477194b64377e5ad5105f1faf4cbc1a03 c383c22e0f3f3bcb85b5799eceaa602e3f618139 redjungi <150891110+redjungi09@users.noreply.github.com> 1762181417 +0900	checkout: moving from main to redjungi
+c383c22e0f3f3bcb85b5799eceaa602e3f618139 7650784c8fcb84f8e9739bdf60ce5032bb4fbcfb redjungi <150891110+redjungi09@users.noreply.github.com> 1762213411 +0900	commit: feat:RefreshToken구현
+7650784c8fcb84f8e9739bdf60ce5032bb4fbcfb 0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 redjungi <150891110+redjungi09@users.noreply.github.com> 1762213926 +0900	commit: Stop tracking application.properties
+0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242099 +0900	checkout: moving from redjungi to main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242155 +0900	checkout: moving from main to redjungi
+0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242190 +0900	checkout: moving from redjungi to main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242358 +0900	reset: moving to HEAD
+cffc258477194b64377e5ad5105f1faf4cbc1a03 0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242512 +0900	checkout: moving from main to redjungi
+0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242526 +0900	checkout: moving from redjungi to main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242533 +0900	checkout: moving from main to redjungi
+0d7e1f0e0ba89d5a041be7d7e42ad2ef3243cb56 eccbea3f026acd6e08b6d24209e688f89508c551 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242773 +0900	commit: fix: Resolve merge conflicts in GitHub Actions workflow
+eccbea3f026acd6e08b6d24209e688f89508c551 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242850 +0900	checkout: moving from redjungi to main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 51ad8a6ac4f09390e8de5733e630b4cff8ee9775 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242945 +0900	commit (merge): Merge branch 'redjungi' into main
+51ad8a6ac4f09390e8de5733e630b4cff8ee9775 cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242967 +0900	reset: moving to HEAD~1
+cffc258477194b64377e5ad5105f1faf4cbc1a03 eccbea3f026acd6e08b6d24209e688f89508c551 redjungi <150891110+redjungi09@users.noreply.github.com> 1762242967 +0900	checkout: moving from main to redjungi
+eccbea3f026acd6e08b6d24209e688f89508c551 9e62a2fa12c7299e9a299caf2b18f04bd25108d0 redjungi <150891110+redjungi09@users.noreply.github.com> 1762244456 +0900	commit: chore: Improve GitHub Actions workflow deployment script
+9e62a2fa12c7299e9a299caf2b18f04bd25108d0 a73595cffd0e2c1509fa6415f32f8f8561cb3e66 redjungi <150891110+redjungi09@users.noreply.github.com> 1762244475 +0900	pull --rebase origin redjungi (start): checkout a73595cffd0e2c1509fa6415f32f8f8561cb3e66
+a73595cffd0e2c1509fa6415f32f8f8561cb3e66 8be5ac26b3deaa52fd4d93fbacf475533d7981cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762244502 +0900	rebase (continue): chore: Improve GitHub Actions workflow deployment script
+8be5ac26b3deaa52fd4d93fbacf475533d7981cb 8be5ac26b3deaa52fd4d93fbacf475533d7981cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762244502 +0900	rebase (finish): returning to refs/heads/redjungi
+8be5ac26b3deaa52fd4d93fbacf475533d7981cb cffc258477194b64377e5ad5105f1faf4cbc1a03 redjungi <150891110+redjungi09@users.noreply.github.com> 1762245071 +0900	checkout: moving from redjungi to main
+cffc258477194b64377e5ad5105f1faf4cbc1a03 1ea385478eda1242d23d512b14f4d40d6518128e redjungi <150891110+redjungi09@users.noreply.github.com> 1762245178 +0900	commit: main deploy
+1ea385478eda1242d23d512b14f4d40d6518128e 8be5ac26b3deaa52fd4d93fbacf475533d7981cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762245216 +0900	checkout: moving from main to redjungi
+8be5ac26b3deaa52fd4d93fbacf475533d7981cb 585a88a764e14eb7655ef1a115644d38b45e837f redjungi <150891110+redjungi09@users.noreply.github.com> 1762245248 +0900	commit: main.yml수정
+585a88a764e14eb7655ef1a115644d38b45e837f 419364fb7e55bef82cf2bcaf4c0643d3f0cb7444 redjungi <150891110+redjungi09@users.noreply.github.com> 1762245816 +0900	commit: main.yml 오류수정
+419364fb7e55bef82cf2bcaf4c0643d3f0cb7444 1ea385478eda1242d23d512b14f4d40d6518128e redjungi <150891110+redjungi09@users.noreply.github.com> 1762245972 +0900	checkout: moving from redjungi to main
+1ea385478eda1242d23d512b14f4d40d6518128e 419364fb7e55bef82cf2bcaf4c0643d3f0cb7444 redjungi <150891110+redjungi09@users.noreply.github.com> 1762245987 +0900	checkout: moving from main to redjungi
+419364fb7e55bef82cf2bcaf4c0643d3f0cb7444 a04f9ca2abd8f406e9f19e17fb14fb6e668e470c redjungi <150891110+redjungi09@users.noreply.github.com> 1762246275 +0900	commit: fix:marge confict
+a04f9ca2abd8f406e9f19e17fb14fb6e668e470c 1ea385478eda1242d23d512b14f4d40d6518128e redjungi <150891110+redjungi09@users.noreply.github.com> 1762246419 +0900	checkout: moving from redjungi to main
+1ea385478eda1242d23d512b14f4d40d6518128e d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762246646 +0900	commit (merge): fix:오류 수정
+d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762246872 +0900	checkout: moving from main to fix/error-fixes
+d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762247133 +0900	checkout: moving from fix/error-fixes to main
+d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb a04f9ca2abd8f406e9f19e17fb14fb6e668e470c redjungi <150891110+redjungi09@users.noreply.github.com> 1762247143 +0900	checkout: moving from main to redjungi
+a04f9ca2abd8f406e9f19e17fb14fb6e668e470c d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb redjungi <150891110+redjungi09@users.noreply.github.com> 1762247266 +0900	checkout: moving from redjungi to main
+d4942d02a8b44a1e3dcac0ce87914b3b8c7e22cb a04f9ca2abd8f406e9f19e17fb14fb6e668e470c redjungi <150891110+redjungi09@users.noreply.github.com> 1762247272 +0900	reset: moving to redjungi
+a04f9ca2abd8f406e9f19e17fb14fb6e668e470c a04f9ca2abd8f406e9f19e17fb14fb6e668e470c redjungi <150891110+redjungi09@users.noreply.github.com> 1762247288 +0900	checkout: moving from main to redjungi
+a04f9ca2abd8f406e9f19e17fb14fb6e668e470c 4f00a072e19791a43fb5b21ecf3d0f7d49a002b4 redjungi <150891110+redjungi09@users.noreply.github.com> 1762247299 +0900	pull origin redjungi: Fast-forward
+4f00a072e19791a43fb5b21ecf3d0f7d49a002b4 a04f9ca2abd8f406e9f19e17fb14fb6e668e470c redjungi <150891110+redjungi09@users.noreply.github.com> 1762252390 +0900	checkout: moving from redjungi to main
+a04f9ca2abd8f406e9f19e17fb14fb6e668e470c 4044e2afca8fa1181db5e142ebfa5275ed9c9d2a redjungi <150891110+redjungi09@users.noreply.github.com> 1762252405 +0900	pull: Fast-forward
+4044e2afca8fa1181db5e142ebfa5275ed9c9d2a 4044e2afca8fa1181db5e142ebfa5275ed9c9d2a redjungi <150891110+redjungi09@users.noreply.github.com> 1762252417 +0900	checkout: moving from main to main
+4044e2afca8fa1181db5e142ebfa5275ed9c9d2a bdbbd07698c16f3a1df38c010768422968d99474 redjungi <150891110+redjungi09@users.noreply.github.com> 1762252485 +0900	commit: deploy main error clear 20251104 0734
+bdbbd07698c16f3a1df38c010768422968d99474 2bc8ba4624edb22fab448c2b002bb30e992738b3 redjungi <150891110+redjungi09@users.noreply.github.com> 1762253182 +0900	commit: test1
+2bc8ba4624edb22fab448c2b002bb30e992738b3 4f00a072e19791a43fb5b21ecf3d0f7d49a002b4 redjungi <150891110+redjungi09@users.noreply.github.com> 1762253414 +0900	checkout: moving from main to redjungi
+4f00a072e19791a43fb5b21ecf3d0f7d49a002b4 2bc8ba4624edb22fab448c2b002bb30e992738b3 redjungi <150891110+redjungi09@users.noreply.github.com> 1762253577 +0900	pull origin main: Fast-forward
+2bc8ba4624edb22fab448c2b002bb30e992738b3 2d5265c3bd6e45cea1e1f0f9b359dbc5192598ed redjungi <150891110+redjungi09@users.noreply.github.com> 1762254698 +0900	commit: fix:cors설정 수정
+2d5265c3bd6e45cea1e1f0f9b359dbc5192598ed 3a5bb1c1ee1b8b319a8c60c1e17b9cf6af62cedb redjungi <150891110+redjungi09@users.noreply.github.com> 1762344978 +0900	commit: fix: JWT 토큰 처리 방식 개선
+3a5bb1c1ee1b8b319a8c60c1e17b9cf6af62cedb 43d06bff302a98406c87fbb018ebf0344b957fe1 redjungi <150891110+redjungi09@users.noreply.github.com> 1762345164 +0900	commit: fixed untracked files
