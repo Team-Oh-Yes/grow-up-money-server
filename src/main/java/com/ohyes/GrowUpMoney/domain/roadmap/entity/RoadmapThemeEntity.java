@@ -1,7 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.roadmap.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_theme")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoadmapThemeEntity {
 
     @Id
