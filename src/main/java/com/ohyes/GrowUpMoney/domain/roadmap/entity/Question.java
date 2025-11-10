@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class RoadmapQuestionEntity {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class RoadmapQuestionEntity {
     // lesson: question, 1: N
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", nullable = false)
-    private RoadmapLessonEntity lesson;
+    private Lesson lesson;
 
     @Column(nullable = false)
     private String type;
