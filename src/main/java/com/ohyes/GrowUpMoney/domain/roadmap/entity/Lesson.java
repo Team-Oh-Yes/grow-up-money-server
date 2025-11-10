@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_lesson")
-public class RoadmapLessonEntity {
+public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class RoadmapLessonEntity {
     // Theme: lesson, 1: N
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id", nullable = false)
-    private RoadmapThemeEntity theme;
+    private Theme theme;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String title;
