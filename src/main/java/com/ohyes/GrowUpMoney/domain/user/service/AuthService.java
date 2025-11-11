@@ -16,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -61,9 +64,15 @@ public class AuthService {
         if (principal instanceof CustomUser customUser) {
             extractedUsername = customUser.getUsername();
         }
+        String authorities = auth.getAuthorities()
+                .stream()
+                .map(a -> a.getAuthority())
+                .reduce((a, b) -> a + "," + b)
+                .orElse("USER");
 
         String accessToken = jwtUtil.createToken(auth);
-        String refreshToken = refreshTokenService.createRefreshToken(extractedUsername);
+        String refreshToken = refreshTokenService.createRefreshToken(extractedUsername, authorities);
+
 
 
 

@@ -16,23 +16,49 @@ public class RefreshTokenService {
     private final RedisTemplate<String,String> redisTemplate;
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
 
-    public String createRefreshToken(String username){
+    public String createRefreshToken(String username, String authorities) {
+
         String refreshToken = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(
-                "RT:" + username,
                 refreshToken,
+                "RT:" + username + ":" + authorities,  // username:authorities 형식
                 REFRESH_TOKEN_EXPIRE_TIME,
                 TimeUnit.MILLISECONDS
         );
         return refreshToken;
     }
 
-    public boolean validteRefreshToken(String username, String refreshToken){
-        String storedToken = redisTemplate.opsForValue().get("RT:" + username);
-        return refreshToken.equals(storedToken);
+    public String getUsernameByRefreshToken(String refreshToken) {
+        String value = redisTemplate.opsForValue().get(refreshToken);
+
+        if (value == null) {
+            throw new RuntimeException("Invalid or expired refresh token");
+        }
+        return value.substring(3);
     }
 
-    public void deleteRefreshToken(String username) {
-        redisTemplate.delete("RT:" + username);
+    public String getAuthoritiesByRefreshToken(String refreshToken) {
+        String value = redisTemplate.opsForValue().get(refreshToken);
+
+        if (value == null) {
+            throw new RuntimeException("Invalid or expired refresh token");
+        }
+
+        // "RT:john:ROLE_USER,ROLE_ADMIN" → "ROLE_USER,ROLE_ADMIN" 추출
+        String[] parts = value.split(":");
+        return parts[2];
     }
+
+    public boolean validateRefreshToken(String username, String refreshToken) {
+        String storedValue = redisTemplate.opsForValue().get(refreshToken);
+        if (storedValue == null) {
+            return false;  // 토큰이 없거나 만료됨
+        }
+        return storedValue.equals("RT:" + username);
+    }
+
+    public void deleteRefreshToken(String refreshToken) {
+        redisTemplate.delete(refreshToken);
+    }
+
 }
