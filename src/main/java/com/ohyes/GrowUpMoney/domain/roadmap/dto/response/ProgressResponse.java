@@ -31,7 +31,7 @@ public class ProgressResponse {
         private Boolean isCompleted;
     }
 
-    public static ProgressResponse from(String username, Integer totalThemes, Integer totalLessons,
+    public static ProgressResponse of(String username, Integer totalThemes, Integer totalLessons,
                                         Integer completedLessons, Double overallProgress,
                                         Integer totalCorrectCount, Integer totalAttemptedCount,
                                         List<ThemeProgressResponse> themeProgresses) {
