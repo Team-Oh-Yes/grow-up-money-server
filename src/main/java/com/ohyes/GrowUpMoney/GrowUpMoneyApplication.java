@@ -10,7 +10,6 @@ public class GrowUpMoneyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GrowUpMoneyApplication.class, args);
         System.out.println("hello ohyes!");
-
 	}
 
 }
