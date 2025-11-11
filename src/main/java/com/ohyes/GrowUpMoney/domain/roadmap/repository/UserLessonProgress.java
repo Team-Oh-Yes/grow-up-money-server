@@ -37,13 +37,13 @@ public interface UserLessonProgress extends JpaRepository<UserLessonProgress, Lo
     List<UserLessonProgress> findByUsernameAndStatus(@Param("username") String username,
                                                      @Param("status") ProgressStatus status);
 
-//    사용자의 완료된 레슨 개수
+//    사용자의 완료된 단원 개수
     @Query("SELECT COUNT(ulp) FROM UserLessonProgress ulp " +
             "WHERE ulp.member.username = :username AND ulp.status = :status")
     long countByUsernameAndStatus(@Param("username") String username,
                                   @Param("status") ProgressStatus status);
 
-//    특정 테마에서 사용자의 완료된 레슨 개수
+//    특정 테마에서 사용자의 완료된 단원 개수
     @Query("SELECT COUNT(ulp) FROM UserLessonProgress ulp " +
             "JOIN ulp.lesson l " +
             "WHERE ulp.member.username = :username " +
@@ -55,8 +55,37 @@ public interface UserLessonProgress extends JpaRepository<UserLessonProgress, Lo
             @Param("status") ProgressStatus status
     );
 
-//    사용자의 전체 진행률 계산
+//    사용자의 완료된 단원 개수 조회
+    @Query("SELECT COUNT(ulp) FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username AND ulp.status = 'COMPLETED'")
+    Long countCompletedLessonsByUsername(@Param("username") String username);
 
+//    특정 테마에서 사용자의 완료된 단원 개수 조회
+    @Query("SELECT COUNT(ulp) FROM UserLessonProgress ulp " +
+            "JOIN ulp.lesson l " +
+            "WHERE ulp.member.username = :username " +
+            "AND l.theme.id = :themeId " +
+            "AND ulp.status = 'COMPLETED'")
+    Long countCompletedLessonsByUsernameAndThemeId(
+            @Param("username") String username,
+            @Param("themeId") Long themeId
+    );
 
+//    사용자의 총 정답 수
+    @Query("SELECT SUM(ulp.correctCount) FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username")
+    Integer getTotalCorrectCount(@Param("username") String username);
+
+//    사용자의 총 시도 수
+    @Query("SELECT SUM(ulp.totalAttempted) FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username")
+    Integer getTotalAttemptedCount(@Param("username") String username);
+
+//    진행 상황이 존재하는지 확인
+    @Query("SELECT CASE WHEN COUNT(ulp) > 0 THEN true ELSE false END " +
+            "FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username AND ulp.lesson.id = :lessonId")
+    boolean existsByUsernameAndLessonId(@Param("username") String username,
+                                        @Param("lessonId") Long lessonId);
 
 }
