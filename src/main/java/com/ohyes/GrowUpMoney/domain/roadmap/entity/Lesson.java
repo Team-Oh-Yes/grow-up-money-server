@@ -18,7 +18,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lesson_id")
-    private Long lesson_id;
+    private Long id;
 
     // Theme: lesson, 1: N
     @ManyToOne(fetch = FetchType.LAZY)

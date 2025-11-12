@@ -20,7 +20,7 @@ public class UserLessonProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "progress_id")
-    private Long progress_id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username",referencedColumnName = "username", nullable = false)
