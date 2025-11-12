@@ -20,7 +20,7 @@ public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "theme_id")
-    private Long theme_id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -52,10 +52,5 @@ public class Theme {
     public void addLesson(Lesson lesson) {
         this.lessons.add(lesson);
         lesson.setTheme(this);
-    }
-
-    public Long getId() {
-        getId();
-        return theme_id;
     }
 }
