@@ -43,4 +43,4 @@ out/
 src/main/resources/application.properties
 src/main/resources/application-oauth.propertiesclean-repo/
 clean-repo/
-
+*.properties

@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.roadmap.repository;
 
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.ProgressStatus;
+import com.ohyes.GrowUpMoney.domain.roadmap.entity.UserLessonProgress;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserLessonProgressRepository extends JpaRepository<UserLessonProgressRepository, Long> {
+public interface UserLessonProgressRepository extends JpaRepository<UserLessonProgress, Long> {
 
 //    사용자의 특정 단원 진행 상황 조회
     @Query("SELECT ulp FROM UserLessonProgress ulp " +
