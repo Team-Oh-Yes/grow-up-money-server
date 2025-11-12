@@ -65,10 +65,10 @@ public interface UserLessonProgressRepository extends JpaRepository<UserLessonPr
     long getTotalAttemptedCount(@Param("username") String username);
 
     // 진행 상황이 존재하는지 확인
-//    @Query("SELECT CASE WHEN COUNT(ulp) > 0 THEN true ELSE false END " +
-//            "FROM UserLessonProgress ulp " +
-//            "WHERE ulp.member.username = :username AND ulp.lesson.id = :lessonId")
-//    boolean existsByUsernameAndLessonId(@Param("username") String username,
-//                                         @Param("lessonId") Long lessonId);
+    @Query("SELECT CASE WHEN COUNT(ulp) > 0 THEN true ELSE false END " +
+            "FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username AND ulp.lesson.id = :lessonId")
+    boolean existsByUsernameAndLessonId(@Param("username") String username,
+                                         @Param("lessonId") Long lessonId);
 
 }

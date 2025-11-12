@@ -45,7 +45,6 @@ src/main/resources/application-oauth.propertiesclean-repo/
 clean-repo/
 *.properties
 
-# Node.js (불필요)
 node_modules/
 package.json
 package-lock.json
