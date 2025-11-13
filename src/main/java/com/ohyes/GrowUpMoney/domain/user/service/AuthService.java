@@ -4,21 +4,17 @@ import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
-import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
+import com.ohyes.GrowUpMoney.domain.user.entity.Member;
 import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.user.exception.*;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +35,7 @@ public class AuthService {
             throw new DuplicateEmailException();
         }
 
-        MemberEntity member = new MemberEntity();
+        Member member = new Member();
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
@@ -51,7 +47,7 @@ public class AuthService {
 
     public LoginResponse login(String username, String password) {
 
-        MemberEntity member = memberRepository.findByUsername(username)
+        Member member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
 
         if (member.isSuspensionExpired()){
