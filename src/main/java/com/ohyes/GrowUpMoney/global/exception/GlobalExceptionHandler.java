@@ -54,7 +54,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-
     //Security 예외 처리
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})
     public ResponseEntity<ProblemDetail> handleAuthExceptions(Exception ex) {

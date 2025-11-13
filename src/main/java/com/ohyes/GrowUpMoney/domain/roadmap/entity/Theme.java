@@ -22,14 +22,14 @@ public class Theme {
     @Column(name = "theme_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "order_index", nullable = false)
     private Integer orderIndex;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -53,5 +53,4 @@ public class Theme {
         this.lessons.add(lesson);
         lesson.setTheme(this);
     }
-
 }

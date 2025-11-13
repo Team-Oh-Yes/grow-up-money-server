@@ -4,7 +4,7 @@ import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
+import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
 import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.user.exception.*;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
@@ -39,7 +39,7 @@ public class AuthService {
             throw new DuplicateEmailException();
         }
 
-        Member member = new Member();
+        MemberEntity member = new MemberEntity();
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
@@ -51,7 +51,7 @@ public class AuthService {
 
     public LoginResponse login(String username, String password) {
 
-        Member member = memberRepository.findByUsername(username)
+        MemberEntity member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
 
         if (member.isSuspensionExpired()){
@@ -66,11 +66,12 @@ public class AuthService {
                         member.getSuspension_reason(),
                         member.getSuspended_until()
                 );
-                throw new AccountSuspendedException(message);  // ← 변경!
+                throw new AccountSuspendedException(message);
             } else if (member.getStatus() == MemberStatus.WITHDRAWN) {
-                throw new AccountWithdrawnException("탈퇴한 계정입니다.");  // ← 변경!
+                throw new AccountWithdrawnException("탈퇴한 계정입니다.");
             }
         }
+
         //인증 토큰 생성
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
 

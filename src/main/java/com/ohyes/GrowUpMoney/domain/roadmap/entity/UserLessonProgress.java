@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.roadmap.entity;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
+import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,28 +24,28 @@ public class UserLessonProgress {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username",referencedColumnName = "username", nullable = false)
-    private Member member;
+    private MemberEntity member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", nullable = false)
     private Lesson lesson;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private ProgressStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "correct_count", nullable = false)
     private Integer correctCount;
 
-    @Column(nullable = false)
+    @Column(name = "total_attempted", nullable = false)
     private Integer totalAttempted;
 
     @UpdateTimestamp
-    @Column(nullable = false)
+    @Column(name = "last_updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @Builder
-    public UserLessonProgress(Member member, Lesson lesson, ProgressStatus status) {
+    public UserLessonProgress(MemberEntity member, Lesson lesson, ProgressStatus status) {
         this.member = member;
         this.lesson = lesson;
         this.status = status != null ? status : ProgressStatus.NOT_STARTED;
