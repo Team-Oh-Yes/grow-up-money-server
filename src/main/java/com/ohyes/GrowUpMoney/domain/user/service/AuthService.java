@@ -4,12 +4,13 @@ import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
-import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
-import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateEmailException;
-import com.ohyes.GrowUpMoney.domain.user.exception.DuplicateUserException;
+import com.ohyes.GrowUpMoney.domain.user.entity.Member;
+import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
+import com.ohyes.GrowUpMoney.domain.user.exception.*;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,7 @@ public class AuthService {
             throw new DuplicateEmailException();
         }
 
-        MemberEntity member = new MemberEntity();
+        Member member = new Member();
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
@@ -50,6 +51,26 @@ public class AuthService {
 
     public LoginResponse login(String username, String password) {
 
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+
+        if (member.isSuspensionExpired()){
+            member.unsuspend();
+            memberRepository.save(member);
+        }
+
+        if (!member.isActive()) {
+            if (member.getStatus() == MemberStatus.SUSPENDED) {
+                String message = String.format(
+                        "계정이 정지되었습니다. 사유: %s, 해제일: %s",
+                        member.getSuspension_reason(),
+                        member.getSuspended_until()
+                );
+                throw new AccountSuspendedException(message);  // ← 변경!
+            } else if (member.getStatus() == MemberStatus.WITHDRAWN) {
+                throw new AccountWithdrawnException("탈퇴한 계정입니다.");  // ← 변경!
+            }
+        }
         //인증 토큰 생성
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
 
@@ -72,6 +93,7 @@ public class AuthService {
 
         String accessToken = jwtUtil.createToken(auth);
         String refreshToken = refreshTokenService.createRefreshToken(extractedUsername, authorities);
+
 
 
 

@@ -1,5 +1,7 @@
 package com.ohyes.GrowUpMoney.global.exception;
 
+import com.ohyes.GrowUpMoney.domain.user.exception.AccountSuspendedException;
+import com.ohyes.GrowUpMoney.domain.user.exception.AccountWithdrawnException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,31 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(problemDetail);
     }
+
+    @ExceptionHandler(AccountSuspendedException.class)
+    public ResponseEntity<ProblemDetail> handleAccountSuspended(AccountSuspendedException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Account Suspended");
+        problemDetail.setProperty("error_code", "E403_ACCOUNT_SUSPENDED");
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    @ExceptionHandler(AccountWithdrawnException.class)
+    public ResponseEntity<ProblemDetail> handleAccountWithdrawn(AccountWithdrawnException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Account Withdrawn");
+        problemDetail.setProperty("error_code", "E403_ACCOUNT_WITHDRAWN");
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
 
     //Security 예외 처리
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})
