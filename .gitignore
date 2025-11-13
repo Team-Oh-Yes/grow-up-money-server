@@ -48,3 +48,4 @@ clean-repo/
 node_modules/
 package.json
 package-lock.json
+.git-backup/
