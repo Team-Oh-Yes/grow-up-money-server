@@ -64,26 +64,25 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-        @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            return ResponseEntity.status(401).body("올바르지 않은 토큰");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "올바르지 않은 토큰"));
         }
 
         String refreshToken = authHeader.substring(7);
 
         try {
-            // Redis에서 Refresh Token 삭제
             refreshTokenService.deleteRefreshToken(refreshToken);
-
             return ResponseEntity.ok(Map.of(
-                    "message", "로그아웃 성공"
+                    "message", "로그아웃 성공",
+                    "success", true
             ));
-
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("로그아웃 실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "로그아웃 실패", "success", false));
         }
-
     }
 
 

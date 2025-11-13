@@ -41,10 +41,11 @@ out/
 
 # project
 src/main/resources/application.properties
-src/main/resources/application-oauth.propertiesclean-repo/
+src/main/resources/application-oauth.properties
 clean-repo/
 *.properties
 
 node_modules/
 package.json
 package-lock.json
+.git-backup/
