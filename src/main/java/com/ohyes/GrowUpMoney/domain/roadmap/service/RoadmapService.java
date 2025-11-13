@@ -8,6 +8,7 @@ import com.ohyes.GrowUpMoney.domain.roadmap.entity.Lesson;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.ProgressStatus;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.UserLessonProgress;
+import com.ohyes.GrowUpMoney.domain.roadmap.exception.RoadmapException;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.ThemeRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
@@ -82,7 +83,7 @@ public class RoadmapService {
     public ThemeResponse getThemeWithLessons(Long themeId, String username) {
         // 1. 테마와 단원들 조회
         Theme theme = themeRepository.findByIdWithLessons(themeId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 테마입니다: " + themeId));
+                .orElseThrow(() -> new RoadmapException.ThemeNotFoundException(themeId));
 
         // 2. 해당 테마의 사용자 진행 상황 조회
         List<UserLessonProgress> progresses = progressRepository.findByUsernameAndThemeId(username, themeId);
@@ -200,7 +201,7 @@ public class RoadmapService {
 
         // 단원 조회
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 단원입니다: " + lessonId));
+                .orElseThrow(() -> new RoadmapException.LessonNotFoundException(lessonId));
 
         UserLessonProgress progress = progressRepository.findByUsernameAndLessonId(username, lessonId)
                 .orElseGet(() -> {
@@ -220,7 +221,7 @@ public class RoadmapService {
     @Transactional
     public void completeLesson(String username, Long lessonId) {
         UserLessonProgress progress = progressRepository.findByUsernameAndLessonId(username, lessonId)
-                .orElseThrow(() -> new IllegalArgumentException("진행 상황을 찾을 수 없습니다"));
+                .orElseThrow(() -> new RoadmapException.ProgressNotFoundException(username, lessonId));
 
         progress.completeLesson();
         log.info("사용자 {}의 단원 {} 완료", username, lessonId);
@@ -230,7 +231,7 @@ public class RoadmapService {
     @Transactional
     public void updateQuizResult(String username, Long lessonId, boolean isCorrect) {
         UserLessonProgress progress = progressRepository.findByUsernameAndLessonId(username, lessonId)
-                .orElseThrow(() -> new IllegalArgumentException("진행 상황을 찾을 수 없습니다"));
+                .orElseThrow(() -> new RoadmapException.ProgressNotFoundException(username, lessonId));
 
         progress.updateQuizResult(isCorrect);
         log.info("사용자 {}의 단원 {} 퀴즈 결과 업데이트: {}", username, lessonId, isCorrect);
