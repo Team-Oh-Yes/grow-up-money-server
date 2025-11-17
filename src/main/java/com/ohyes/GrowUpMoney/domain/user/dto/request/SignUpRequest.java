@@ -30,6 +30,4 @@ public class SignUpRequest {
     @Email(message = "유효하지 않은 이메일 형식입니다.")
     private String email;
 
-    @NotBlank(message = "배준하는 필수 입력 값입니다.")
-    private boolean isGay;
 }
