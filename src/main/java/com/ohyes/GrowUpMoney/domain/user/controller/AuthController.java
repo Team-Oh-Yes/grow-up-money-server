@@ -57,8 +57,6 @@ public class AuthController {
                 response
         );
 
-
-
         return ResponseEntity.ok(responseBody);
     }
 

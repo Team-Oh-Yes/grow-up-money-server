@@ -99,16 +99,18 @@ public class AuthService {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .sameSite("Lax")
+                //.sameSite("Lax")
+                .sameSite("None")
                 .maxAge(3600)  // 1시간
                 .build();
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
-                .httpOnly(false)
+                .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .sameSite("Lax")
-                .maxAge(604800)
+//                .sameSite("Lax")
+                .sameSite("None")
+                .maxAge(604800) //1주일
                 .build();
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString());
