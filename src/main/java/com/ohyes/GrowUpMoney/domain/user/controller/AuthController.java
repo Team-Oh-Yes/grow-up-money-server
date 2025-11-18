@@ -9,6 +9,7 @@ import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
 import com.ohyes.GrowUpMoney.domain.user.service.RefreshTokenService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@Tag(name = "users", description = "Swagger 테스트용 API")
 public class AuthController {
 
     private final MemberRepository memberRepository;
