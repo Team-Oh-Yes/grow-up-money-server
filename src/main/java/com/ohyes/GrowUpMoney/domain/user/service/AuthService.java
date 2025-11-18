@@ -9,12 +9,16 @@ import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.user.exception.*;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.net.http.HttpHeaders;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +49,7 @@ public class AuthService {
 
     }
 
-    public LoginResponse login(String username, String password) {
+    public LoginResponse login(String username, String password, HttpServletResponse response) {
 
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
@@ -91,14 +95,26 @@ public class AuthService {
         String accessToken = jwtUtil.createToken(auth);
         String refreshToken = refreshTokenService.createRefreshToken(extractedUsername, authorities);
 
+        ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("Strict")
+                .build();
 
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(false)
+                .secure(true)
+                .path("/")
+                .sameSite("Strict")
+                .maxAge(604800)
+                .build();
 
-
+        response.addHeader("Set-Cookie", accessTokenCookie.toString());
+        response.addHeader("Set-Cookie", refreshTokenCookie.toString());
         //응답 DTO 생성
         return new LoginResponse(
                 "로그인에 성공했습니다.",
-                accessToken,
-                refreshToken,
                 extractedUsername
         );
     }

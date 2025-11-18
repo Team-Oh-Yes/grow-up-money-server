@@ -9,6 +9,7 @@ import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
 import com.ohyes.GrowUpMoney.domain.user.service.RefreshTokenService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,15 +48,14 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse responseBody = authService.login(
                 request.getUsername(),
-                request.getPassword()
+                request.getPassword(),
+                response
         );
 
-        if (responseBody.getAccessToken() == null) {
-            throw new TokenGenerationException();
-        }
+
 
         return ResponseEntity.ok(responseBody);
     }
