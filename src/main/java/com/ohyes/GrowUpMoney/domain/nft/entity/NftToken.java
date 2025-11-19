@@ -30,8 +30,11 @@ public class NftToken {
     @JoinColumn(name = "collection_id", nullable = false)
     private NftCollection collection;
 
+    @Column(name = "serial_no")
+    private Integer serialNo;  // 거래용 NFT만 사용
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "token_type",nullable = false,length = 20)
+    @Column(name = "token_type", nullable = false, length = 20)
     private TokenType tokenType;
 
     @ManyToOne(fetch = FetchType.LAZY)
