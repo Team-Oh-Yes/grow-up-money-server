@@ -28,7 +28,7 @@ public class Member {
     private String email;
 
     @Column(nullable = false, columnDefinition = "int default 0")
-    private Integer point_balance = 0;
+    private Integer pointBalance = 0;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) default 'ACTIVE'")
@@ -42,6 +42,9 @@ public class Member {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(255) default 'user'")
     private String role = "ROLE_USER";
+
+    @Column(nullable = false, columnDefinition = "int default 5")
+    private Integer hearts = 5; // 하트
 
     @CreationTimestamp
     private LocalDateTime created_at;
