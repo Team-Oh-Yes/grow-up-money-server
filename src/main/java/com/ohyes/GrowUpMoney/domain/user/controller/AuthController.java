@@ -4,6 +4,7 @@ import com.ohyes.GrowUpMoney.domain.user.dto.request.LoginRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.user.exception.TokenGenerationException;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -91,43 +93,45 @@ public class AuthController {
 
 
         //리프레시 토큰
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(
-            @CookieValue("refresh") String refreshToken) {
+        @PostMapping("/refresh")
+        public ResponseEntity<?> refreshToken(
+                @CookieValue("refreshToken") String refreshToken,
+                HttpServletResponse response) {
 
-        try {
-            // UUID로 username과 authorities 조회
-            String username = refreshTokenService.getUsernameByRefreshToken(refreshToken);
-            String authorities = refreshTokenService.getAuthoritiesByRefreshToken(refreshToken);
+            try {
+                String username = refreshTokenService.getUsernameByRefreshToken(refreshToken);
+                var user = memberRepository.findByUsername(username)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // 2. Refresh Token 유효성 검증
-            if (!refreshTokenService.validateRefreshToken(username, refreshToken)) {
+                // Authentication 객체 생성
+                var authorities = Arrays.stream(user.getRole().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .toList();
+
+                Authentication auth = new UsernamePasswordAuthenticationToken(
+                        new CustomUser(user.getId(), user.getUsername(), "none", authorities),
+                        null,
+                        authorities
+                );
+
+                String newAccessToken = jwtUtil.createToken(auth);
+
+                ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
+                        .httpOnly(true)
+                        .secure(false)
+                        .path("/")
+                        .sameSite("Lax")
+                        .maxAge(3600)
+                        .build();
+
+                response.addHeader("Set-Cookie", accessTokenCookie.toString());
+
+                return ResponseEntity.ok(Map.of(
+                        "message", "Token refreshed"
+                ));
+            } catch (Exception e) {
+                e.printStackTrace();
                 return ResponseEntity.status(401).body("Invalid or expired refresh token");
             }
-
-            // 3. 권한 객체 생성
-            var authoritiesList = Arrays.stream(authorities.split(","))
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
-
-            // 4. Authentication 객체 생성
-            Authentication auth = new UsernamePasswordAuthenticationToken(
-                    username,
-                    null,
-                    authoritiesList
-            );
-
-            // 5. 새로운 Access Token 생성
-            String newAccessToken = jwtUtil.createToken(auth);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("accessToken", newAccessToken);
-            response.put("message", "Token refreshed");
-
-            return ResponseEntity.ok(response);
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).body("Invalid or expired refresh token");
         }
-    }
 }

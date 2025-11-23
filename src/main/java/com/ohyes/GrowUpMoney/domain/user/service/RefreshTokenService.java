@@ -31,7 +31,6 @@ public class RefreshTokenService {
 
     public String getUsernameByRefreshToken(String refreshToken) {
         String value = redisTemplate.opsForValue().get("refreshToken:"+refreshToken);
-
         if (value == null) {
             throw new RuntimeException("Invalid or expired refresh token");
         }
@@ -45,8 +44,7 @@ public class RefreshTokenService {
     }
 
     public String getAuthoritiesByRefreshToken(String refreshToken) {
-        String value = redisTemplate.opsForValue().get("refreshToken"+refreshToken);
-
+        String value = redisTemplate.opsForValue().get("refreshToken:"+refreshToken);
         if (value == null) {
             throw new RuntimeException("Invalid or expired refresh token");
         }
@@ -57,16 +55,22 @@ public class RefreshTokenService {
     }
 
     public boolean validateRefreshToken(String username, String refreshToken) {
-        String storedValue = redisTemplate.opsForValue().get("refreshToken"+refreshToken);
+        String storedValue = redisTemplate.opsForValue().get("refreshToken:" + refreshToken);
+        System.out.println("storedValue: " + storedValue);
+        System.out.println("검증할 문자열: RT:" + username + ":");
+
         if (storedValue == null) {
+            System.out.println("storedValue가 null");
             return false;
         }
-        // "RT:john:USER" 형식이므로 username만 비교
-        return storedValue.startsWith("RT:" + username + ":");
+
+        boolean result = storedValue.startsWith("RT:" + username + ":");
+        System.out.println("검증 결과: " + result);
+        return result;
     }
 
     public void deleteRefreshToken(String refreshToken) {
-        redisTemplate.delete("refreshToken"+refreshToken);
+        redisTemplate.delete("refreshToken:"+refreshToken);
     }
 
 }
