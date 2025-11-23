@@ -37,6 +37,7 @@ public class RoadmapService {
 
     // 전체 로드맵 목록 조회 (사용자별 진행률 포함)
     // GET /roadmap
+    @Transactional(readOnly = true)
     public RoadmapResponse getAllThemes(String username) {
         // 1. 모든 테마 조회 (순서대로)
         List<Theme> themes = themeRepository.findAllByOrderByOrderIndexAsc();
@@ -80,6 +81,7 @@ public class RoadmapService {
 
     // 특정 테마의 단원 목록 조회
     // GET /roadmap/theme/{themeId}
+    @Transactional(readOnly = true)
     public ThemeResponse getThemeWithLessons(Long themeId, String username) {
         // 1. 테마와 단원들 조회
         Theme theme = themeRepository.findByIdWithLessons(themeId)
@@ -127,6 +129,7 @@ public class RoadmapService {
 
     // 사용자별 학습 진행률 조회
     // GET /roadmap/progress
+    @Transactional(readOnly = true)
     public ProgressResponse getUserProgress(String username) {
         // 1. 모든 테마 조회
         List<Theme> themes = themeRepository.findAllByOrderByOrderIndexAsc();

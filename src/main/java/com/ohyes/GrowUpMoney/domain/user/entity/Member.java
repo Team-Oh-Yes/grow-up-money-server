@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -49,7 +50,7 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime created_at;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updated_at;
 
     public void suspend(int days, String reason) {

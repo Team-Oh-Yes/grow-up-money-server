@@ -1,10 +1,13 @@
 package com.ohyes.GrowUpMoney.domain.admin.controller;
 
 import com.ohyes.GrowUpMoney.domain.user.dto.request.SuspendMemberRequest;
+import com.ohyes.GrowUpMoney.domain.user.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.user.dto.response.MemberStatusResponse;
+import com.ohyes.GrowUpMoney.domain.user.service.MemberService;
 import com.ohyes.GrowUpMoney.domain.user.service.MemberStatusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,17 @@ import java.util.Map;
 public class MemberManagementController {
 
     private final MemberStatusService memberStatusService;
+    private final MemberService memberService;
+
+    @GetMapping("/")
+    public ResponseEntity<Page<MemberResponse>> getAllUsers(
+            @RequestParam int page,
+            @RequestParam int size
+    ){
+        System.out.println("요청들어옴");
+        return ResponseEntity.ok(memberService.getMembers(page,size));
+    }
+
 
     //회원 상태 보기
     @GetMapping("/{username}/status")
