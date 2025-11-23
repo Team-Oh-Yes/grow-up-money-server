@@ -2,6 +2,7 @@ package com.ohyes.GrowUpMoney.domain.user.service;
 
 
 import com.ohyes.GrowUpMoney.global.config.RedisConfig;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class RefreshTokenService {
 
         String refreshToken = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set(
-                refreshToken,
+                "refreshToken:"+refreshToken,
                 "RT:" + username + ":" + authorities,  // username:authorities 형식
                 REFRESH_TOKEN_EXPIRE_TIME,
                 TimeUnit.MILLISECONDS
@@ -29,7 +30,7 @@ public class RefreshTokenService {
     }
 
     public String getUsernameByRefreshToken(String refreshToken) {
-        String value = redisTemplate.opsForValue().get(refreshToken);
+        String value = redisTemplate.opsForValue().get("refreshToken:"+refreshToken);
 
         if (value == null) {
             throw new RuntimeException("Invalid or expired refresh token");
@@ -44,7 +45,7 @@ public class RefreshTokenService {
     }
 
     public String getAuthoritiesByRefreshToken(String refreshToken) {
-        String value = redisTemplate.opsForValue().get(refreshToken);
+        String value = redisTemplate.opsForValue().get("refreshToken"+refreshToken);
 
         if (value == null) {
             throw new RuntimeException("Invalid or expired refresh token");
@@ -56,7 +57,7 @@ public class RefreshTokenService {
     }
 
     public boolean validateRefreshToken(String username, String refreshToken) {
-        String storedValue = redisTemplate.opsForValue().get(refreshToken);
+        String storedValue = redisTemplate.opsForValue().get("refreshToken"+refreshToken);
         if (storedValue == null) {
             return false;
         }
@@ -65,7 +66,7 @@ public class RefreshTokenService {
     }
 
     public void deleteRefreshToken(String refreshToken) {
-        redisTemplate.delete(refreshToken);
+        redisTemplate.delete("refreshToken"+refreshToken);
     }
 
 }

@@ -10,9 +10,11 @@ import com.ohyes.GrowUpMoney.domain.user.service.AuthService;
 import com.ohyes.GrowUpMoney.domain.user.service.RefreshTokenService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,25 +64,27 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            @RequestHeader("Authorization") String authHeader) {
+            @CookieValue("refreshToken") String refreshToken,
+            HttpServletResponse response) {
+        refreshTokenService.deleteRefreshToken(refreshToken);
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "올바르지 않은 토큰"));
-        }
+        //accessToken삭제 쿠키에서
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setMaxAge(0);
+        accessTokenCookie.setPath("/");
+        response.addCookie(accessTokenCookie);
 
-        String refreshToken = authHeader.substring(7);
+        //refreshToken삭제 쿠키에서
+        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setMaxAge(0);
+        refreshTokenCookie.setPath("/");
+        response.addCookie(refreshTokenCookie);
 
-        try {
-            refreshTokenService.deleteRefreshToken(refreshToken);
-            return ResponseEntity.ok(Map.of(
-                    "message", "로그아웃 성공",
-                    "success", true
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "로그아웃 실패", "success", false));
-        }
+
+        return ResponseEntity.ok(Map.of(
+                "message", "로그아웃 성공",
+                "success", true
+        ));
     }
 
 
@@ -89,17 +93,10 @@ public class AuthController {
         //리프레시 토큰
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(
-            @RequestHeader("Authorization") String authHeader) {
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(401).body("Invalid token format");
-        }
-
-        String refreshToken = authHeader.substring(7);  // UUID 추출
-
+            @CookieValue("refresh") String refreshToken) {
 
         try {
-            // 1. UUID로 username과 authorities 조회
+            // UUID로 username과 authorities 조회
             String username = refreshTokenService.getUsernameByRefreshToken(refreshToken);
             String authorities = refreshTokenService.getAuthoritiesByRefreshToken(refreshToken);
 

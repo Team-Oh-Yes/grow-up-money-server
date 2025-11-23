@@ -10,6 +10,7 @@ import com.ohyes.GrowUpMoney.domain.user.exception.*;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RefreshTokenService refreshTokenService;
 
+    @Transactional
     public SignUpResponse signUp(SignUpRequest request) {
 
         if (memberRepository.existsByUsername(request.getUsername())) {
@@ -49,6 +51,7 @@ public class AuthService {
 
     }
 
+    @Transactional
     public LoginResponse login(String username, String password, HttpServletResponse response) {
 
         Member member = memberRepository.findByUsername(username)
@@ -99,8 +102,8 @@ public class AuthService {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                //.sameSite("Lax")
-                .sameSite("None")
+                .sameSite("Lax")
+//                .sameSite("None")
                 .maxAge(3600)  // 1시간
                 .build();
 
@@ -108,8 +111,8 @@ public class AuthService {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-//                .sameSite("Lax")
-                .sameSite("None")
+                .sameSite("Lax")
+//                .sameSite("None")
                 .maxAge(604800) //1주일
                 .build();
 
