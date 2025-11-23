@@ -3,12 +3,15 @@ package com.ohyes.GrowUpMoney.domain.nft.repository;
 import com.ohyes.GrowUpMoney.domain.nft.entity.NftToken;
 import com.ohyes.GrowUpMoney.domain.nft.entity.enums.TokenType;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface NftTokenRepository {
+@Repository
+public interface NftTokenRepository extends JpaRepository<NftToken, Long> {
     // 특정 사용자가 소유한 모든 NFT 조회
     @Query("SELECT t FROM NftToken t WHERE t.owner.username = :username")
     List<NftToken> findByOwnerUsername(@Param("username") String username);
