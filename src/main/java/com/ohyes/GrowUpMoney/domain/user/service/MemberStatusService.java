@@ -31,8 +31,8 @@ public class MemberStatusService {
                 member.getUsername(),
                 member.getStatus(),
                 member.getStatus().getDescription(),
-                member.getSuspended_until(),
-                member.getSuspension_reason(),
+                member.getSuspendedUntil(),
+                member.getSuspensionReason(),
                 member.isActive()
         );
     }

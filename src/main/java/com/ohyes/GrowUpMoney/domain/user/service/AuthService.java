@@ -66,8 +66,8 @@ public class AuthService {
             if (member.getStatus() == MemberStatus.SUSPENDED) {
                 String message = String.format(
                         "계정이 정지되었습니다. 사유: %s, 해제일: %s",
-                        member.getSuspension_reason(),
-                        member.getSuspended_until()
+                        member.getSuspensionReason(),
+                        member.getSuspendedUntil()
                 );
                 throw new AccountSuspendedException(message);
             } else if (member.getStatus() == MemberStatus.WITHDRAWN) {
