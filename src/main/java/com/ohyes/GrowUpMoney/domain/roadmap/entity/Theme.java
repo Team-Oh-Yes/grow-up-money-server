@@ -41,7 +41,7 @@ public class Theme {
         this.orderIndex = orderIndex;
     }
 
-    public void updatetitle(String title) {
+    public void updateTitle(String title) {
         this.title = title;
     }
 
