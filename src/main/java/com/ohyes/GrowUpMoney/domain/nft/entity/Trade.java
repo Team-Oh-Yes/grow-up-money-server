@@ -32,17 +32,15 @@ public class Trade {
     @JoinColumn(name = "seller_username", nullable = false)
     private Member seller;
 
-    // 판매 중이면 null로 표시
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_username")
-    private Member buyer;
+    private Member buyer;  // 판매 중이면 null
 
     @Column(nullable = false)
     private Integer price;
 
-    // 수수료 5% 떼감
     @Column(nullable = false)
-    private Integer fee;
+    private Integer fee;  // 수수료 5%
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -85,7 +83,7 @@ public class Trade {
         this.fee = calculateFee(newPrice);
     }
 
-    // 수수료 계산 5%
+    // 수수료 계산 (5%)
     private Integer calculateFee(Integer price) {
         return (int) Math.round(price * 0.05);
     }
@@ -94,5 +92,4 @@ public class Trade {
     public Integer getSellerProceeds() {
         return price - fee;
     }
-
 }

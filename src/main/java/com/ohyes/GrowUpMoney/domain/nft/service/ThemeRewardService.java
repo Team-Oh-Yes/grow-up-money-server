@@ -14,10 +14,10 @@ import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.ThemeRepository;
 import com.ohyes.GrowUpMoney.domain.user.entity.Member;
 import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 public class ThemeRewardService {
 
     private final ThemeRewardRepository themeRewardRepository;
@@ -123,4 +123,5 @@ public class ThemeRewardService {
 
         return themeRewardRepository.findMostPopularCollections();
     }
+
 }

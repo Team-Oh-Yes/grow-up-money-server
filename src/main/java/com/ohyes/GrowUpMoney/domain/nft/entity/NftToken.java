@@ -31,7 +31,7 @@ public class NftToken {
     private NftCollection collection;
 
     @Column(name = "serial_no")
-    private Integer serialNo;  // 거래용 NFT만 사용
+    private Integer serialNo;  // 거래용 NFT만 사용 (1/100, 2/100...)
 
     @Enumerated(EnumType.STRING)
     @Column(name = "token_type", nullable = false, length = 20)
@@ -77,7 +77,6 @@ public class NftToken {
         this.isOnSale = true;
     }
 
-    // 거래중이 아닐 때
     public void setNotOnSale() {
         this.isOnSale = false;
     }

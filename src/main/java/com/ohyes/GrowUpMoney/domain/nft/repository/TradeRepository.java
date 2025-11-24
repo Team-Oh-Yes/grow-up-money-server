@@ -2,9 +2,9 @@ package com.ohyes.GrowUpMoney.domain.nft.repository;
 
 import com.ohyes.GrowUpMoney.domain.nft.entity.Trade;
 import com.ohyes.GrowUpMoney.domain.nft.entity.enums.TradeStatus;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -49,10 +49,9 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     @Query("SELECT AVG(t.price) FROM Trade t WHERE t.token.collection.id = :collectionId AND t.status = 'SOLD'")
     Double findAveragePriceByCollectionId(@Param("collectionId") Long collectionId);
 
-    // 특정 컬렉션의 최근 N개 거래 평균가
-    @Query("SELECT AVG(t.price) FROM (SELECT t2.price FROM Trade t2 WHERE t2.token.collection.id = :collectionId AND t2.status = 'SOLD' ORDER BY t2.soldAt DESC LIMIT :limit) t")
-    Double findRecentAveragePriceByCollectionId(@Param("collectionId") Long collectionId,
-                                                @Param("limit") int limit);
+    // 특정 컬렉션의 최근 거래 조회
+    @Query("SELECT t FROM Trade t WHERE t.token.collection.id = :collectionId AND t.status = 'SOLD' ORDER BY t.soldAt DESC")
+    List<Trade> findRecentTradesByCollectionId(@Param("collectionId") Long collectionId);
 
     // 특정 컬렉션의 최저가
     @Query("SELECT MIN(t.price) FROM Trade t WHERE t.token.collection.id = :collectionId AND t.status = 'LISTING'")
@@ -65,5 +64,4 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     // 토큰이 현재 판매 중인지 확인
     @Query("SELECT COUNT(t) > 0 FROM Trade t WHERE t.token.id = :tokenId AND t.status = 'LISTING'")
     boolean existsActiveTradeByTokenId(@Param("tokenId") Long tokenId);
-
 }

@@ -1,15 +1,15 @@
 package com.ohyes.GrowUpMoney.domain.nft.repository;
 
 import com.ohyes.GrowUpMoney.domain.nft.entity.ThemeReward;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ThemeRewardRepository extends JpaRepository<ThemeReward,Long> {
+public interface ThemeRewardRepository extends JpaRepository<ThemeReward, Long> {
 
     // 특정 사용자의 모든 보상 조회
     @Query("SELECT tr FROM ThemeReward tr WHERE tr.member.username = :username ORDER BY tr.completedAt DESC")

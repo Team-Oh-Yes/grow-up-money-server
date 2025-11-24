@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/nft")
+@RequestMapping("/admin/nft")
 @RequiredArgsConstructor
 @Slf4j
 public class AdminNftController {

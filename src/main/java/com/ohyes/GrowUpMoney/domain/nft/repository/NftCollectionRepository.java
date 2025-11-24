@@ -2,15 +2,15 @@ package com.ohyes.GrowUpMoney.domain.nft.repository;
 
 import com.ohyes.GrowUpMoney.domain.nft.entity.NftCollection;
 import com.ohyes.GrowUpMoney.domain.nft.entity.enums.Rarity;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface NftCollectionRepository extends JpaRepository<NftCollection,Long> {
+public interface NftCollectionRepository extends JpaRepository<NftCollection, Long> {
 
     // 특정 테마의 모든 컬렉션 조회
     List<NftCollection> findByThemeId(Long themeId);
@@ -37,5 +37,4 @@ public interface NftCollectionRepository extends JpaRepository<NftCollection,Lon
 
     // 컬렉션명 중복 확인
     boolean existsByName(String name);
-
 }
