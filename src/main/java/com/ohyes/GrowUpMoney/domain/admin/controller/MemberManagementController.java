@@ -26,7 +26,6 @@ public class MemberManagementController {
             @RequestParam int page,
             @RequestParam int size
     ){
-        System.out.println("요청들어옴");
         return ResponseEntity.ok(memberService.getMembers(page,size));
     }
 

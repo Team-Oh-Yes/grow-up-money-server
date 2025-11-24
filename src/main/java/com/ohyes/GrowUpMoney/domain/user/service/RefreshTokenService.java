@@ -56,16 +56,12 @@ public class RefreshTokenService {
 
     public boolean validateRefreshToken(String username, String refreshToken) {
         String storedValue = redisTemplate.opsForValue().get("refreshToken:" + refreshToken);
-        System.out.println("storedValue: " + storedValue);
-        System.out.println("검증할 문자열: RT:" + username + ":");
 
         if (storedValue == null) {
-            System.out.println("storedValue가 null");
             return false;
         }
 
         boolean result = storedValue.startsWith("RT:" + username + ":");
-        System.out.println("검증 결과: " + result);
         return result;
     }
 
