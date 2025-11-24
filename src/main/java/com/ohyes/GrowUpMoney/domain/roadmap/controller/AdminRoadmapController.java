@@ -19,7 +19,7 @@ import java.util.List;
 
 // Admin 전용 로드맵 관리 API
 @RestController
-@RequestMapping("/api/admin/roadmap")
+@RequestMapping("/admin/roadmap")
 @RequiredArgsConstructor
 @Slf4j
 @PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
