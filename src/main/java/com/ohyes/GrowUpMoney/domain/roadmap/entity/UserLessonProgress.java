@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.roadmap.entity;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.MemberEntity;
+import com.ohyes.GrowUpMoney.domain.user.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,11 +20,11 @@ public class UserLessonProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "progress_id")
-    private Long progress_id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username",referencedColumnName = "username", nullable = false)
-    private MemberEntity member;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", nullable = false)
@@ -45,7 +45,7 @@ public class UserLessonProgress {
     private LocalDateTime updatedAt;
 
     @Builder
-    public UserLessonProgress(MemberEntity member, Lesson lesson, ProgressStatus status) {
+    public UserLessonProgress(Member member, Lesson lesson, ProgressStatus status) {
         this.member = member;
         this.lesson = lesson;
         this.status = status != null ? status : ProgressStatus.NOT_STARTED;

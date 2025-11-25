@@ -32,17 +32,20 @@ public class JwtFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String jwtToken = null;
 
-        // 1. Bearer 토큰이 없으면 통과
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
+        // 1. 쿠키에서 accessToken 찾기
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("accessToken".equals(cookie.getName())) {
+                    jwtToken = cookie.getValue();
+                    break;
+                }
+            }
         }
 
-        String jwtToken = authHeader.substring(7);
-
-        if (!jwtToken.contains(".")) {
+        // 2. accessToken이 없으면 통과
+        if (jwtToken == null || !jwtToken.contains(".")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -53,8 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             filterChain.doFilter(request, response);
             return;
-        } catch (Exception e) {  // JWT 파싱 에러
-            System.out.println(e);
+        } catch (Exception e) {
             filterChain.doFilter(request, response);
             return;
         }

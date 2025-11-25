@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ThemeRepository extends JpaRepository<Theme,Long> {
 
 //    테마 오름차순으로 정렬
-    List<Theme> findAllByOrderByIdAsc();
+    List<Theme> findAllByOrderByOrderIndexAsc();
 
 //    특정 번호의 테마 조회
     Optional<Theme> findByOrderIndex(Integer orderIndex);

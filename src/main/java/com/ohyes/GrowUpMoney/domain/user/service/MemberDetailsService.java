@@ -30,7 +30,7 @@ public class MemberDetailsService implements UserDetailsService {
         var user = result.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
         return new CustomUser(user.getId(), user.getUsername(), user.getPassword(), authorities);
     }

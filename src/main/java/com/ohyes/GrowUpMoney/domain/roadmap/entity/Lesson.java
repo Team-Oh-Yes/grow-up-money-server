@@ -18,7 +18,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lesson_id")
-    private Long lesson_id;
+    private Long id;
 
     // Theme: lesson, 1: N
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,12 +42,16 @@ public class Lesson {
         this.orderIndex = orderIndex;
     }
 
-    public void updatetitle(String title) {
+    public void updateTitle(String title) {
         this.title = title;
     }
 
     public void updateOrderIndex(Integer orderIndex) {
         this.orderIndex = orderIndex;
+    }
+
+    public void updateTheme(Theme theme) {
+        this.theme = theme;
     }
 
     protected void setTheme(Theme theme) {

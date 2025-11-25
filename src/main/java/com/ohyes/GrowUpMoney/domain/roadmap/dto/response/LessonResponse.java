@@ -25,7 +25,7 @@ public class LessonResponse {
 
     public static LessonResponse from(Lesson lesson) {
         return LessonResponse.builder()
-                .lessonId(lesson.getLesson_id())
+                .lessonId(lesson.getId())
                 .themeId(lesson.getTheme().getId())
                 .title(lesson.getTitle())
                 .orderIndex(lesson.getOrderIndex())
@@ -41,7 +41,7 @@ public class LessonResponse {
                                                   Integer correctCount, Integer totalAttempted,
                                                   Double accuracy, LocalDateTime lastUpdatedAt) {
         return LessonResponse.builder()
-                .lessonId(lesson.getLesson_id())
+                .lessonId(lesson.getId())
                 .themeId(lesson.getTheme().getId())
                 .title(lesson.getTitle())
                 .orderIndex(lesson.getOrderIndex())
