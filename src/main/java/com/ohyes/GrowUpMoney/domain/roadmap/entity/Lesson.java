@@ -42,12 +42,16 @@ public class Lesson {
         this.orderIndex = orderIndex;
     }
 
-    public void updatetitle(String title) {
+    public void updateTitle(String title) {
         this.title = title;
     }
 
     public void updateOrderIndex(Integer orderIndex) {
         this.orderIndex = orderIndex;
+    }
+
+    public void updateTheme(Theme theme) {
+        this.theme = theme;
     }
 
     protected void setTheme(Theme theme) {

@@ -1,13 +1,17 @@
 package com.ohyes.GrowUpMoney.domain.user.entity;
 
+import com.ohyes.GrowUpMoney.domain.nft.entity.NftToken;
+import com.ohyes.GrowUpMoney.domain.nft.entity.ThemeReward;
+import com.ohyes.GrowUpMoney.domain.nft.entity.Trade;
 import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,59 +33,164 @@ public class Member {
     private String email;
 
     @Column(nullable = false, columnDefinition = "int default 0")
-    private Integer point_balance = 0;
+    private Integer pointBalance = 0;  // NFT 거래 가능한 포인트
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer boundPoint = 0;  // 귀속 포인트 (퀴즈 보상, 거래 불가)
+
+    @Column(nullable = false, columnDefinition = "int default 5")
+    private Integer hearts = 5;  // 하루 5개, 틀리면 -1, 0되면 50포인트로 구매
+
+    @Column
+    private LocalDateTime lastHeartReset;  // 마지막 하트 리셋 시간 (매일 0시)
+
+    @Column(length = 20)
+    private String tier;  // 배지 등급 (누적 포인트 기반)
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) default 'ACTIVE'")
     private MemberStatus status = MemberStatus.ACTIVE;
 
     @Column
-    private LocalDateTime suspended_until;  // 정지 종료 시간
+    private LocalDateTime suspendedUntil;
 
     @Column
-    private String suspension_reason;  // 정지 사유
+    private String suspensionReason;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(255) default 'user'")
     private String role = "ROLE_USER";
 
     @CreationTimestamp
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updated_at;
+    @CreationTimestamp
+    private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<NftToken> ownedTokens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Trade> salesHistory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    private List<Trade> purchaseHistory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ThemeReward> rewards = new ArrayList<>();
+
+
+    // 계정 정지
     public void suspend(int days, String reason) {
         this.status = MemberStatus.SUSPENDED;
-        this.suspension_reason = reason;
+        this.suspensionReason = reason;
 
-        if (days == -1) {  // 영구 정지
-            this.suspended_until = LocalDateTime.of(9999, 12, 31, 23, 59, 59);
+        if (days == -1) {
+            this.suspendedUntil = LocalDateTime.of(9999, 12, 31, 23, 59, 59);
         } else {
-            this.suspended_until = LocalDateTime.now().plusDays(days);
+            this.suspendedUntil = LocalDateTime.now().plusDays(days);
         }
+    }
+
+    // 귀속 포인트 추가 (퀴즈 보상)
+    public void addBoundPoint(Integer amount) {
+        this.boundPoint += amount;
+        this.totalEarnedPoints += amount;
+    }
+
+    // 거래 가능 포인트 추가 (충전, 거래 수익 등)
+    public void addPoint(Integer amount) {
+        this.pointBalance += amount;
+    }
+
+    // 포인트 차감
+    public void deductPoint(Integer amount) {
+        if (this.pointBalance < amount) {
+            throw new IllegalStateException("포인트가 부족합니다.");
+        }
+        this.pointBalance -= amount;
+    }
+
+    // 귀속 포인트 → 거래 가능 포인트 전환
+    public void convertBoundPointToPoint(Integer amount) {
+        if (this.boundPoint < amount) {
+            throw new IllegalStateException("귀속 포인트가 부족합니다.");
+        }
+        this.boundPoint -= amount;
+        this.pointBalance += amount;
     }
 
     public void unsuspend() {
         this.status = MemberStatus.ACTIVE;
-        this.suspended_until = null;
-        this.suspension_reason = null;
+        this.suspendedUntil = null;
+        this.suspensionReason = null;
     }
 
     public void withdraw() {
         this.status = MemberStatus.WITHDRAWN;
-        this.suspended_until = null;
-        this.suspension_reason = "회원 탈퇴";
+        this.suspendedUntil = null;
+        this.suspensionReason = "회원 탈퇴";
     }
 
     public boolean isSuspensionExpired() {
         if (this.status != MemberStatus.SUSPENDED) {
             return false;
         }
-        return this.suspended_until != null &&
-                LocalDateTime.now().isAfter(this.suspended_until);
+        return this.suspendedUntil != null &&
+                LocalDateTime.now().isAfter(this.suspendedUntil);
     }
 
     public boolean isActive() {
         return this.status == MemberStatus.ACTIVE;
+    }
+
+    // 하트 차감 (퀴즈 오답)
+    public void deductHeart() {
+        if (this.hearts > 0) {
+            this.hearts -= 1;
+        }
+    }
+
+    // 하트 구매 (50 포인트)
+    public void purchaseHeart() {
+        if (this.pointBalance < 50) {
+            throw new IllegalStateException("포인트가 부족합니다. 필요: 50");
+        }
+        this.pointBalance -= 50;
+        this.hearts += 1;
+    }
+
+    // 하트 리셋 확인 (매일 0시)
+    public boolean needsHeartReset() {
+        if (this.lastHeartReset == null) {
+            return true;
+        }
+        LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
+        return this.lastHeartReset.isBefore(today);
+    }
+
+    // 하트 리셋 (매일 5개로 초기화)
+    public void resetHearts() {
+        this.hearts = 5;
+        this.lastHeartReset = LocalDateTime.now();
+    }
+
+    // 배지 등급 업데이트 (누적 포인트)
+    public void updateTier() {
+        if (this.totalEarnedPoints >= 100000) {
+            this.tier = "DIAMOND";
+        } else if (this.totalEarnedPoints >= 50000) {
+            this.tier = "PLATINUM";
+        } else if (this.totalEarnedPoints >= 20000) {
+            this.tier = "GOLD";
+        } else if (this.totalEarnedPoints >= 10000) {
+            this.tier = "SILVER";
+        } else if (this.totalEarnedPoints >= 5000) {
+            this.tier = "BRONZE";
+        } else {
+            this.tier = "BEGINNER";
+        }
     }
 }

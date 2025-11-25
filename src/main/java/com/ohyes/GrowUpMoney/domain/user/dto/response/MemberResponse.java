@@ -29,8 +29,8 @@ public class MemberResponse {
                 .email(member.getEmail())
                 .status(member.getStatus())
                 .role(member.getRole())
-                .created_at(member.getCreated_at())
-                .updated_at(member.getUpdated_at())
+                .created_at(member.getCreatedAt())
+                .updated_at(member.getUpdatedAt())
                 .build();
     }
 }
