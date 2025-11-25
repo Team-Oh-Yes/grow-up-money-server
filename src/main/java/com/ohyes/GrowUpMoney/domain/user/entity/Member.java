@@ -40,3 +40,7 @@ public class Member {
     }
 
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> d71619799ffe8eaca0e3c3b63a80b9d0b96656c1
