@@ -63,12 +63,15 @@ public class AdminNftController {
         return ResponseEntity.ok(token);
     }
 
-    // 도감용 NFT 민팅 (테스트용)
+    // 도감용 NFT 수동 발급 (관리자 전용)
+    // 사용 예시: 이벤트 보상, 특별 지급, 테스트
+    // 일반 사용자는 /api/rewards/select를 통해서만 획득 가능
     @PostMapping("/mint/collection")
     public ResponseEntity<NftTokenResponse> mintCollectionNft(
             @RequestParam Long collectionId,
             @RequestParam String username) {
-        log.info("도감용 NFT 민팅 요청: collectionId={}, username={}", collectionId, username);
+        log.info("도감용 NFT 수동 발급 요청 (관리자): collectionId={}, username={}",
+                collectionId, username);
         NftTokenResponse token = nftTokenService.mintCollectionNft(collectionId, username);
         return ResponseEntity.ok(token);
     }
