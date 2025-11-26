@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.global.exception;
 
-import com.ohyes.GrowUpMoney.domain.user.exception.AccountSuspendedException;
-import com.ohyes.GrowUpMoney.domain.user.exception.AccountWithdrawnException;
+import com.ohyes.GrowUpMoney.domain.auth.exception.AccountSuspendedException;
+import com.ohyes.GrowUpMoney.domain.auth.exception.AccountWithdrawnException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
