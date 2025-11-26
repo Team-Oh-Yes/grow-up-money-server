@@ -31,6 +31,10 @@ public class CorsConfig {
                  "https://localhost:3000",
                  "http://localhost:3000",          // HTTP 로컬 개발 환경 (Vite/React)
                  "http://localhost:5173"           // HTTP 로컬 개발 환경 (Vite)
+                 "https://127.0.0.1:5173"           // HTTP 로컬 개발 환경 (Vite)
+                 "http://127.0.0.1:5173"           // HTTP 로컬 개발 환경 (Vite)
+                 "https://127.0.0.1:3000"           // HTTP 로컬 개발 환경 (Vite)
+                 "http://127.0.0.1:3000"           // HTTP 로컬 개발 환경 (Vite)
          ));
 
         // 허용할 HTTP 메소드
