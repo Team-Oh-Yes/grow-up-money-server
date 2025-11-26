@@ -100,8 +100,8 @@ public class AuthService {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .sameSite("Lax")
-//                .sameSite("None")
+//                .sameSite("Lax")
+                .sameSite("None")
                 .maxAge(3600)  // 1시간
                 .build();
 
@@ -109,8 +109,8 @@ public class AuthService {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .sameSite("Lax")
-//                .sameSite("None")
+//                .sameSite("Lax")
+                .sameSite("None")
                 .maxAge(604800) //1주일
                 .build();
 
