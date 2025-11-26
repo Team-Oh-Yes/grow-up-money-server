@@ -101,6 +101,7 @@ public class AuthService {
                 .secure(true)
                 .path("/")
 //                .sameSite("Lax")
+                .domain("growmoney.duckdns.org")
                 .sameSite("None")
                 .maxAge(3600)  // 1시간
                 .build();
@@ -110,6 +111,7 @@ public class AuthService {
                 .secure(true)
                 .path("/")
 //                .sameSite("Lax")
+                .domain("growmoney.duckdns.org")
                 .sameSite("None")
                 .maxAge(604800) //1주일
                 .build();
