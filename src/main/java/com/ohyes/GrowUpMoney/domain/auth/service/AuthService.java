@@ -98,7 +98,7 @@ public class AuthService {
 
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(true)
-                //.secure(true)
+                .secure(true)
                 .path("/")
 //                .sameSite("Lax")
                 .domain("growmoney.duckdns.org")
@@ -108,7 +108,7 @@ public class AuthService {
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
-                //.secure(true)
+                .secure(true)
                 .path("/")
 //                .sameSite("Lax")
                 .domain("growmoney.duckdns.org")
