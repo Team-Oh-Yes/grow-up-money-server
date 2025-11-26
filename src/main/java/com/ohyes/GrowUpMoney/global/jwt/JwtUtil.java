@@ -1,11 +1,9 @@
 package com.ohyes.GrowUpMoney.global.jwt;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;

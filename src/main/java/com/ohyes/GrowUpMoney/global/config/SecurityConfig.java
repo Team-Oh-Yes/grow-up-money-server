@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.global.config;
 
-import com.ohyes.GrowUpMoney.domain.user.service.MemberDetailsService;
+import com.ohyes.GrowUpMoney.domain.auth.service.MemberDetailsService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtFilter;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;

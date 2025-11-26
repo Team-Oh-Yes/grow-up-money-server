@@ -16,19 +16,31 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 허용할 출처
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOriginPattern("");
+        config.addAllowedOrigin("https://growupmoney.duckdns.org"); // 허용할 도메인
+        config.addAllowedMethod(""); // 모든 HTTP 메소드 허용
+        config.addAllowedHeader(""); // 모든 헤더 허용
+        config.setAllowCredentials(true); // 쿠키를 포함한 요청 허용
 
+        // ★ 사용하는 프론트 도메인만 정확히 허용
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000/",            // React 개발 서버
+                "https://localhost:5173/",            // React 개발 서버
+                "https://localhost:3000/",            // React 개발 서버
+                "https://growupmoney.duckdns.org/"   // 혹시나 프론트도 여기서 띄울 때
+        ));
 
         // 허용할 HTTP 메소드
         config.setAllowedMethods(Arrays.asList(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
 
+
         // 허용할 헤더
         config.setAllowedHeaders(Arrays.asList(
                 "Authorization",
                 "Content-Type",
-                "*"
+                ""
         ));
 
         // 인증 정보 포함 허용
@@ -43,3 +55,6 @@ public class CorsConfig {
         return source;
     }
 }
+
+
+
