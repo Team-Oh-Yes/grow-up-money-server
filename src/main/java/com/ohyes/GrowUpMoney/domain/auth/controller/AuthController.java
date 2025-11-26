@@ -115,9 +115,10 @@ public class AuthController {
 
                 ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
                         .httpOnly(true)
-                        .secure(false)
+                        .secure(true)
                         .path("/")
-                        .sameSite("Lax")
+                        //.sameSite("Lax")
+                        .sameSite("None")
                         .maxAge(3600)
                         .build();
 
