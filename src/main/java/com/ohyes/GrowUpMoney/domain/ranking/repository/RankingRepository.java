@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.ranking.repository;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
-import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
