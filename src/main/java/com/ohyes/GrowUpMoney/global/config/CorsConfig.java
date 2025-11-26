@@ -17,22 +17,21 @@ public class CorsConfig {
 
         // 허용할 출처
         //config.addAllowedOriginPattern("");
-//        config.addAllowedOrigin("https://growupmoney.duckdns.org"); // 허용할 도메인
-//        config.addAllowedOrigin("https://localhost:3000");  // React 앱의 Origin
-//        config.addAllowedOrigin("https://localhost:5173");  // React 앱의 Origin
+        //config.addAllowedOrigin("https://growupmoney.duckdns.org"); // 허용할 도메인
+        //config.addAllowedOrigin("https://localhost:3000");  // React 앱의 Origin
+        //config.addAllowedOrigin("https://localhost:5173");  // React 앱의 Origin
         config.addAllowedMethod(""); // 모든 HTTP 메소드 허용
         config.addAllowedHeader(""); // 모든 헤더 허용
         config.setAllowCredentials(true); // 쿠키를 포함한 요청 허용
-        //config.setAllowedOrigins("https://localhost:5173", "https://growmoney.duckdns.org", "https://localhost:3000", "http://localhost:3000","http://localhost:5173")
 
         // ★ 사용하는 프론트 도메인만 정확히 허용
-        config.setAllowedOrigins(List.of(
-                "https://localhost:5173",       // HTTPS 로컬 개발 환경
-                "https://growmoney.duckdns.org",  // 백엔드 도메인 (필요시 포함)
-                "https://localhost:3000",
-                "http://localhost:3000",          // HTTP 로컬 개발 환경 (Vite/React)
-                "http://localhost:5173"           // HTTP 로컬 개발 환경 (Vite)
-        ));
+         config.setAllowedOrigins(Arrays.asList(
+                 "https://localhost:5173",       // HTTPS 로컬 개발 환경
+                 "https://growmoney.duckdns.org",  // 백엔드 도메인 (필요시 포함)
+                 "https://localhost:3000",
+                 "http://localhost:3000",          // HTTP 로컬 개발 환경 (Vite/React)
+                 "http://localhost:5173"           // HTTP 로컬 개발 환경 (Vite)
+         ));
 
         // 허용할 HTTP 메소드
         config.setAllowedMethods(Arrays.asList(
