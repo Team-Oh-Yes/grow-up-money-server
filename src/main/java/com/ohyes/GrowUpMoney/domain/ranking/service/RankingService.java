@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.ranking.service;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
-import com.ohyes.GrowUpMoney.domain.user.enums.MemberStatus;
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.RankingResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.UserRankResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.repository.RankingRepository;
