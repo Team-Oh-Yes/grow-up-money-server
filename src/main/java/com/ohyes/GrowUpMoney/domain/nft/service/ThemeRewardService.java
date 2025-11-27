@@ -1,5 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.nft.service;
 
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.nft.dto.request.ThemeRewardSelectRequest;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftCollectionResponse;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftTokenResponse;
@@ -14,8 +16,6 @@ import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.ThemeRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
-import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

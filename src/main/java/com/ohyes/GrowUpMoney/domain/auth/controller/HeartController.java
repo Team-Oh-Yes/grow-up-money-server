@@ -1,6 +1,6 @@
-package com.ohyes.GrowUpMoney.domain.user.controller;
+package com.ohyes.GrowUpMoney.domain.auth.controller;
 
-import com.ohyes.GrowUpMoney.domain.user.service.HeartService;
+import com.ohyes.GrowUpMoney.domain.auth.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.ohyes.GrowUpMoney.domain.user.service;
+package com.ohyes.GrowUpMoney.domain.auth.service;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.Member;
-import com.ohyes.GrowUpMoney.domain.user.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
