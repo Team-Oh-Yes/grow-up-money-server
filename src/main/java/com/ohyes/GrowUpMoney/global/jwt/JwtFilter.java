@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.global.jwt;
 
-import com.ohyes.GrowUpMoney.domain.user.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

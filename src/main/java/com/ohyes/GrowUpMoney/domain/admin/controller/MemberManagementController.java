@@ -1,10 +1,10 @@
 package com.ohyes.GrowUpMoney.domain.admin.controller;
 
-import com.ohyes.GrowUpMoney.domain.user.dto.request.SuspendMemberRequest;
-import com.ohyes.GrowUpMoney.domain.user.dto.response.MemberResponse;
-import com.ohyes.GrowUpMoney.domain.user.dto.response.MemberStatusResponse;
-import com.ohyes.GrowUpMoney.domain.user.service.MemberService;
-import com.ohyes.GrowUpMoney.domain.user.service.MemberStatusService;
+import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
+import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
+import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
+import com.ohyes.GrowUpMoney.domain.auth.service.MemberService;
+import com.ohyes.GrowUpMoney.domain.auth.service.MemberStatusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,6 @@ public class MemberManagementController {
             @RequestParam int page,
             @RequestParam int size
     ){
-        System.out.println("요청들어옴");
         return ResponseEntity.ok(memberService.getMembers(page,size));
     }
 
