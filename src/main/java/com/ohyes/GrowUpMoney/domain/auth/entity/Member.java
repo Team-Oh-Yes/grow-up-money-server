@@ -88,7 +88,7 @@ public class Member {
         this.suspensionReason = reason;
 
         if (days == -1) {
-            this.suspendedUntil = LocalDateTime.of(9999, 12, 31, 23, 59, 59);
+            this.suspendedUntil = LocalDateTime.of(9000, 12, 31, 23, 59, 59);
         } else {
             this.suspendedUntil = LocalDateTime.now().plusDays(days);
         }
