@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.global.jwt;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -8,10 +9,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,22 @@ public class JwtUtil {
                 .compact();
         return jwt;
     }
+
+    public String createToken(Member member, Collection<? extends GrantedAuthority> authorities) {
+        String auth = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        return Jwts.builder()
+                .claim("userId", member.getId())
+                .claim("username", member.getUsername())
+                .claim("authorities", auth)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE_TIME))
+                .signWith(key)
+                .compact();
+    }
+
 
     public Claims extractToken(String token) {
         Claims claims = Jwts.parser().verifyWith(key).build()

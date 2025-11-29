@@ -41,6 +41,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ResponseBody
+    @Tag(name = "회원가입", description = "회원가입 API")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request) {
         SignUpResponse responseBody = authService.signUp(request);
 

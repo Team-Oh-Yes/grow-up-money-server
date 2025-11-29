@@ -17,4 +17,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     @Override
     Page<Member> findAll(Pageable pageable);
+
+    Optional<Member> findByEmail(String email);
 }

@@ -43,8 +43,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-
+    //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
+    //Oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 }
 

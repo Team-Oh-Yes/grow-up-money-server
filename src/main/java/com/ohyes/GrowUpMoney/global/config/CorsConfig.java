@@ -37,7 +37,8 @@ public class CorsConfig {
                  "https://127.0.0.1:3000",           // HTTP 로컬 개발 환경 (Vite)
                  "http://127.0.0.1:3000",           // HTTP 로컬 개발 환경 (Vite)
                  "https://local.growmoney.duckdns.org:5173",           // HTTP 로컬 개발 환경 (Vite)
-                 "https//local.growmoney.duckdns.org:5173"           // HTTP 로컬 개발 환경 (Vite)
+                 "https//local.growmoney.duckdns.org:5173",           // HTTP 로컬 개발 환경 (Vite)
+                 "https://grow-up-money-web.vercel.app/" //HTTPS 배포 환경
 
          ));
 
