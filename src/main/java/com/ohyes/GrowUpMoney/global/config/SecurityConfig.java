@@ -1,8 +1,9 @@
 package com.ohyes.GrowUpMoney.global.config;
 
-import com.ohyes.GrowUpMoney.domain.user.service.MemberDetailsService;
+import com.ohyes.GrowUpMoney.domain.auth.service.MemberDetailsService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtFilter;
-import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
+import com.ohyes.GrowUpMoney.global.oauth.handler.OAuth2SuccessHandler;
+import com.ohyes.GrowUpMoney.global.oauth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +25,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
-    private final JwtUtil jwtUtil;
     private final CorsConfigurationSource corsConfigurationSource;
     private final JwtFilter jwtFilter;
+    private final CustomOAuth2UserService customOAuth2UserService;  // 추가
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;        // 추가
+
+
 
 
 
@@ -54,10 +58,22 @@ public class SecurityConfig {
 
         http.addFilterBefore(jwtFilter, ExceptionTranslationFilter.class);
 
+        http.oauth2Login(oauth2 -> oauth2
+                .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                )
+                .successHandler(oAuth2SuccessHandler)
+        );
+
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/users/signup","/users/login","/users/logout").permitAll()
+                                .requestMatchers(
+                                        "/oauth2/**",
+                                        "/login/oauth2/**",
+                                        "/oauth2/authorization/**"
+                                ).permitAll()
                                 .requestMatchers(
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",

@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/admin/roadmap")
 @RequiredArgsConstructor
 @Slf4j
-@PreAuthorize("hasRole('ADMIN')")  // ADMIN 권한 필요
 public class AdminRoadmapController {
 
     private final AdminRoadmapService adminRoadmapService;
