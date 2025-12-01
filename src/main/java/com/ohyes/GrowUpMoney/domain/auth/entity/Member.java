@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.auth.entity;
 
+import com.ohyes.GrowUpMoney.domain.auth.enums.SuspensionType;
 import com.ohyes.GrowUpMoney.domain.nft.entity.NftToken;
 import com.ohyes.GrowUpMoney.domain.nft.entity.ThemeReward;
 import com.ohyes.GrowUpMoney.domain.nft.entity.Trade;
@@ -56,6 +57,9 @@ public class Member {
 
     @Column
     private LocalDateTime suspendedUntil;
+
+    @Enumerated(EnumType.STRING)
+    private SuspensionType suspensionType;
 
     @Column
     private String suspensionReason;
