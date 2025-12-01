@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.auth.service;
+package com.ohyes.GrowUpMoney.global.scheduler;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
