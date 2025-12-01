@@ -45,10 +45,10 @@ public class HeartResetScheduler {
     }
 
     // 테스트용: 매 10분마다 실행 (운영 시 주석 처리)
-     @Scheduled(cron = "0 */10 * * * *")
-     @Transactional
-     public void testHeartReset() {
-         log.info("====== [테스트] 하트 리셋 실행 ======");
-         resetAllUserHearts();
-     }
+    @Scheduled(cron = "*/10 * * * * *")
+    @Transactional
+    public void testHeartReset() {
+        System.out.println("====== [테스트] 하트 리셋 실행 ======");
+        resetAllUserHearts();
+    }
 }

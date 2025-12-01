@@ -2,9 +2,10 @@ package com.ohyes.GrowUpMoney;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class GrowUpMoneyApplication {
 
 	public static void main(String[] args) {
