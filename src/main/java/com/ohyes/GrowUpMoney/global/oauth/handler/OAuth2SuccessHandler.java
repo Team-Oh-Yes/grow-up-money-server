@@ -64,7 +64,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader("Set-Cookie", refreshTokenCookie.toString());
 
         // 프론트엔드로 리다이렉트
-        response.sendRedirect("https://grow-up-money-web.vercel.app/");
+        response.sendRedirect("https://grow-up-money-web.vercel.app/roadmap");
 
 
     }
