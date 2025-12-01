@@ -2,6 +2,7 @@ package com.ohyes.GrowUpMoney.domain.auth.dto.response;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
+import com.ohyes.GrowUpMoney.domain.auth.enums.SuspensionType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,6 +16,7 @@ public class MemberResponse {
     private String username;
     private String email;
     private MemberStatus status;
+    private SuspensionType suspensionType;
     private String role;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
@@ -25,6 +27,7 @@ public class MemberResponse {
                 .username(member.getUsername())
                 .email(member.getEmail())
                 .status(member.getStatus())
+                .suspensionType(member.getSuspensionType())
                 .role(member.getRole())
                 .created_at(member.getCreatedAt())
                 .updated_at(member.getUpdatedAt())
