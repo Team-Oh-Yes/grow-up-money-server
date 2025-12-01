@@ -65,6 +65,14 @@ public class SecurityConfig {
                 .successHandler(oAuth2SuccessHandler)
         );
 
+        http.exceptionHandling(ex -> ex
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setContentType("application/json");
+                    response.setStatus(401);
+                    response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"로그인이 필요합니다\"}");
+                })
+        );
+
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize
