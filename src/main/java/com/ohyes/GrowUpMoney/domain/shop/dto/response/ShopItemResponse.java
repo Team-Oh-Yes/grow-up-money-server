@@ -17,6 +17,7 @@ public class ShopItemResponse {
     private Integer price;
     private String imageUrl;
     private String itemValue;
+    private Boolean isActive;
 
     public static ShopItemResponse from(ShopItem item) {
         return new ShopItemResponse(
@@ -27,7 +28,8 @@ public class ShopItemResponse {
                 item.getItemType().getDescription(),
                 item.getPrice(),
                 item.getImageUrl(),
-                item.getItemValue()
+                item.getItemValue(),
+                item.getIsActive()
         );
     }
 }
