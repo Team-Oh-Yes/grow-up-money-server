@@ -13,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("GrowUpMoney API").version("1.0"))
+                .info(new Info().title("GrowUpMoney API문서").version("1.0"))
                 .addSecurityItem(new SecurityRequirement().addList("cookieAuth"))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("cookieAuth",

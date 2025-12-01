@@ -20,6 +20,7 @@ public class CorsConfig {
         //config.addAllowedOrigin("https://growupmoney.duckdns.org"); // 허용할 도메인
         //config.addAllowedOrigin("https://localhost:3000");  // React 앱의 Origin
         //config.addAllowedOrigin("https://localhost:5173");  // React 앱의 Origin
+
         config.addAllowedMethod(""); // 모든 HTTP 메소드 허용
         config.addAllowedHeader(""); // 모든 헤더 허용
         config.setAllowCredentials(true); // 쿠키를 포함한 요청 허용
@@ -36,7 +37,8 @@ public class CorsConfig {
                  "https://127.0.0.1:3000",           // HTTP 로컬 개발 환경 (Vite)
                  "http://127.0.0.1:3000",           // HTTP 로컬 개발 환경 (Vite)
                  "https://local.growmoney.duckdns.org:5173",           // HTTP 로컬 개발 환경 (Vite)
-                 "https//local.growmoney.duckdns.org:5173"           // HTTP 로컬 개발 환경 (Vite)
+                 "https//local.growmoney.duckdns.org:5173",           // HTTP 로컬 개발 환경 (Vite)
+                 "https://grow-up-money-web.vercel.app/" //HTTPS 배포 환경
 
          ));
 
