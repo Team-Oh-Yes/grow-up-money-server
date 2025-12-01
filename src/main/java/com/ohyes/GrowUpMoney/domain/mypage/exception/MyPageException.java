@@ -1,7 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.mypage.exception;
 
-
-public class MyPageException extends RuntimeException{
+public class MyPageException extends RuntimeException {
 
     public MyPageException(String message) {
         super(message);
@@ -18,13 +17,6 @@ public class MyPageException extends RuntimeException{
         }
     }
 
-    // 닉네임 중복
-    public static class DuplicateNicknameException extends MyPageException {
-        public DuplicateNicknameException(String nickname) {
-            super("이미 사용 중인 닉네임입니다: " + nickname);
-        }
-    }
-
     // 비밀번호 불일치
     public static class PasswordMismatchException extends MyPageException {
         public PasswordMismatchException() {
@@ -38,5 +30,4 @@ public class MyPageException extends RuntimeException{
             super("해당 NFT는 사용자가 소유하고 있지 않습니다: " + nftId);
         }
     }
-
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoritenNftResponse {
+public class FavoriteNftResponse {
 
-    private Integer totalFavoriteCount;
+    private Integer totalFavoriteCount; // 즐겨찾기 총 개수
     private List<FavoriteNft> favoriteNftList;
 
     @Getter
@@ -30,5 +30,4 @@ public class FavoritenNftResponse {
         private Boolean isOnSale; // 판매 등록 여부
         private Long currentPrice; // 현재 판매가
     }
-
 }
