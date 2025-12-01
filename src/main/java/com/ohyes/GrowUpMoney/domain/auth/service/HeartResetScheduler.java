@@ -44,11 +44,11 @@ public class HeartResetScheduler {
         log.info("====== 하트 리셋 완료: 전체 {}명 중 {}명 리셋 ======", allMembers.size(), resetCount);
     }
 
-    // 테스트용: 매 10분마다 실행 (운영 시 주석 처리)
-    @Scheduled(cron = "*/10 * * * * *")
-    @Transactional
-    public void testHeartReset() {
-        System.out.println("====== [테스트] 하트 리셋 실행 ======");
-        resetAllUserHearts();
-    }
+//    // 테스트용: 매 10초마다 실행 (운영 시 주석 처리)
+//    @Scheduled(cron = "*/10 * * * * *")
+//    @Transactional
+//    public void testHeartReset() {
+//        System.out.println("====== [테스트] 하트 리셋 실행 ======");
+//        resetAllUserHearts();
+//    }
 }
