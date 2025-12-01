@@ -4,7 +4,10 @@ import com.ohyes.GrowUpMoney.domain.auth.dto.request.LoginRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.SignUpResponse;
+import com.ohyes.GrowUpMoney.domain.auth.dto.response.UserInfoResponse;
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.auth.service.AuthService;
 import com.ohyes.GrowUpMoney.domain.auth.service.RefreshTokenService;
@@ -15,12 +18,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -37,6 +43,24 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
+
+    @GetMapping(value = "/me" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserInfoResponse> getCurrentUser(
+            @AuthenticationPrincipal CustomUser CustomUser
+    ){
+        Member member = memberRepository.findById(CustomUser.getMemberId())
+                .orElseThrow(() -> new UserNotFoundException());
+
+        return ResponseEntity.ok(UserInfoResponse.builder()
+                .username(member.getUsername())
+                .email(member.getEmail())
+                .pointBalance(member.getPointBalance())
+                .boundPoint(member.getBoundPoint())
+                .hearts(member.getHearts())
+                .tier(member.getTier())
+                .build());
+    }
+
 
 
     @PostMapping("/signup")
