@@ -16,12 +16,16 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long> {
 
+    // 사용자명으로 조회
     Optional<Member> findByUsername(String username);
 
+    // 사용자명 존재 여부
     boolean existsByUsername(String username);
 
+    // 이메일로 조회
     Optional<Member> findByEmail(String email);
 
+    // 이메일 존재 여부
     boolean existsByEmail(String email);
 
     @Override

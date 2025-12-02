@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MyProfileResponse {
 
     private Long userId;
-    private String username;  // 닉네임 대신 username 사용
+    private String username;
     private String email;
     private String profileImageUrl;
     private String introduction;
