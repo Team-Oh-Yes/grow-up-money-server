@@ -64,4 +64,6 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     // 토큰이 현재 판매 중인지 확인
     @Query("SELECT COUNT(t) > 0 FROM Trade t WHERE t.token.id = :tokenId AND t.status = 'LISTING'")
     boolean existsActiveTradeByTokenId(@Param("tokenId") Long tokenId);
+
+    Optional<Trade> findActiveTradeByTokenId(Long id);
 }

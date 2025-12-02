@@ -32,7 +32,6 @@ public class MyPageService {
     private final MemberRepository memberRepository;
     private final NftTokenRepository nftTokenRepository;
     private final NftCollectionRepository nftCollectionRepository;
-    private final BadgeRepository badgeRepository;
     private final TradeRepository tradeRepository;
     private final PasswordEncoder passwordEncoder;
     private final BadgeService badgeService;
@@ -59,7 +58,7 @@ public class MyPageService {
 
             if (favoriteNft != null) {
                 favoriteNftName = favoriteNft.getCollection().getName();
-                favoriteNftImageUrl = favoriteNft.getCollection().getImageUrl();
+                favoriteNftImageUrl = favoriteNft.getCollection().getImage2dUrl();
             }
         }
 
@@ -177,7 +176,7 @@ public class MyPageService {
                     return EncyclopediaResponse.NftEncyclopedia.builder()
                             .collectionId(collection.getId())
                             .nftName(collection.getName())
-                            .nftImageUrl(collection.getImageUrl())
+                            .nftImageUrl(collection.getImage2dUrl())
                             .rarity(collection.getRarity().name())
                             .isAcquired(!ownedTokens.isEmpty())
                             .ownedCount(ownedTokens.size())
@@ -186,7 +185,7 @@ public class MyPageService {
                 .collect(Collectors.toList());
 
         long acquiredCount = nftList.stream()
-                .filter(EncyclopediaResponse.NftEncyclopedia::getIsAcquired)
+                .filter(EncyclopediaResponse.NftEncyclopedia::isAcquired)
                 .count();
 
         return EncyclopediaResponse.builder()
@@ -277,8 +276,8 @@ public class MyPageService {
                             .tokenId(token.getId())
                             .collectionId(token.getCollection().getId())
                             .nftName(token.getCollection().getName())
-                            .nftImageUrl(token.getCollection().getImageUrl())
-                            .serialNumber(token.getSerialNumber())
+                            .nftImageUrl(token.getCollection().getImage2dUrl())
+                            .serialNumber(token.getSerialNo())
                             .rarity(token.getCollection().getRarity().name())
                             .isOnSale(activeTrade.isPresent())
                             .currentPrice(activeTrade.map(Trade::getPrice).map(Long::valueOf).orElse(null))
