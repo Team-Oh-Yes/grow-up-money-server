@@ -1,5 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.nft.service;
 
+import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.nft.dto.request.ThemeRewardSelectRequest;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftCollectionResponse;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftTokenResponse;
@@ -11,9 +13,9 @@ import com.ohyes.GrowUpMoney.domain.nft.exception.NftException;
 import com.ohyes.GrowUpMoney.domain.nft.repository.NftCollectionRepository;
 import com.ohyes.GrowUpMoney.domain.nft.repository.ThemeRewardRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
+import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.ThemeRepository;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,8 @@ public class ThemeRewardService {
     private final ThemeRepository themeRepository;
     private final MemberRepository memberRepository;
     private final NftTokenService nftTokenService;
+    private final LessonRepository lessonRepository;
+    private final UserLessonProgressRepository progressRepository;
 
     // 테마 완료 보상 선택 가능한 NFT 목록
     public List<NftCollectionResponse> getAvailableRewards(Long themeId) {
@@ -68,10 +72,10 @@ public class ThemeRewardService {
             throw new NftException.CollectionNotInThemeException(request.getCollectionId(), request.getThemeId());
         }
 
-        // TODO: 테마 완료 여부 확인 (RoadmapService와 연동 필요)
-        // if (!isThemeCompleted(username, themeId)) {
-        //     throw new NftException.ThemeNotCompletedException(themeId);
-        // }
+        // 테마 완료 여부 확인 (실제 구현)
+        if (!isThemeCompleted(username, request.getThemeId())) {
+            throw new NftException.ThemeNotCompletedException(request.getThemeId());
+        }
 
         // 도감용 NFT 발급
         NftTokenResponse tokenResponse = nftTokenService.mintCollectionNft(
@@ -92,6 +96,24 @@ public class ThemeRewardService {
                 saved.getId(), tokenResponse.getTokenId());
 
         return ThemeRewardResponse.from(saved);
+    }
+
+    // 테마 완료 여부 확인 (private 메서드)
+    private boolean isThemeCompleted(String username, Long themeId) {
+        // 1. 해당 테마의 전체 단원 개수 조회
+        Long totalLessons = lessonRepository.countByThemeId(themeId);
+
+        // 2. 사용자가 완료한 단원 개수 조회
+        Long completedLessons = progressRepository.countCompletedLessonsByUsernameAndThemeId(
+                username, themeId);
+
+        // 3. 모든 단원을 완료했는지 확인
+        boolean isCompleted = totalLessons > 0 && totalLessons.equals(completedLessons);
+
+        log.info("테마 완료 여부 확인: username={}, themeId={}, 전체={}, 완료={}, 결과={}",
+                username, themeId, totalLessons, completedLessons, isCompleted);
+
+        return isCompleted;
     }
 
     // 내 보상 내역
@@ -123,5 +145,4 @@ public class ThemeRewardService {
 
         return themeRewardRepository.findMostPopularCollections();
     }
-
 }
