@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.ranking.controller;
 
+import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.RankingResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.UserRankResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
@@ -50,7 +51,7 @@ public class RankingController {
      */
     @GetMapping("/search")
     public ResponseEntity<List<RankingResponse>> searchRanking(
-            @RequestParam String username
+            @RequestParam(required=false) String username
     ) {
         log.info("사용자명 검색 요청 - username: {}", username);
         List<RankingResponse> rankings = rankingService.searchRankingByUsername(username);
@@ -63,8 +64,14 @@ public class RankingController {
      */
     @GetMapping("/me")
     public ResponseEntity<UserRankResponse> getMyRanking(
-            @AuthenticationPrincipal Long userId
+            @AuthenticationPrincipal CustomUser customUser
     ) {
+        if (customUser == null) {
+            throw new org.springframework.security.authentication.AuthenticationCredentialsNotFoundException("인증 정보가 없습니다.");
+        }
+
+        Long userId = customUser.getMemberId();
+
         log.info("내 랭킹 조회 요청 - userId: {}", userId);
         UserRankResponse myRank = rankingService.getMyRankingWithNearby(userId);
         return ResponseEntity.ok(myRank);
