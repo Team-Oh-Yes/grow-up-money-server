@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.admin.controller;
 
+import com.ohyes.GrowUpMoney.domain.auth.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
@@ -65,6 +66,19 @@ public class MemberManagementController {
         return ResponseEntity.ok(Map.of(
                 "message", "회원 탈퇴가 처리되었습니다.",
                 "success", true
+        ));
+    }
+
+    //포인트 지급
+    @PostMapping("/grant-point")
+    public ResponseEntity<?> grantPoint(@Valid @RequestBody GrantPointRequest request) {
+        memberService.grantPoint(request);
+        return ResponseEntity.ok(Map.of(
+                "message", request.getAmount() + " 포인트가 지급되었습니다.",
+                "success", true,
+                "username", request.getUsername(),
+                "pointType", request.getPointType(),
+                "amount", request.getAmount()
         ));
     }
 

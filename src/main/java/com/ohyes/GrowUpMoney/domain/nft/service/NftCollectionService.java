@@ -79,7 +79,7 @@ public class NftCollectionService {
     public List<NftCollectionResponse> searchCollections(String keyword) {
         log.info("NFT 컬렉션 검색: keyword={}", keyword);
 
-        return nftCollectionRepository.findByNameContaining(keyword).stream()
+        return nftCollectionRepository.searchByKeyword(keyword).stream()
                 .map(NftCollectionResponse::from)
                 .collect(Collectors.toList());
     }

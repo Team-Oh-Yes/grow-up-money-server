@@ -52,7 +52,7 @@ public class NftController {
     // NFT 컬렉션 검색
     @GetMapping("/collections/search")
     public ResponseEntity<List<NftCollectionResponse>> searchCollections(
-            @RequestParam String keyword) {
+            @RequestParam(required = false) String keyword) {
         log.info("NFT 컬렉션 검색 요청: keyword={}", keyword);
         List<NftCollectionResponse> collections = nftCollectionService.searchCollections(keyword);
         return ResponseEntity.ok(collections);

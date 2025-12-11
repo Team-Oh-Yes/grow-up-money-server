@@ -33,6 +33,25 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
+    // ========================================================================
+
+    @Column(length = 250)
+    private String introduction;  // 자기소개
+
+    @Column(length = 500)
+    private String profileImageUrl;  // 프로필 이미지 URL
+
+    @Column
+    private Long favoriteNftId;  // 대표 에쁘띠 ID
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer dailyEarnedPoints = 0;  // 오늘 획득한 포인트
+
+    @Column
+    private LocalDateTime lastDailyPointReset;  // 마지막 일일 포인트 리셋 시간
+
+    // ========================================================================
+
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer pointBalance = 0;  // NFT 거래 가능한 포인트
 
@@ -85,6 +104,54 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ThemeReward> rewards = new ArrayList<>();
 
+    // ========================================================================
+
+    // 자기소개 수정
+    public void updateIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    // 프로필 이미지 수정
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    // 대표 NFT 수정
+    public void updateFavoriteNft(Long favoriteNftId) {
+        this.favoriteNftId = favoriteNftId;
+    }
+
+    // 비밀번호 수정
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    // 이메일 수정
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    // 일일 획득 포인트 추가
+    public void addDailyPoints(Integer amount) {
+        this.dailyEarnedPoints += amount;
+    }
+
+    // 일일 획득 포인트 리셋 확인
+    public boolean needsDailyPointReset() {
+        if (this.lastDailyPointReset == null) {
+            return true;
+        }
+        LocalDateTime today = LocalDateTime.now().toLocalDate().atStartOfDay();
+        return this.lastDailyPointReset.isBefore(today);
+    }
+
+    // 일일 획득 포인트 리셋
+    public void resetDailyPoints() {
+        this.dailyEarnedPoints = 0;
+        this.lastDailyPointReset = LocalDateTime.now();
+    }
+
+    // ========================================================================
 
     // 계정 정지
     public void suspend(int days, String reason) {
@@ -102,6 +169,7 @@ public class Member {
     public void addBoundPoint(Integer amount) {
         this.boundPoint += amount;
         this.totalEarnedPoints += amount;
+        this.dailyEarnedPoints += amount;  // 일일 포인트에도 추가
     }
 
     // 거래 가능 포인트 추가 (충전, 거래 수익 등)

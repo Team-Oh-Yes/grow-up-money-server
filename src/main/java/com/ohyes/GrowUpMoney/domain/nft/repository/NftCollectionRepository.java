@@ -19,7 +19,8 @@ public interface NftCollectionRepository extends JpaRepository<NftCollection, Lo
     List<NftCollection> findByRarity(Rarity rarity);
 
     // 이름으로 컬렉션 검색
-    List<NftCollection> findByNameContaining(String name);
+    @Query("SELECT nc FROM NftCollection nc WHERE nc.name LIKE CONCAT('%', :keyword, '%')")
+    List<NftCollection> searchByKeyword(@Param("keyword") String keyword);
 
     // 특정 테마의 컬렉션을 생성일 기준으로 정렬
     List<NftCollection> findByThemeIdOrderByCreatedAtAsc(Long themeId);
