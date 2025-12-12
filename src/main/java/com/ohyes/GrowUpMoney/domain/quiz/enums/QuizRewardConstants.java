@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.quiz.entity.enums;
+package com.ohyes.GrowUpMoney.domain.quiz.enums;
 
 public enum QuizRewardConstants {
     LESSON_CLEAR(10),

@@ -1,9 +1,8 @@
 package com.ohyes.GrowUpMoney.domain.quiz.entity;
 
-import com.ohyes.GrowUpMoney.domain.quiz.entity.enums.Difficulty;
-import com.ohyes.GrowUpMoney.domain.quiz.entity.enums.QuestionType;
+import com.ohyes.GrowUpMoney.domain.quiz.enums.Difficulty;
+import com.ohyes.GrowUpMoney.domain.quiz.enums.QuestionType;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.Lesson;
-import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
