@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// 퀴즈 내용 담긴거 테이블
 @Entity
 @Table(name = "tb_question")
 @Getter
@@ -18,27 +19,36 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Question {
+
+    // 퀴즈 아이디
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id", unique = true, nullable = false)
     private Long id;
 
+    // 레슨했던 아이디 들고오기
     @ManyToOne
     @JoinColumn(name="lesson_id", nullable = false)
     private Lesson lesson;
 
+
+    // 주관식인지 객관식인지
     @Enumerated(EnumType.STRING)
     @Column(name="type", nullable = false)
     private QuestionType type;
 
+
+    // 일반인지 프리미엄인지
     @Enumerated(EnumType.STRING)
     @Column(name="difficulty", nullable = false)
     private Difficulty difficulty;
 
+
+    //이게뭐지
     @Column(name="stem", nullable = false, columnDefinition = "TEXT")
     private String stem;
 
-
+    // 객관식일 경우 뭔 선택지인지
     @Type(JsonType.class)
     @Column(name = "options", columnDefinition = "json")
     private List<String> options;
@@ -47,18 +57,23 @@ public class Question {
     @Column(name= "answer_key", nullable = false)
     private String answerKey;
 
+    // 퀴즈 다 정답일시 주는 보상포인트
     @Column(name="point_reward", nullable = false)
     private Integer pointReward;
 
+    // difficulty가 프리미엄이면 is_premium true임
     @Column(name="is_premium", nullable=false)
     private Boolean isPremium;
 
+    // 답변
     @Column(name="order_index", nullable = false)
     private Integer orderIndex;
 
+    // 퀴즈의 문제풀이, 해석
     @Column(name="explanation")
     private String explanation;
 
+    // 퀴즈
     @CreationTimestamp
     private LocalDateTime createdAt;
 

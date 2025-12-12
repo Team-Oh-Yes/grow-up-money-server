@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 
+// 퀴즈 풀이 기록 남기는 테이블
 @Entity
 @Table(name = "tb_quiz_attempt")
 @Getter
@@ -19,28 +20,35 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class QuizAttempt {
+    // 풀이 기록 아이디
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "attempt_id", unique = true, nullable = false)
-    private Long id;
+    @Column(name = "quiz_attempt_id", unique = true, nullable = false)
+    private Long attempt;
 
+    // 회원
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    // 문제 아이디
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    private Question questionId;
 
+    // 사용자 답
     @Column(name = "user_answer")
     private String userAnswer;
 
+    // 채점결과
     @Column(name="is_correct", nullable = false)
     private Boolean isCorrect;
 
+    // 지급 포인트
     @Column(name="points_earned", nullable = false)
     private Integer pointsEarned;
 
+    // 풀이 시간
     @CreationTimestamp
     @Column(name = "attempted_at", updatable = false)
     private LocalDateTime attemptedAt;
@@ -52,8 +60,8 @@ public class QuizAttempt {
 
     // 정답 체크 및 포인트 계산
     public void checkAndRecordAnswer() {
-        this.isCorrect = question.checkAnswer(this.userAnswer);
-        this.pointsEarned = this.isCorrect ? question.getPointReward() : 0;
+        this.isCorrect = questionId.checkAnswer(this.userAnswer);
+        this.pointsEarned = this.isCorrect ? questionId.getPointReward() : 0;
     }
 
     // 유저 답변 업데이트
