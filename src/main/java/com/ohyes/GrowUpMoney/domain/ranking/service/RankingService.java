@@ -52,12 +52,18 @@ public class RankingService {
     }
 
     /**
-     * 특정 사용자의 랭킹 정보 조회
+     * 특정 사용자의 랭킹 정보 조회 (사용자 ID로 조회)
      */
     public RankingResponse getUserRanking(Long userId) {
         Member member = rankingRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        return calculateRank(member);
+    }
 
+    /**
+     * Member 객체를 받아 순위 정보를 계산하는 헬퍼 메서드 (DB 중복 조회 방지용)
+     */
+    private RankingResponse calculateRank(Member member) {
         // ACTIVE 상태가 아니면 랭킹 조회 불가
         if (member.getStatus() != MemberStatus.ACTIVE) {
             throw new IllegalStateException("활성화된 사용자만 랭킹을 조회할 수 있습니다.");
@@ -80,7 +86,7 @@ public class RankingService {
      * 사용자명으로 랭킹 검색
      */
     public List<RankingResponse> searchRankingByUsername(String username) {
-        List<Member> members = rankingRepository.findByUsernameContainingAndStatusOrderByTotalEarnedPointsDesc(
+        List<Member> members = rankingRepository.findMembersByUsernameSearchAndStatus(
                 username, MemberStatus.ACTIVE
         );
 
@@ -105,33 +111,43 @@ public class RankingService {
      * 로그인한 사용자의 랭킹 정보 (앞뒤 5명씩 포함)
      */
     public UserRankResponse getMyRankingWithNearby(Long userId) {
-        // 내 랭킹 정보
-        RankingResponse myRank = getUserRanking(userId);
+
+        if (userId == null) {
+            throw new IllegalArgumentException("사용자 ID가 존재하지 않습니다. (인증 실패)");
+        }
+
+        Member member = rankingRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        RankingResponse myRank = calculateRank(member);
         int myRankPosition = myRank.getRank();
 
-        // 앞뒤 5명씩 조회 (최대 10명)
-        int startRank = Math.max(1, myRankPosition - 5);
-        int endRank = myRankPosition + 5;
+        // 랭킹 범위 계산
+        int surroundingCount = 5;
+        int startRank = Math.max(1, myRankPosition - surroundingCount);
+        int endRank = myRankPosition + surroundingCount;
 
-        // 전체 랭킹 조회
+        // 전체 랭킹 조회 (Top N명 조회)
         List<Member> allMembers = rankingRepository.findTopUsers(
                 PageRequest.of(0, endRank)
         );
 
         // 앞뒤 5명 필터링
         List<RankingResponse> nearbyRanks = new ArrayList<>();
+
+        // 인덱스는 0부터 시작, 순위는 startRank부터 시작
         for (int i = startRank - 1; i < allMembers.size() && i < endRank; i++) {
-            Member member = allMembers.get(i);
+            Member nearbyMember = allMembers.get(i);
             int rank = i + 1;
 
             // 내 랭킹은 제외
-            if (!member.getId().equals(userId)) {
+            if (!nearbyMember.getId().equals(userId)) {
                 nearbyRanks.add(RankingResponse.from(
-                        member.getId(),
-                        member.getUsername(),
+                        nearbyMember.getId(),
+                        nearbyMember.getUsername(),
                         rank,
-                        member.getTotalEarnedPoints(),
-                        member.getTier()
+                        nearbyMember.getTotalEarnedPoints(),
+                        nearbyMember.getTier()
                 ));
             }
         }
@@ -149,14 +165,19 @@ public class RankingService {
         List<Member> topMembers = rankingRepository.findTopUsers(PageRequest.of(0, 3));
 
         List<RankingResponse> rankings = new ArrayList<>();
+        log.info("DB에서 조회된 Top 멤버 수: {}", topMembers.size());
         for (int i = 0; i < topMembers.size(); i++) {
             Member member = topMembers.get(i);
+            log.info("  -> {}번째 멤버 [{}] 변환 시작", i + 1, member.getUsername());
+
+            String tierValue = (member.getTier() != null) ? member.getTier() : "BEGINNER";
+
             rankings.add(RankingResponse.from(
                     member.getId(),
                     member.getUsername(),
                     i + 1,
                     member.getTotalEarnedPoints(),
-                    member.getTier()
+                    tierValue
             ));
         }
 

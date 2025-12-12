@@ -55,4 +55,6 @@ public interface NftTokenRepository extends JpaRepository<NftToken, Long> {
     @Query("SELECT COUNT(t) > 0 FROM NftToken t WHERE t.owner.username = :username AND t.collection.id = :collectionId")
     boolean existsByOwnerUsernameAndCollectionId(@Param("username") String username,
                                                  @Param("collectionId") Long collectionId);
+
+    List<NftToken> findByOwnerIdAndCollectionId(Long id, Long id1);
 }

@@ -38,4 +38,11 @@ public interface RankingRepository extends JpaRepository<Member, Long> {
     // 전체 사용자 수 (ACTIVE 회원만)
     @Query("SELECT COUNT(m) FROM Member m WHERE m.status = 'ACTIVE'")
     Long countTotalActiveUsers();
+
+    // 사용자명으로 랭킹 검색
+    @Query("SELECT m FROM Member m WHERE m.username LIKE CONCAT('%', :username, '%') AND m.status = :status ORDER BY m.totalEarnedPoints DESC")
+    List<Member> findMembersByUsernameSearchAndStatus(
+            @Param("username") String username,
+            @Param("status") MemberStatus status
+    );
 }

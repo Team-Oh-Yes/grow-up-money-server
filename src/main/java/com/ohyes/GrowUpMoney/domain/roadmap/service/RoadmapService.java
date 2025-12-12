@@ -198,6 +198,7 @@ public class RoadmapService {
     // 단원 학습 시작
     @Transactional
     public void startLesson(String username, Long lessonId) {
+        log.info("startLesson 호출: username=[{}]", username);
         // 회원 조회
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다: " + username));
