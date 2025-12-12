@@ -24,7 +24,7 @@ public class Question {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="lesson_id", unique = true, nullable = false)
+    @JoinColumn(name="lesson_id", nullable = false)
     private Lesson lesson;
 
     @Enumerated(EnumType.STRING)

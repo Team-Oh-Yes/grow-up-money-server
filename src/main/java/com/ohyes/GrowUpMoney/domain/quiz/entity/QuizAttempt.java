@@ -29,7 +29,7 @@ public class QuizAttempt {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "question", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @Column(name = "user_answer")
