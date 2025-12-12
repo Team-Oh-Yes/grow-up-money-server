@@ -3,6 +3,7 @@ package com.ohyes.GrowUpMoney.domain.quiz.entity;
 import com.ohyes.GrowUpMoney.domain.quiz.entity.enums.Difficulty;
 import com.ohyes.GrowUpMoney.domain.quiz.entity.enums.QuestionType;
 import com.ohyes.GrowUpMoney.domain.roadmap.entity.Lesson;
+import com.ohyes.GrowUpMoney.domain.roadmap.entity.Theme;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,8 +30,7 @@ public class Question {
     // 레슨했던 아이디 들고오기
     @ManyToOne
     @JoinColumn(name="lesson_id", nullable = false)
-    private Lesson lesson;
-
+    private Lesson lessonId;
 
     // 주관식인지 객관식인지
     @Enumerated(EnumType.STRING)
