@@ -1,20 +1,30 @@
 package com.ohyes.GrowUpMoney.domain.quiz.dto.response;
 
+import com.ohyes.GrowUpMoney.domain.quiz.entity.Question;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Builder
-
-// 사용자가 풀어야할 문제
 public class QuestionResponse {
-    private String question;
+
+    private Long id;
+    private String stem;
+    private String type;
     private List<String> options;
-    private String answer;
-    private String quizExplain;
-    private String questionType;
+    private String answerKey;
+    private String explanation;
+
+    public static QuestionResponse from(Question q, boolean showAnswer) {
+        return QuestionResponse.builder()
+                .id(q.getId())
+                .stem(q.getStem())
+                .type(q.getType().name())
+                .options(q.getOptions())
+                .answerKey(showAnswer ? q.getAnswerKey() : null)
+                .explanation(q.getExplanation())
+                .build();
+    }
 }

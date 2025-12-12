@@ -11,5 +11,19 @@ public class QuizResultResponse {
     private int totalQuestions;     // 총 문제 수
     private int correctCount;       // 맞춘 수
     private int wrongCount;         // 틀린 수
+    private boolean allCorrect;         // 전부 맞음?
     private int reward;             // 보상 포인트/하트 등
-}
+
+        public static QuizResultResponse of(int total, int correct, int rewardPoints) {
+            int incorrect = total - correct;
+
+            return QuizResultResponse.builder()
+                    .totalQuestions(total)
+                    .correctCount(correct)
+                    .wrongCount(incorrect)
+                    .allCorrect(correct == total)
+                    .reward(rewardPoints)
+                    .build();
+        }
+    }
+
