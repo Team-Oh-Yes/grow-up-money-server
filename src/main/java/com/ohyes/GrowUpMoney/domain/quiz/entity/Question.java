@@ -29,7 +29,7 @@ public class Question {
     // 레슨했던 아이디 들고오기
     @ManyToOne
     @JoinColumn(name="lesson_id", nullable = false)
-    private Lesson lessonId;
+    private Lesson lesson;
 
     // 주관식인지 객관식인지
     @Enumerated(EnumType.STRING)

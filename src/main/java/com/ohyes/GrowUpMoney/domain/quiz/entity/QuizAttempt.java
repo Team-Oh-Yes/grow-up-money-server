@@ -34,7 +34,7 @@ public class QuizAttempt {
     // 문제 아이디
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
-    private Question questionId;
+    private Question question;
 
     // 사용자 답
     @Column(name = "user_answer")
@@ -60,8 +60,8 @@ public class QuizAttempt {
 
     // 정답 체크 및 포인트 계산
     public void checkAndRecordAnswer() {
-        this.isCorrect = questionId.checkAnswer(this.userAnswer);
-        this.pointsEarned = this.isCorrect ? questionId.getPointReward() : 0;
+        this.isCorrect = question.checkAnswer(this.userAnswer);
+        this.pointsEarned = this.isCorrect ? question.getPointReward() : 0;
     }
 
     // 유저 답변 업데이트
