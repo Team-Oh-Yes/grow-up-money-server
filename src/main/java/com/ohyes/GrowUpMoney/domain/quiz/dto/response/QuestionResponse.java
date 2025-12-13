@@ -14,7 +14,6 @@ public class QuestionResponse {
 
     private Long id;
     private String stem;
-    private String type;
     private List<String> options;
     private String answerKey;
     private String explanation;
@@ -23,7 +22,6 @@ public class QuestionResponse {
         return QuestionResponse.builder()
                 .id(q.getId())
                 .stem(q.getStem())
-                .type(q.getType().name())
                 .options(q.getOptions())
                 .answerKey(showAnswer ? q.getAnswerKey() : null)
                 .explanation(q.getExplanation())

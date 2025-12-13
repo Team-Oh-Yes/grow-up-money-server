@@ -16,7 +16,6 @@ public class QuestionCreateRequest {
     private List<String> options;
     private String answer;
     private String quizExplain;
-    private String questionType;
     private String difficulty;
     private Long lessonId;
 

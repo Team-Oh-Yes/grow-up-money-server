@@ -16,7 +16,7 @@ public class WrongAnswerListResponse {
     @Builder
     public static class WrongAnswerDetail {
         private Long questionId;
-        private String content;          // 문제 내용
+        private String stem;          // 문제 내용
         private String userAnswer;       // 사용자가 틀린 답
         private String correctAnswer;    // 실제 정답
     }

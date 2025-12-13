@@ -24,7 +24,7 @@ public class QuizAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quiz_attempt_id", unique = true, nullable = false)
-    private Long attempt;
+    private Long id;
 
     // 회원
     @ManyToOne
@@ -43,6 +43,10 @@ public class QuizAttempt {
     // 채점결과
     @Column(name="is_correct", nullable = false)
     private Boolean isCorrect;
+
+    // 재시도 여부
+    @Column(name = "is_retry", nullable = false)
+    private Boolean isRetry = false;
 
     // 지급 포인트
     @Column(name="points_earned", nullable = false)

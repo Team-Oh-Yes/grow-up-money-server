@@ -31,10 +31,10 @@ public class Question {
     @JoinColumn(name="lesson_id", nullable = false)
     private Lesson lesson;
 
-    // 주관식인지 객관식인지
-    @Enumerated(EnumType.STRING)
+    // 주관식인지 객관식인지 <- 지금은이거안씀
+/*    @Enumerated(EnumType.STRING)
     @Column(name="type", nullable = false)
-    private QuestionType type;
+    private QuestionType type;*/
 
 
     // 일반인지 프리미엄인지
