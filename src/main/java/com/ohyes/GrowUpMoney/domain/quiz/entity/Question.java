@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_question")
 @Getter
+@Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Builder

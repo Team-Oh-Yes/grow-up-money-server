@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.quiz.enums;
 
+// 지금이거안쓰고있음
 public enum QuizRewardConstants {
     LESSON_CLEAR(10),
     THEME_CLEAR(50),
