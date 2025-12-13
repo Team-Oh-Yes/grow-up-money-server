@@ -1,28 +1,30 @@
-package com.ohyes.GrowUpMoney.domain.auth.service;
+package com.ohyes.GrowUpMoney.domain.admin.member.service;
 
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
 import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
-import jakarta.transaction.Transactional;
+import com.ohyes.GrowUpMoney.domain.nft.repository.TradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberStatusService {
+@Transactional
+public class MemberSuspensionService {
 
     private final MemberRepository memberRepository;
 
-    //회원 정지 여부 조회
     public MemberStatusResponse getMemberStatus(String username){
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
 
         if (member.isSuspensionExpired()) {
-            member.unsuspend();
-            memberRepository.save(member);
+            unsuspendMember(member.getUsername());
+            member = memberRepository.findByUsername(username).get();
         }
 
         return new MemberStatusResponse(
@@ -35,26 +37,25 @@ public class MemberStatusService {
         );
     }
 
-    //회원 정지
-    @Transactional
     public void suspendMember(SuspendMemberRequest request){
         Member member = memberRepository.findByUsername(request.getUsername())
                 .orElseThrow(UserNotFoundException::new);
-        member.suspend(request.getSuspensionType().getDays(), request.getReason());
+        member.suspend(request.getSuspensionType().getDays(), request.getReason(),request.getSuspensionType());
         memberRepository.save(member);
     }
 
-    @Transactional
     public void unsuspendMember(String username){
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
+
+        if (member.getStatus() != MemberStatus.SUSPENDED) {
+            throw new IllegalStateException("정지된 회원만 해제할 수 있습니다");
+        }
 
         member.unsuspend();
         memberRepository.save(member);
     }
 
-    //회원 탈퇴
-    @Transactional
     public void withdrawMember(String username){
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
@@ -62,7 +63,6 @@ public class MemberStatusService {
         memberRepository.save(member);
     }
 
-    @Transactional
     public void releaseExpiredSuspensions() {
         memberRepository.findAll().stream()
                 .filter(Member::isSuspensionExpired)
@@ -72,5 +72,5 @@ public class MemberStatusService {
                 });
     }
 
-}
 
+}

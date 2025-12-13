@@ -27,7 +27,6 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = true)
     private String password;
 
     @Column(unique = true, nullable = false)
@@ -46,7 +45,6 @@ public class Member {
 
     // ========================================================================
     //포인트,하트 관련
-
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer dailyEarnedPoints = 0;  // 오늘 획득한 포인트
 
@@ -62,15 +60,17 @@ public class Member {
     @Column(nullable = false, columnDefinition = "int default 5")
     private Integer hearts = 5;  // 하루 5개, 틀리면 -1, 0되면 50포인트로 구매
 
-    @Column
     private LocalDateTime lastHeartReset;  // 마지막 하트 리셋 시간 (매일 0시)
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
+    // ========================================================================
 
     @Column(length = 20)
     private String tier;  // 배지 등급 (누적 포인트 기반)
 
-    @Column(nullable = false, columnDefinition = "int default 0")
-    private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
 
+    //회원상태
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) default 'ACTIVE'")
     private MemberStatus status = MemberStatus.ACTIVE;
@@ -157,6 +157,31 @@ public class Member {
         }
     }
 
+    public void unsuspend() {
+        this.status = MemberStatus.ACTIVE;
+        this.suspendedUntil = null;
+        this.suspensionReason = null;
+    }
+
+    public void withdraw() {
+        this.status = MemberStatus.WITHDRAWN;
+        this.suspendedUntil = null;
+        this.suspensionReason = "회원 탈퇴";
+    }
+
+    public boolean isSuspensionExpired() {
+        if (this.status != MemberStatus.SUSPENDED) {
+            return false;
+        }
+        return this.suspendedUntil != null &&
+                LocalDateTime.now().isAfter(this.suspendedUntil);
+    }
+
+    public boolean isActive() {
+        return this.status == MemberStatus.ACTIVE;
+    }
+
+
     // 귀속 포인트 추가 (퀴즈 보상)
     public void addBoundPoint(Integer amount) {
         this.boundPoint += amount;
@@ -184,30 +209,6 @@ public class Member {
         }
         this.boundPoint -= amount;
         this.pointBalance += amount;
-    }
-
-    public void unsuspend() {
-        this.status = MemberStatus.ACTIVE;
-        this.suspendedUntil = null;
-        this.suspensionReason = null;
-    }
-
-    public void withdraw() {
-        this.status = MemberStatus.WITHDRAWN;
-        this.suspendedUntil = null;
-        this.suspensionReason = "회원 탈퇴";
-    }
-
-    public boolean isSuspensionExpired() {
-        if (this.status != MemberStatus.SUSPENDED) {
-            return false;
-        }
-        return this.suspendedUntil != null &&
-                LocalDateTime.now().isAfter(this.suspendedUntil);
-    }
-
-    public boolean isActive() {
-        return this.status == MemberStatus.ACTIVE;
     }
 
     // 하트 차감 (퀴즈 오답)
