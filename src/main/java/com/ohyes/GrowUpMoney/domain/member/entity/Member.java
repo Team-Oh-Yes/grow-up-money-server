@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.auth.entity;
+package com.ohyes.GrowUpMoney.domain.member.entity;
 
 import com.ohyes.GrowUpMoney.domain.auth.enums.SuspensionType;
 import com.ohyes.GrowUpMoney.domain.nft.entity.NftToken;

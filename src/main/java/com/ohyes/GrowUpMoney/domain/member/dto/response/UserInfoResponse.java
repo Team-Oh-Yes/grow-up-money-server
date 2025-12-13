@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.auth.dto.response;
+package com.ohyes.GrowUpMoney.domain.member.dto.response;
 
 import lombok.*;
 

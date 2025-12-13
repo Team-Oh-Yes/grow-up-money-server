@@ -2,11 +2,10 @@ package com.ohyes.GrowUpMoney.domain.admin.member.service;
 
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
-import com.ohyes.GrowUpMoney.domain.nft.repository.TradeRepository;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

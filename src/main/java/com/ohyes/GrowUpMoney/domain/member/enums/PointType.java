@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.auth.enums;
+package com.ohyes.GrowUpMoney.domain.member.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

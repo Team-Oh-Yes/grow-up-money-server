@@ -1,10 +1,10 @@
 package com.ohyes.GrowUpMoney.domain.admin.controller;
 
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.GrantPointRequest;
+import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
-import com.ohyes.GrowUpMoney.domain.auth.service.MemberService;
+import com.ohyes.GrowUpMoney.domain.member.service.MemberService;
 import com.ohyes.GrowUpMoney.domain.auth.service.MemberStatusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

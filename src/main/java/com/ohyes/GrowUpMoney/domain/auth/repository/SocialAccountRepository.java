@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.auth.repository;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.entity.SocialAccount;
 import com.ohyes.GrowUpMoney.domain.auth.enums.SocialProvider;
 import org.springframework.data.jpa.repository.JpaRepository;

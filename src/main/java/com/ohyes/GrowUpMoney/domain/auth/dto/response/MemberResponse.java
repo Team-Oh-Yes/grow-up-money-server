@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.auth.dto.response;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.enums.MemberStatus;
 import com.ohyes.GrowUpMoney.domain.auth.enums.SuspensionType;
 import lombok.Builder;
