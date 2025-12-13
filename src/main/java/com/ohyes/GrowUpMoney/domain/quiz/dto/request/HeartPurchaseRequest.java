@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
+// 하트 구매량
 public class HeartPurchaseRequest {
     private int heartAmount;
 }

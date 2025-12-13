@@ -8,6 +8,8 @@ import java.util.List;
 
 @Getter
 @Builder
+
+// 해당 문제
 public class QuestionResponse {
 
     private Long id;
