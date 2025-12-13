@@ -34,7 +34,7 @@ public class Member {
     private String email;
 
     // ========================================================================
-
+    //프로필 관련
     @Column(length = 250)
     private String introduction;  // 자기소개
 
@@ -44,13 +44,14 @@ public class Member {
     @Column
     private Long favoriteNftId;  // 대표 에쁘띠 ID
 
+    // ========================================================================
+    //포인트,하트 관련
+
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer dailyEarnedPoints = 0;  // 오늘 획득한 포인트
 
     @Column
     private LocalDateTime lastDailyPointReset;  // 마지막 일일 포인트 리셋 시간
-
-    // ========================================================================
 
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer pointBalance = 0;  // NFT 거래 가능한 포인트
@@ -121,16 +122,6 @@ public class Member {
         this.favoriteNftId = favoriteNftId;
     }
 
-    // 비밀번호 수정
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-    // 이메일 수정
-    public void updateEmail(String email) {
-        this.email = email;
-    }
-
     // 일일 획득 포인트 추가
     public void addDailyPoints(Integer amount) {
         this.dailyEarnedPoints += amount;
@@ -154,9 +145,10 @@ public class Member {
     // ========================================================================
 
     // 계정 정지
-    public void suspend(int days, String reason) {
+    public void suspend(int days, String reason, SuspensionType type) {
         this.status = MemberStatus.SUSPENDED;
         this.suspensionReason = reason;
+        this.suspensionType = type;
 
         if (days == -1) {
             this.suspendedUntil = LocalDateTime.of(9000, 12, 31, 23, 59, 59);
