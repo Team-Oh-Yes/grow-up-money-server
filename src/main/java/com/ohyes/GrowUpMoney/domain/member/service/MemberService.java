@@ -1,11 +1,11 @@
-package com.ohyes.GrowUpMoney.domain.auth.service;
+package com.ohyes.GrowUpMoney.domain.member.service;
 
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.GrantPointRequest;
+import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
-import com.ohyes.GrowUpMoney.domain.auth.enums.PointType;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.enums.PointType;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

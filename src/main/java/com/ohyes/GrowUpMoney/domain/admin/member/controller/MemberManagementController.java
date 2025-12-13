@@ -1,11 +1,11 @@
-package com.ohyes.GrowUpMoney.domain.admin.controller;
+package com.ohyes.GrowUpMoney.domain.admin.member.controller;
 
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.GrantPointRequest;
+import com.ohyes.GrowUpMoney.domain.admin.member.service.MemberSuspensionService;
+import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SuspendMemberRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberStatusResponse;
-import com.ohyes.GrowUpMoney.domain.auth.service.MemberService;
-import com.ohyes.GrowUpMoney.domain.auth.service.MemberStatusService;
+import com.ohyes.GrowUpMoney.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberManagementController {
 
-    private final MemberStatusService memberStatusService;
+    private final MemberSuspensionService memberSuspensionService;
     private final MemberService memberService;
 
     @GetMapping("/")
@@ -35,14 +35,14 @@ public class MemberManagementController {
     @GetMapping("/{username}/status")
     public ResponseEntity<MemberStatusResponse> getMemberStatus(
             @PathVariable String username){
-        return ResponseEntity.ok(memberStatusService.getMemberStatus(username));
+        return ResponseEntity.ok(memberSuspensionService.getMemberStatus(username));
     }
 
     //정지
     @PostMapping("/suspend")
     public ResponseEntity<?> suspendMember(@Valid @RequestBody SuspendMemberRequest request){
 
-        memberStatusService.suspendMember(request);
+        memberSuspensionService.suspendMember(request);
         return ResponseEntity.ok(Map.of(
                 "message", "회원이 정지되었습니다.",
                 "success", true
@@ -53,7 +53,7 @@ public class MemberManagementController {
     @PostMapping("/{username}/unsuspend")
     public ResponseEntity<?> unsuspend(
             @PathVariable String username){
-        memberStatusService.unsuspendMember(username);
+        memberSuspensionService.unsuspendMember(username);
         return ResponseEntity.ok(Map.of(
                 "message", "회원 정지가 해제되었습니다.",
                 "success", true
@@ -62,7 +62,7 @@ public class MemberManagementController {
     //탈퇴
     @PostMapping("/{username}/withdraw")
     public ResponseEntity<?> withdrawMember(@PathVariable String username) {
-        memberStatusService.withdrawMember(username);
+        memberSuspensionService.withdrawMember(username);
         return ResponseEntity.ok(Map.of(
                 "message", "회원 탈퇴가 처리되었습니다.",
                 "success", true

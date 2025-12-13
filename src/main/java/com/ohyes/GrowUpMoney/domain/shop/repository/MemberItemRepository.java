@@ -3,7 +3,7 @@ package com.ohyes.GrowUpMoney.domain.shop.repository;
 import com.ohyes.GrowUpMoney.domain.shop.entity.MemberItem;
 import com.ohyes.GrowUpMoney.domain.shop.entity.ShopItem;
 import com.ohyes.GrowUpMoney.domain.shop.entity.enums.ItemType;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

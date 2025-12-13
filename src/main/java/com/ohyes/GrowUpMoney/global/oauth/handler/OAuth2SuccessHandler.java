@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.global.oauth.handler;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomOAuth2User;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.service.RefreshTokenService;
 import com.ohyes.GrowUpMoney.global.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;

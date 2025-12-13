@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.global.jwt;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

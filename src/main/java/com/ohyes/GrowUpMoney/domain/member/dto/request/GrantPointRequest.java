@@ -1,6 +1,6 @@
-package com.ohyes.GrowUpMoney.domain.auth.dto.request;
+package com.ohyes.GrowUpMoney.domain.member.dto.request;
 
-import com.ohyes.GrowUpMoney.domain.auth.enums.PointType;
+import com.ohyes.GrowUpMoney.domain.member.enums.PointType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

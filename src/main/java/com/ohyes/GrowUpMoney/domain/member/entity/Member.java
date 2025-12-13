@@ -1,4 +1,4 @@
-package com.ohyes.GrowUpMoney.domain.auth.entity;
+package com.ohyes.GrowUpMoney.domain.member.entity;
 
 import com.ohyes.GrowUpMoney.domain.auth.enums.SuspensionType;
 import com.ohyes.GrowUpMoney.domain.nft.entity.NftToken;
@@ -27,14 +27,13 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = true)
     private String password;
 
     @Column(unique = true, nullable = false)
     private String email;
 
     // ========================================================================
-
+    //프로필 관련
     @Column(length = 250)
     private String introduction;  // 자기소개
 
@@ -44,13 +43,13 @@ public class Member {
     @Column
     private Long favoriteNftId;  // 대표 에쁘띠 ID
 
+    // ========================================================================
+    //포인트,하트 관련
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer dailyEarnedPoints = 0;  // 오늘 획득한 포인트
 
     @Column
     private LocalDateTime lastDailyPointReset;  // 마지막 일일 포인트 리셋 시간
-
-    // ========================================================================
 
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer pointBalance = 0;  // NFT 거래 가능한 포인트
@@ -61,15 +60,17 @@ public class Member {
     @Column(nullable = false, columnDefinition = "int default 5")
     private Integer hearts = 5;  // 하루 5개, 틀리면 -1, 0되면 50포인트로 구매
 
-    @Column
     private LocalDateTime lastHeartReset;  // 마지막 하트 리셋 시간 (매일 0시)
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
+    // ========================================================================
 
     @Column(length = 20)
     private String tier;  // 배지 등급 (누적 포인트 기반)
 
-    @Column(nullable = false, columnDefinition = "int default 0")
-    private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
 
+    //회원상태
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) default 'ACTIVE'")
     private MemberStatus status = MemberStatus.ACTIVE;
@@ -121,16 +122,6 @@ public class Member {
         this.favoriteNftId = favoriteNftId;
     }
 
-    // 비밀번호 수정
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-    // 이메일 수정
-    public void updateEmail(String email) {
-        this.email = email;
-    }
-
     // 일일 획득 포인트 추가
     public void addDailyPoints(Integer amount) {
         this.dailyEarnedPoints += amount;
@@ -154,9 +145,10 @@ public class Member {
     // ========================================================================
 
     // 계정 정지
-    public void suspend(int days, String reason) {
+    public void suspend(int days, String reason, SuspensionType type) {
         this.status = MemberStatus.SUSPENDED;
         this.suspensionReason = reason;
+        this.suspensionType = type;
 
         if (days == -1) {
             this.suspendedUntil = LocalDateTime.of(9000, 12, 31, 23, 59, 59);
@@ -164,6 +156,31 @@ public class Member {
             this.suspendedUntil = LocalDateTime.now().plusDays(days);
         }
     }
+
+    public void unsuspend() {
+        this.status = MemberStatus.ACTIVE;
+        this.suspendedUntil = null;
+        this.suspensionReason = null;
+    }
+
+    public void withdraw() {
+        this.status = MemberStatus.WITHDRAWN;
+        this.suspendedUntil = null;
+        this.suspensionReason = "회원 탈퇴";
+    }
+
+    public boolean isSuspensionExpired() {
+        if (this.status != MemberStatus.SUSPENDED) {
+            return false;
+        }
+        return this.suspendedUntil != null &&
+                LocalDateTime.now().isAfter(this.suspendedUntil);
+    }
+
+    public boolean isActive() {
+        return this.status == MemberStatus.ACTIVE;
+    }
+
 
     // 귀속 포인트 추가 (퀴즈 보상)
     public void addBoundPoint(Integer amount) {
@@ -192,30 +209,6 @@ public class Member {
         }
         this.boundPoint -= amount;
         this.pointBalance += amount;
-    }
-
-    public void unsuspend() {
-        this.status = MemberStatus.ACTIVE;
-        this.suspendedUntil = null;
-        this.suspensionReason = null;
-    }
-
-    public void withdraw() {
-        this.status = MemberStatus.WITHDRAWN;
-        this.suspendedUntil = null;
-        this.suspensionReason = "회원 탈퇴";
-    }
-
-    public boolean isSuspensionExpired() {
-        if (this.status != MemberStatus.SUSPENDED) {
-            return false;
-        }
-        return this.suspendedUntil != null &&
-                LocalDateTime.now().isAfter(this.suspendedUntil);
-    }
-
-    public boolean isActive() {
-        return this.status == MemberStatus.ACTIVE;
     }
 
     // 하트 차감 (퀴즈 오답)

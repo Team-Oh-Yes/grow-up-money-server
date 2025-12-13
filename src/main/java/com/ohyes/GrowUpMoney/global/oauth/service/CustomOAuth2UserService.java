@@ -2,13 +2,12 @@ package com.ohyes.GrowUpMoney.global.oauth.service;
 
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.OAuth2Response;
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomOAuth2User;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.entity.SocialAccount;
 import com.ohyes.GrowUpMoney.domain.auth.enums.SocialProvider;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.auth.repository.SocialAccountRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
