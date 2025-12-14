@@ -1,8 +1,8 @@
 package com.ohyes.GrowUpMoney.domain.quiz.service;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
-import com.ohyes.GrowUpMoney.domain.auth.service.HeartService;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.service.HeartService;
 import com.ohyes.GrowUpMoney.domain.quiz.dto.request.AnswerSubmitRequest;
 import com.ohyes.GrowUpMoney.domain.quiz.dto.response.*;
 import com.ohyes.GrowUpMoney.domain.quiz.entity.Question;
