@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.nft.service;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.nft.dto.request.ThemeRewardSelectRequest;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftCollectionResponse;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftTokenResponse;

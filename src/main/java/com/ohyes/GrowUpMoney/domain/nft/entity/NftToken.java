@@ -1,7 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.nft.entity;
 
 import com.ohyes.GrowUpMoney.domain.nft.entity.enums.TokenType;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

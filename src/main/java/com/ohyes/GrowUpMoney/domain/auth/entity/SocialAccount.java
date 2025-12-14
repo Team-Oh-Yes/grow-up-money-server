@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.auth.entity;
 
 import com.ohyes.GrowUpMoney.domain.auth.enums.SocialProvider;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

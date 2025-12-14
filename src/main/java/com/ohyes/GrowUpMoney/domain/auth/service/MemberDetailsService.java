@@ -2,7 +2,7 @@ package com.ohyes.GrowUpMoney.domain.auth.service;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

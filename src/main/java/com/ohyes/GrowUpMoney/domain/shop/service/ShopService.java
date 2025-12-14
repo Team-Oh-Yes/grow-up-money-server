@@ -10,9 +10,9 @@ import com.ohyes.GrowUpMoney.domain.shop.exception.InsufficientBoundPointExcepti
 import com.ohyes.GrowUpMoney.domain.shop.exception.ItemNotFoundException;
 import com.ohyes.GrowUpMoney.domain.shop.repository.MemberItemRepository;
 import com.ohyes.GrowUpMoney.domain.shop.repository.ShopItemRepository;
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
-import com.ohyes.GrowUpMoney.domain.auth.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
