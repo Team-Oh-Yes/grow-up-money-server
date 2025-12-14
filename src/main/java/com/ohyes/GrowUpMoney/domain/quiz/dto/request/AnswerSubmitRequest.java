@@ -1,14 +1,17 @@
 package com.ohyes.GrowUpMoney.domain.quiz.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
-// 사용자가 퀴즈의 답을 제출
+@AllArgsConstructor
+@Builder
 public class AnswerSubmitRequest {
-    private Long questionId;
-    private String userAnswer;
+
+    @NotBlank(message = "답안은 필수입니다.")
+    private String answer;
 }

@@ -43,4 +43,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     // 이전 단원 조회
     @Query("SELECT l FROM Lesson l WHERE l.theme.id = :themeId AND l.orderIndex < :currentOrderIndex ORDER BY l.orderIndex DESC LIMIT 1")
     Optional<Lesson> findPreviousLesson(@Param("themeId") Long themeId, @Param("currentOrderIndex") Integer currentOrderIndex);
+
 }

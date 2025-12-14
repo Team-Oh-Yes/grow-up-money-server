@@ -2,6 +2,7 @@ package com.ohyes.GrowUpMoney.domain.quiz.repository;
 
 import com.ohyes.GrowUpMoney.domain.quiz.entity.Question;
 import com.ohyes.GrowUpMoney.domain.quiz.enums.Difficulty;
+import com.ohyes.GrowUpMoney.domain.quiz.enums.QuestionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,26 +13,38 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    // Lesson별 문제 조회 (순서대로, Fetch Join)
-    @Query("SELECT q FROM Question q " +
-            "JOIN FETCH q.lesson " +
-            "WHERE q.lesson.id = :lessonId " +
-            "ORDER BY q.orderIndex ASC")
-    List<Question> findByLessonIdWithLesson(@Param("lessonId") Long lessonId);
+    @Query("SELECT q FROM Question q WHERE q.lesson.id = :lessonId ORDER BY q.orderIndex ASC")
+    List<Question> findByLessonIdOrderByOrderIndex(@Param("lessonId") Long lessonId);
 
-    // Lesson + Difficulty별 문제 조회
-    @Query("SELECT q FROM Question q " +
-            "JOIN FETCH q.lesson " +
-            "WHERE q.lesson.id = :lessonId AND q.difficulty = :difficulty " +
-            "ORDER BY q.orderIndex ASC")
-    List<Question> findByLessonIdAndDifficultyWithLesson(
-            @Param("lessonId") Long lessonId,
-            @Param("difficulty") Difficulty difficulty
-    );
+    @Query("SELECT q FROM Question q WHERE q.lesson.id = :lessonId AND q.isPremium = false ORDER BY q.orderIndex ASC")
+    List<Question> findNormalQuestionsByLessonId(@Param("lessonId") Long lessonId);
 
-    // Lesson의 총 문제 수
+    @Query("SELECT q FROM Question q WHERE q.lesson.id = :lessonId AND q.isPremium = true ORDER BY q.orderIndex ASC")
+    List<Question> findPremiumQuestionsByLessonId(@Param("lessonId") Long lessonId);
+
+    @Query("SELECT q FROM Question q WHERE q.lesson.id = :lessonId AND q.difficulty = :difficulty ORDER BY q.orderIndex ASC")
+    List<Question> findByLessonIdAndDifficulty(@Param("lessonId") Long lessonId, @Param("difficulty") Difficulty difficulty);
+
+    @Query("SELECT q FROM Question q WHERE q.lesson.id = :lessonId AND q.type = :type ORDER BY q.orderIndex ASC")
+    List<Question> findByLessonIdAndType(@Param("lessonId") Long lessonId, @Param("type") QuestionType type);
+
     long countByLessonId(Long lessonId);
 
-    // Lesson의 Difficulty별 문제 수
-    long countByLessonIdAndDifficulty(Long lessonId, Difficulty difficulty);
+    @Query("SELECT COUNT(q) FROM Question q WHERE q.lesson.id = :lessonId AND q.isPremium = false")
+    long countNormalByLessonId(@Param("lessonId") Long lessonId);
+
+    @Query("SELECT COUNT(q) FROM Question q WHERE q.lesson.id = :lessonId AND q.isPremium = true")
+    long countPremiumByLessonId(@Param("lessonId") Long lessonId);
+
+    @Query("SELECT q FROM Question q WHERE q.lesson.theme.id = :themeId ORDER BY q.lesson.orderIndex, q.orderIndex ASC")
+    List<Question> findByThemeId(@Param("themeId") Long themeId);
+
+    @Query("SELECT COUNT(q) FROM Question q WHERE q.lesson.theme.id = :themeId")
+    long countByThemeId(@Param("themeId") Long themeId);
+
+    @Query("SELECT q FROM Question q JOIN FETCH q.lesson l JOIN FETCH l.theme WHERE q.id = :questionId")
+    Question findByIdWithLessonAndTheme(@Param("questionId") Long questionId);
+
+    @Query("SELECT q FROM Question q JOIN FETCH q.lesson WHERE q.lesson.id = :lessonId ORDER BY q.orderIndex ASC")
+    List<Question> findByLessonIdWithLesson(@Param("lessonId") Long lessonId);
 }
