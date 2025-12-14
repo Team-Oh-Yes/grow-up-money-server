@@ -81,4 +81,10 @@ public class UserLessonProgress {
         return member.getUsername();
     }
 
+    public void completeLesson(int finalCorrectCount, int finalTotalAttempted) {
+        this.status = ProgressStatus.COMPLETED;
+        this.correctCount = finalCorrectCount;
+        this.totalAttempted = finalTotalAttempted;
+    }
+
 }

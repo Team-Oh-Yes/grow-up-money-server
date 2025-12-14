@@ -88,4 +88,24 @@ public interface UserLessonProgressRepository extends JpaRepository<UserLessonPr
             "WHERE ulp.member.username = :username AND ulp.lesson.id = :lessonId")
     boolean existsByUsernameAndLessonId(@Param("username") String username,
                                         @Param("lessonId") Long lessonId);
+
+    @Query("SELECT CASE WHEN COUNT(ulp) > 0 THEN true ELSE false END " +
+            "FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username " +
+            "AND ulp.lesson.id = :lessonId " +
+            "AND ulp.status IN ('IN_PROGRESS', 'COMPLETED')")
+    boolean existsByUsernameAndLessonIdAndStatusInProgressOrCompleted(
+            @Param("username") String username,
+            @Param("lessonId") Long lessonId
+    );
+
+    @Query("SELECT COUNT(ulp) FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username " +
+            "AND ulp.lesson.id = :lessonId " +
+            "AND ulp.status = :status")
+    long countByUsernameAndLessonIdAndStatus(
+            @Param("username") String username,
+            @Param("lessonId") Long lessonId,
+            @Param("status") ProgressStatus status
+    );
 }
