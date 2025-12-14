@@ -1,6 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.quiz.entity;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
