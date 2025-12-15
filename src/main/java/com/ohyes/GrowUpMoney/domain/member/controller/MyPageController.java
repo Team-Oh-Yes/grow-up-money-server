@@ -41,7 +41,7 @@ public class MyPageController {
                 .build());
     }
 
-    @PostMapping("/profile")
+    @PatchMapping("/profile")
     public ResponseEntity<Map<String,String>>updateProfile(
             @AuthenticationPrincipal CustomUser user,
             @RequestBody ProfileRequest request
