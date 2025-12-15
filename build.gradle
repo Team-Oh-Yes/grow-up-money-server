@@ -48,8 +48,7 @@ dependencies {
     //Oauth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     //s3
-    implementation 'software.amazon.awssdk:s3:2.25.0'
-
+    implementation 'software.amazon.awssdk:s3:2.26.0'  // 최신 버전
 
 }
 

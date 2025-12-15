@@ -1,7 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.member.controller;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.member.dto.response.PresignedUrlResponse;
 import com.ohyes.GrowUpMoney.domain.member.service.MemberService;
+import com.ohyes.GrowUpMoney.domain.member.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class MyPageController {
 
     private final MemberService memberService;
+    private final S3Service s3Service;
 
     @GetMapping("/profile")
     public ResponseEntity<?>getProfile(){
@@ -32,32 +35,20 @@ public class MyPageController {
 
     //presignedUrl발급
     @GetMapping("/profile/image/presigned-url")
-    public ResponseEntity<Map<String, String>> getPresignedUrl(
+    public ResponseEntity<PresignedUrlResponse> getPresignedUrl(
             @AuthenticationPrincipal CustomUser user,
             @RequestParam String fileName) {
 
         String username = user.getUsername();
-        String key = "profiles/" + username + "/" + UUID.randomUUID() + "-" + fileName;
-        String presignedUrl = s3Service.generatePresignedUploadUrl(key);
+        String key = "profiles/" + username + "/" + fileName;
+        String presignedUrl = s3Service.createPresignedUrl(key);
+        s3Service.uploadPresignedUrl(user,presignedUrl);
 
-        return ResponseEntity.ok(Map.of(
-                "presignedUrl", presignedUrl,
-                "key", key
-        ));
-    }
-
-    //DB에 경로저장
-    @PostMapping("/profile/image")
-    public ResponseEntity<?> saveProfileImage(
-            @AuthenticationPrincipal CustomUser user,
-            @RequestBody Map<String, String> request) {
-
-        String username = user.getUsername();
-        String imageKey = request.get("key");
-
-        memberService.updateProfileImage(username, imageKey);
-
-        return ResponseEntity.ok(Map.of("message", "프로필 이미지 업로드 완료"));
+        return ResponseEntity.ok(PresignedUrlResponse.builder()
+                .presignedUrl(presignedUrl)
+                .message("이미지를 저장했습니다")
+                .build()
+        );
     }
 
 }
