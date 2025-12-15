@@ -1,7 +1,10 @@
 package com.ohyes.GrowUpMoney.domain.member.service;
 
+import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.exception.DuplicateUserException;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
+import com.ohyes.GrowUpMoney.domain.member.dto.request.ProfileRequest;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.enums.PointType;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
@@ -36,6 +39,21 @@ public class MemberService {
             member.addBoundPoint(request.getAmount());
         }
 
+        memberRepository.save(member);
+    }
+
+    public void updateProfile(CustomUser user, ProfileRequest request) {
+        Member member = memberRepository.findByUsername(user.getUsername())
+                .orElseThrow(UserNotFoundException::new);
+        member.setIntroduction(request.getIntroduction());
+
+        if (!request.getUsername().equals(user.getUsername())) {
+            boolean isDuplicate = memberRepository.existsByUsername(request.getUsername());
+            if (isDuplicate) {
+                throw new DuplicateUserException();
+            }
+        }
+        member.setUsername(request.getUsername());
         memberRepository.save(member);
     }
 }

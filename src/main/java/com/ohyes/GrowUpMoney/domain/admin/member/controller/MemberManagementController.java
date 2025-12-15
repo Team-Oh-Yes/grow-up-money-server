@@ -30,7 +30,6 @@ public class MemberManagementController {
         return ResponseEntity.ok(memberService.getMembers(page,size));
     }
 
-
     //회원 상태 보기
     @GetMapping("/{username}/status")
     public ResponseEntity<MemberStatusResponse> getMemberStatus(
