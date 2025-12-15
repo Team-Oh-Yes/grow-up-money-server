@@ -91,6 +91,8 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .requestMatchers("/users/refresh").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                //임시
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
 
                 );
