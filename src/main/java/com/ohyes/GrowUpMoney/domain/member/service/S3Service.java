@@ -43,7 +43,8 @@ public class S3Service {
     public void uploadPresignedUrl(CustomUser user, String presignedUrl) {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 사용자입니다"));
-        member.setProfileImageUrl(presignedUrl);
+        String imagePresignedUrl = presignedUrl.split("\\?")[0];
+        member.setProfileImageUrl(imagePresignedUrl);
         memberRepository.save(member);
     }
 }
