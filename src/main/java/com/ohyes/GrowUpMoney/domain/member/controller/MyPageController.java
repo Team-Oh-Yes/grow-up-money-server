@@ -55,6 +55,7 @@ public class MyPageController {
 
     @GetMapping("/statistics")
     public ResponseEntity<?>getstatistics(){
+
         return ResponseEntity.ok(200);
     }
 
