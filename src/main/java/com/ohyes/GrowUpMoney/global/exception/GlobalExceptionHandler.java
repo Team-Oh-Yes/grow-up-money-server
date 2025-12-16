@@ -2,11 +2,14 @@ package com.ohyes.GrowUpMoney.global.exception;
 
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountSuspendedException;
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountWithdrawnException;
+import com.ohyes.GrowUpMoney.domain.quiz.exception.QuizException;
+import com.ohyes.GrowUpMoney.domain.roadmap.exception.RoadmapException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -85,6 +88,21 @@ public class GlobalExceptionHandler {
         });
         problemDetail.setProperty("errors", errors);
         problemDetail.setProperty("error_code", "E400_VALIDATION_FAILED");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // quizexception
+    @ExceptionHandler(QuizException.class)
+    public ResponseEntity<ProblemDetail> handleQuizException(QuizException ex) {
+        HttpStatus status = ex.getStatus();
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Quiz Error");
+        problemDetail.setProperty("error_code", "E" + status.value() + "_QUIZ_ERROR");
 
         return ResponseEntity.status(status).body(problemDetail);
     }
