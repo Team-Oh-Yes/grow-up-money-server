@@ -22,11 +22,8 @@ public class MemberDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var result = memberRepository.findByUsername(username);
-        if (result.isEmpty()){
-            throw new UserNotFoundException();
-        }
-        var user = result.get();
+        var user = memberRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
