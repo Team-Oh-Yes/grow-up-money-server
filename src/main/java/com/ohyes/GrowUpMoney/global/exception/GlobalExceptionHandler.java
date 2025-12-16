@@ -2,6 +2,7 @@ package com.ohyes.GrowUpMoney.global.exception;
 
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountSuspendedException;
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountWithdrawnException;
+import com.ohyes.GrowUpMoney.domain.auth.exception.PasswordException;
 import com.ohyes.GrowUpMoney.domain.quiz.exception.QuizException;
 import com.ohyes.GrowUpMoney.domain.roadmap.exception.RoadmapException;
 import org.springframework.http.HttpStatus;
@@ -136,4 +137,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(problemDetail);
     }
+
+
+    @ExceptionHandler(PasswordException.class)
+    public ResponseEntity<ProblemDetail> handlePasswordException(PasswordException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Password Error");
+        problemDetail.setProperty("error_code", "E400_PASSWORD_ERROR");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
 }
