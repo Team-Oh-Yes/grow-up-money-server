@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 // 퀴즈 풀이 기록 남기는 테이블
 @Entity
 @Table(name = "tb_quiz_attempt", indexes = {
-        @Index(name = "idx_quiz_attempt_username", columnList = "username"),
+        @Index(name = "idx_quiz_attempt_username", columnList = "member_id"),
         @Index(name = "idx_quiz_attempt_question", columnList = "question_id"),
         @Index(name = "idx_quiz_attempt_created", columnList = "created_at")
 })
@@ -29,7 +29,7 @@ public class QuizAttempt {
 
     // 회원
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", referencedColumnName = "username" , nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     // 문제 아이디
