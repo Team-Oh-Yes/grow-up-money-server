@@ -9,18 +9,22 @@ public class CustomUser implements UserDetails {
 
     private Long id;
     private String username;
+    private String displayName;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUser(Long id, String username, String password,
+    public CustomUser(Long id, String username,String displayName, String password,
                       Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
+        this.displayName = displayName;
         this.password = password;
         this.authorities = authorities;
     }
 
     public Long getMemberId() {return id;}
+
+    public String getDisplayName() {return displayName;}
 
     @Override public Collection<? extends GrantedAuthority> getAuthorities() {return authorities;}
 

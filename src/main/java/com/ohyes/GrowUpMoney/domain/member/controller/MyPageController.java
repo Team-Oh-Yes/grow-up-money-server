@@ -29,12 +29,13 @@ public class MyPageController {
     public ResponseEntity<ProfileResponse>getProfile(
             @AuthenticationPrincipal CustomUser user
     ){
-        String username = user.getUsername();
-        Member member = memberRepository.findByUsername(username)
+        System.out.println("요청들어옴");
+        String displayName = user.getDisplayName();
+        Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));
 
         return ResponseEntity.ok(ProfileResponse.builder()
-                .username(username)
+                .displayName(displayName)
                 .introduction(member.getIntroduction())
                 .profileImageUrl(member.getProfileImageUrl())
                 .favoriteNftId(member.getFavoriteNftId())//추후에 id가아닌 nft이미지로 변경예정

@@ -69,6 +69,7 @@ public class JwtFilter extends OncePerRequestFilter {
         var customUser = new CustomUser(
                 userId,
                 claim.get("username").toString(),
+                claim.get("displayName").toString(),
                 "none",
                 authorities
         );
