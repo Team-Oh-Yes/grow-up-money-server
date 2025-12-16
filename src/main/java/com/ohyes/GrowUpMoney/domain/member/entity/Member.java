@@ -163,6 +163,7 @@ public class Member {
         this.status = MemberStatus.ACTIVE;
         this.suspendedUntil = null;
         this.suspensionReason = null;
+        this.suspensionType = null;
     }
 
     public void withdraw() {
