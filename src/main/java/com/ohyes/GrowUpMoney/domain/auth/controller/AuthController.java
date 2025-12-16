@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.auth.controller;
 
+import com.ohyes.GrowUpMoney.domain.auth.dto.request.ChangePassWordRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.LoginRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SignUpRequest;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
@@ -148,4 +150,17 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid or expired refresh token");
         }
     }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<Map<String,String>> changePassword(
+            @AuthenticationPrincipal CustomUser user,
+            @RequestBody ChangePassWordRequest request
+            ){
+        authService.changePassword(user,request);
+
+        return ResponseEntity.ok(Map.of(
+                "message","비밀번호가 변경되었습니다."
+        ));
+    }
+
 }
