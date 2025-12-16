@@ -122,7 +122,7 @@ public class AuthController {
                     .toList();
 
             Authentication auth = new UsernamePasswordAuthenticationToken(
-                    new CustomUser(user.getId(), user.getUsername(), "none", authorities),
+                    new CustomUser(user.getId(), user.getUsername(), user.getDisplayName(),"none", authorities),
                     null,
                     authorities
             );

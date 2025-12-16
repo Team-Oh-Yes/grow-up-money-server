@@ -45,15 +45,9 @@ public class MemberService {
     public void updateProfile(CustomUser user, ProfileRequest request) {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(UserNotFoundException::new);
-        member.setIntroduction(request.getIntroduction());
 
-        if (!request.getUsername().equals(user.getUsername())) {
-            boolean isDuplicate = memberRepository.existsByUsername(request.getUsername());
-            if (isDuplicate) {
-                throw new DuplicateUserException();
-            }
-        }
-        member.setUsername(request.getUsername());
+        member.setIntroduction(request.getIntroduction());
+        member.setUsername(request.getDispalyName());
         memberRepository.save(member);
     }
 }

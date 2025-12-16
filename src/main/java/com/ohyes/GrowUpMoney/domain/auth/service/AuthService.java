@@ -43,6 +43,7 @@ public class AuthService {
         member.setUsername(request.getUsername());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         member.setEmail(request.getEmail());
+        member.setDisplayName(request.getUsername());
         memberRepository.save(member); // DB 저장
 
         return new SignUpResponse("회원가입이 성공적으로 완료되었습니다.", true);

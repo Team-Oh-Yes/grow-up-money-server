@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class ProfileResponse {
 
-    private String username; //유저이름
+    private String displayName; //유저이름
 
     private String introduction; //자기소개
 
