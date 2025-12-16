@@ -29,7 +29,6 @@ public class MyPageController {
     public ResponseEntity<ProfileResponse>getProfile(
             @AuthenticationPrincipal CustomUser user
     ){
-        System.out.println("요청들어옴");
         String displayName = user.getDisplayName();
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));

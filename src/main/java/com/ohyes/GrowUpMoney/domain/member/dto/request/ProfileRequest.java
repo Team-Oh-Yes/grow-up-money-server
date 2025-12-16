@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class ProfileRequest {
 
-    private String dispalyName;
+    private String displayName;
     private String introduction;
 
 }
