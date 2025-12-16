@@ -11,18 +11,18 @@ import lombok.*;
 
 public class RankingResponse{
     private Long userId;
-    private String username;
+    private String displayName;
     private Integer rank;
     private Integer totalEarnedPoints;
     private String tier;
 
     private Boolean isTopThree;
 
-    public static RankingResponse from(Long userId, String username, Integer rank,
+    public static RankingResponse from(Long userId, String displayName, Integer rank,
                                        Integer totalEarnedPoints, String tier) {
         return RankingResponse.builder()
                 .userId(userId)
-                .username(username)
+                .displayName(displayName)
                 .rank(rank)
                 .totalEarnedPoints(totalEarnedPoints)
                 .tier(tier)

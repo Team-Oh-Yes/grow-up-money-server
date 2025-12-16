@@ -41,7 +41,7 @@ public class RankingService {
             int rank = startRank + i;
             rankings.add(RankingResponse.from(
                     member.getId(),
-                    member.getUsername(),
+                    member.getDisplayName(),
                     rank,
                     member.getTotalEarnedPoints(),
                     member.getTier()
@@ -75,7 +75,7 @@ public class RankingService {
 
         return RankingResponse.from(
                 member.getId(),
-                member.getUsername(),
+                member.getDisplayName(),
                 rank,
                 member.getTotalEarnedPoints(),
                 member.getTier()
@@ -85,9 +85,9 @@ public class RankingService {
     /**
      * 사용자명으로 랭킹 검색
      */
-    public List<RankingResponse> searchRankingByUsername(String username) {
-        List<Member> members = rankingRepository.findMembersByUsernameSearchAndStatus(
-                username, MemberStatus.ACTIVE
+    public List<RankingResponse> searchRankingByDisplayname(String displayName) {
+        List<Member> members = rankingRepository.findMembersByDisplayNameSearchAndStatus(
+                displayName, MemberStatus.ACTIVE
         );
 
         List<RankingResponse> rankings = new ArrayList<>();
@@ -97,7 +97,7 @@ public class RankingService {
 
             rankings.add(RankingResponse.from(
                     member.getId(),
-                    member.getUsername(),
+                    member.getDisplayName(),
                     rank,
                     member.getTotalEarnedPoints(),
                     member.getTier()
@@ -144,7 +144,7 @@ public class RankingService {
             if (!nearbyMember.getId().equals(userId)) {
                 nearbyRanks.add(RankingResponse.from(
                         nearbyMember.getId(),
-                        nearbyMember.getUsername(),
+                        nearbyMember.getDisplayName(),
                         rank,
                         nearbyMember.getTotalEarnedPoints(),
                         nearbyMember.getTier()
@@ -168,13 +168,13 @@ public class RankingService {
         log.info("DB에서 조회된 Top 멤버 수: {}", topMembers.size());
         for (int i = 0; i < topMembers.size(); i++) {
             Member member = topMembers.get(i);
-            log.info("  -> {}번째 멤버 [{}] 변환 시작", i + 1, member.getUsername());
+            log.info("  -> {}번째 멤버 [{}] 변환 시작", i + 1, member.getDisplayName());
 
             String tierValue = (member.getTier() != null) ? member.getTier() : "BEGINNER";
 
             rankings.add(RankingResponse.from(
                     member.getId(),
-                    member.getUsername(),
+                    member.getDisplayName(),
                     i + 1,
                     member.getTotalEarnedPoints(),
                     tierValue
