@@ -1,29 +1,53 @@
 package com.ohyes.GrowUpMoney.domain.quiz.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 
 // 퀴즈 제출 후 결과
 public class QuizResultResponse {
-    private int totalQuestions;     // 총 문제 수
-    private int correctCount;        // 맞춘 수
-    private int wrongCount;         // 틀린 수
-    private boolean allCorrect;         // 전부 맞음
-    private int rewardPoints;             // 보상 포인트 등
+    private Long questionId;
+    private Boolean isCorrect;
+    private String correctAnswer;
+    private String userAnswer;
+    private Integer awardedPoints;
+    private String explanation;
+    private Integer remainingHearts;
+    private Integer attemptCount;
 
-        public static QuizResultResponse of(int total, int correct, int rewardPoints) {
-            int incorrect = total - correct;
-
-            return QuizResultResponse.builder()
-                    .totalQuestions(total)
-                    .correctCount(correct)
-                    .wrongCount(incorrect)
-                    .allCorrect(correct == total)
-                    .rewardPoints(rewardPoints)
-                    .build();
-        }
+    public static QuizResultResponse correct(Long questionId, String userAnswer, String correctAnswer,
+                                             int awardedPoints, String explanation, int remainingHearts, int attemptCount) {
+        return QuizResultResponse.builder()
+                .questionId(questionId)
+                .isCorrect(true)
+                .correctAnswer(correctAnswer)
+                .userAnswer(userAnswer)
+                .awardedPoints(awardedPoints)
+                .explanation(explanation)
+                .remainingHearts(remainingHearts)
+                .attemptCount(attemptCount)
+                .build();
     }
+
+    public static QuizResultResponse incorrect(Long questionId, String userAnswer, String correctAnswer,
+                                               String explanation, int remainingHearts, int attemptCount) {
+        return QuizResultResponse.builder()
+                .questionId(questionId)
+                .isCorrect(false)
+                .correctAnswer(correctAnswer)
+                .userAnswer(userAnswer)
+                .awardedPoints(0)
+                .explanation(explanation)
+                .remainingHearts(remainingHearts)
+                .attemptCount(attemptCount)
+                .build();
+    }
+
+}
 

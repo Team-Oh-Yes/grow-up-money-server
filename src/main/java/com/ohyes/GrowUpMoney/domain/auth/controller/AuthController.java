@@ -29,7 +29,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-@Tag(name = "users", description = "Swagger 테스트용 API")
+@Tag(name = "users", description = "인증/인가 API")
 public class AuthController {
 
     private final MemberRepository memberRepository;
@@ -122,7 +122,7 @@ public class AuthController {
                     .toList();
 
             Authentication auth = new UsernamePasswordAuthenticationToken(
-                    new CustomUser(user.getId(), user.getUsername(), "none", authorities),
+                    new CustomUser(user.getId(), user.getUsername(), user.getDisplayName(),"none", authorities),
                     null,
                     authorities
             );

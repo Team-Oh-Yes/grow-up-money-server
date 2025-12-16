@@ -1,20 +1,21 @@
 package com.ohyes.GrowUpMoney.domain.quiz.entity;
 
-import com.ohyes.GrowUpMoney.domain.auth.entity.Member;
+import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.cglib.core.Local;
-import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 
 // 퀴즈 풀이 기록 남기는 테이블
 @Entity
-@Table(name = "tb_quiz_attempt")
+@Table(name = "tb_quiz_attempt", indexes = {
+        @Index(name = "idx_quiz_attempt_username", columnList = "member_id"),
+        @Index(name = "idx_quiz_attempt_question", columnList = "question_id"),
+        @Index(name = "idx_quiz_attempt_created", columnList = "created_at")
+})
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,16 +24,16 @@ public class QuizAttempt {
     // 풀이 기록 아이디
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "quiz_attempt_id", unique = true, nullable = false)
+    @Column(name = "quiz_attempt_id")
     private Long id;
 
     // 회원
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     // 문제 아이디
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
@@ -44,34 +45,42 @@ public class QuizAttempt {
     @Column(name="is_correct", nullable = false)
     private Boolean isCorrect;
 
-    // 재시도 여부
-    @Column(name = "is_retry", nullable = false)
-    private Boolean isRetry = false;
+    // 받은 포인트
+    @Column(name = "awarded_points", nullable = false)
+    private Integer awardedPoints;
 
-    // 지급 포인트
-    @Column(name="points_earned", nullable = false)
-    private Integer pointsEarned;
+    // 시도 횟수
+    @Column(name = "attempt_count", nullable = false)
+    private Integer attemptCount;
 
-    // 풀이 시간
-    @CreationTimestamp
-    @Column(name = "attempted_at", updatable = false)
-    private LocalDateTime attemptedAt;
+    // 생성 시간
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        this.attemptedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        if (this.attemptCount == null) {
+            this.attemptCount = 1;
+        }
+        if (this.awardedPoints == null) {
+            this.awardedPoints = 0;
+        }
     }
 
-    // 정답 체크 및 포인트 계산
-    public void checkAndRecordAnswer() {
-        this.isCorrect = question.checkAnswer(this.userAnswer);
-        this.pointsEarned = this.isCorrect ? question.getPointReward() : 0;
+    public void grade(boolean isCorrect, int awardedPoints) {
+        this.isCorrect = isCorrect;
+        this.awardedPoints = awardedPoints;
     }
 
-    // 유저 답변 업데이트
-    public void updateUserAnswer(String newAnswer) {
-        this.userAnswer = newAnswer;
-        checkAndRecordAnswer();
+    public void incrementAttemptCount() {
+        this.attemptCount++;
+    }
+
+    public void markAsCorrect(int awardedPoints) {
+        this.isCorrect = true;
+        this.awardedPoints = awardedPoints;
+        this.attemptCount++;
     }
 
 }
