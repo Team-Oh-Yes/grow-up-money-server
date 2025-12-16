@@ -103,7 +103,7 @@ public class AuthService {
 //                .sameSite("Lax")
                 //.domain("localhost")
                 .sameSite("None")
-                .maxAge(3600)  // 1시간
+                .maxAge(60 * 60)  // 1시간
                 .build();
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
@@ -113,7 +113,7 @@ public class AuthService {
 //                .sameSite("Lax")
                 //.domain("growmoney.duckdns.org")
                 .sameSite("None")
-                .maxAge(604800) //1주일
+                .maxAge(60 * 60 * 24 * 7) //1주일
                 .build();
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString());
