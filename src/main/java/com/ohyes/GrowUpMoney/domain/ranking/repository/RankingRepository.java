@@ -19,7 +19,7 @@ public interface RankingRepository extends JpaRepository<Member, Long> {
     Page<Member> findAllByStatusOrderByTotalEarnedPointsDesc(MemberStatus status, Pageable pageable);
 
     // 사용자명으로 검색 (부분 일치, ACTIVE 회원만)
-    List<Member> findByUsernameContainingAndStatusOrderByTotalEarnedPointsDesc(String username, MemberStatus status);
+    List<Member> findByDisplayNameContainingAndStatusOrderByTotalEarnedPointsDesc(String displayName, MemberStatus status);
 
     // 특정 사용자보다 포인트가 높은 사용자 수 (순위 계산용, ACTIVE 회원만)
     @Query("SELECT COUNT(m) FROM Member m WHERE m.totalEarnedPoints > :totalEarnedPoints AND m.status = 'ACTIVE'")
@@ -33,16 +33,16 @@ public interface RankingRepository extends JpaRepository<Member, Long> {
     Optional<Member> findById(Long userId);
 
     // 사용자명으로 조회
-    Optional<Member> findByUsername(String username);
+    Optional<Member> findByDisplayName(String displayName);
 
     // 전체 사용자 수 (ACTIVE 회원만)
     @Query("SELECT COUNT(m) FROM Member m WHERE m.status = 'ACTIVE'")
     Long countTotalActiveUsers();
 
     // 사용자명으로 랭킹 검색
-    @Query("SELECT m FROM Member m WHERE m.username LIKE CONCAT('%', :username, '%') AND m.status = :status ORDER BY m.totalEarnedPoints DESC")
-    List<Member> findMembersByUsernameSearchAndStatus(
-            @Param("username") String username,
+    @Query("SELECT m FROM Member m WHERE m.displayName LIKE CONCAT('%', :displayName, '%') AND m.status = :status ORDER BY m.totalEarnedPoints DESC")
+    List<Member> findMembersByDisplayNameSearchAndStatus(
+            @Param("displayName") String displayName,
             @Param("status") MemberStatus status
     );
 }

@@ -47,14 +47,14 @@ public class RankingController {
 
     /**
      * 사용자명으로 랭킹 검색
-     * GET /rank/search?username=홍길동
+     * GET /rank/search?displayName=홍길동
      */
     @GetMapping("/search")
     public ResponseEntity<List<RankingResponse>> searchRanking(
-            @RequestParam(required=false) String username
+            @RequestParam(required=false) String dispalyName
     ) {
-        log.info("사용자명 검색 요청 - username: {}", username);
-        List<RankingResponse> rankings = rankingService.searchRankingByUsername(username);
+        log.info("사용자명 검색 요청 - displayName: {}", dispalyName);
+        List<RankingResponse> rankings = rankingService.searchRankingByDisplayname(dispalyName);
         return ResponseEntity.ok(rankings);
     }
 
