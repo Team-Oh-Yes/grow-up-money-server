@@ -47,7 +47,7 @@ public class MemberService {
                 .orElseThrow(UserNotFoundException::new);
 
         member.setIntroduction(request.getIntroduction());
-        member.setUsername(request.getDispalyName());
+        member.setDisplayName(request.getDispalyName());
         memberRepository.save(member);
     }
 }
