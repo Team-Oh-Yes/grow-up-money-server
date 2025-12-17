@@ -37,7 +37,6 @@ public class NftCollectionService {
         collection.setName(request.getName());
         collection.setRarity(request.getRarity());
         collection.setImage2dUrl(request.getImage2dUrl());
-        collection.setImage3dUrl(request.getImage3dUrl());
         collection.setMaxSupply(request.getMaxSupply());
         collection.setDescription(request.getDescription());
 
@@ -95,7 +94,6 @@ public class NftCollectionService {
         collection.setName(request.getName());
         collection.setRarity(request.getRarity());
         collection.setImage2dUrl(request.getImage2dUrl());
-        collection.setImage3dUrl(request.getImage3dUrl());
         collection.setMaxSupply(request.getMaxSupply());
         collection.setDescription(request.getDescription());
 

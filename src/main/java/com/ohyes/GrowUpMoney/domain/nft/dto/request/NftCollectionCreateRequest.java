@@ -26,9 +26,6 @@ public class NftCollectionCreateRequest {
     @NotBlank(message = "2D 이미지 URL은 필수입니다.")
     private String image2dUrl;
 
-    @NotBlank(message = "3D 이미지 URL은 필수입니다.")
-    private String image3dUrl;
-
     @NotNull(message = "최대 발행량은 필수입니다.")
     @Min(value = 1, message = "최대 발행량은 1 이상이어야 합니다.")
     @Max(value = 10000, message = "최대 발행량은 10000 이하여야 합니다.")
