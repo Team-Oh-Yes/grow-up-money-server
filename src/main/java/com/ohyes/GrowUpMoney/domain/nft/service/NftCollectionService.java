@@ -26,7 +26,7 @@ public class NftCollectionService {
 
     // 컬렉션 등록 (관리자)
     @Transactional
-    public NftCollectionResponse createCollection(NftCollectionCreateRequest request) {
+    public void createCollection(NftCollectionCreateRequest request) {
         log.info("NFT 컬렉션 생성 시작: {}", request.getName());
 
         Theme theme = themeRepository.findById(request.getThemeId())
@@ -37,14 +37,11 @@ public class NftCollectionService {
         collection.setName(request.getName());
         collection.setRarity(request.getRarity());
         collection.setImage2dUrl(request.getImage2dUrl());
-        collection.setImage3dUrl(request.getImage3dUrl());
         collection.setMaxSupply(request.getMaxSupply());
         collection.setDescription(request.getDescription());
 
         NftCollection saved = nftCollectionRepository.save(collection);
         log.info("NFT 컬렉션 생성 완료: ID={}, Name={}", saved.getId(), saved.getName());
-
-        return NftCollectionResponse.from(saved);
     }
 
     // 전체 컬렉션 조회
@@ -95,7 +92,6 @@ public class NftCollectionService {
         collection.setName(request.getName());
         collection.setRarity(request.getRarity());
         collection.setImage2dUrl(request.getImage2dUrl());
-        collection.setImage3dUrl(request.getImage3dUrl());
         collection.setMaxSupply(request.getMaxSupply());
         collection.setDescription(request.getDescription());
 

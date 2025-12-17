@@ -1,5 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.nft.controller;
 
+import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.member.service.S3Service;
 import com.ohyes.GrowUpMoney.domain.nft.dto.request.NftCollectionCreateRequest;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftCollectionResponse;
 import com.ohyes.GrowUpMoney.domain.nft.dto.response.NftTokenResponse;
@@ -9,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,14 +24,17 @@ public class AdminNftController {
 
     private final NftCollectionService nftCollectionService;
     private final NftTokenService nftTokenService;
+    private final S3Service s3Service;
 
     // NFT 컬렉션 등록
     @PostMapping("/collections")
-    public ResponseEntity<NftCollectionResponse> createCollection(
+    public ResponseEntity<Map<String,String>> createCollection(
             @Valid @RequestBody NftCollectionCreateRequest request) {
         log.info("NFT 컬렉션 등록 요청: name={}", request.getName());
-        NftCollectionResponse collection = nftCollectionService.createCollection(request);
-        return ResponseEntity.ok(collection);
+        nftCollectionService.createCollection(request);
+        return ResponseEntity.ok(Map.of(
+                "message","FT등록을 성공하였습니다."
+        ));
     }
 
     // NFT 컬렉션 수정
@@ -74,5 +80,16 @@ public class AdminNftController {
                 collectionId, username);
         NftTokenResponse token = nftTokenService.mintCollectionNft(collectionId, username);
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/image/presigned-url")
+    public String getPresignedUrl(
+            @RequestParam String fileName
+            ){
+        String key = "nft/" + fileName;
+
+        String presignedUrl = s3Service.createPresignedUrl(key);
+
+        return presignedUrl;
     }
 }
