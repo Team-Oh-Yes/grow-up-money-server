@@ -109,8 +109,10 @@ public interface UserLessonProgressRepository extends JpaRepository<UserLessonPr
             @Param("status") ProgressStatus status
     );
 
-    // 사용자가 지금 진행 중인 단원
+    // 진행 중인 단원 조회
     @Query("SELECT ulp FROM UserLessonProgress ulp " +
+            "JOIN FETCH ulp.lesson l " +
+            "JOIN FETCH l.theme " +
             "WHERE ulp.member.username = :username " +
             "AND ulp.status = 'IN_PROGRESS' " +
             "ORDER BY ulp.updatedAt DESC")
