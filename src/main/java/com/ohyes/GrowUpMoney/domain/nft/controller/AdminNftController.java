@@ -28,11 +28,13 @@ public class AdminNftController {
 
     // NFT 컬렉션 등록
     @PostMapping("/collections")
-    public ResponseEntity<NftCollectionResponse> createCollection(
+    public ResponseEntity<Map<String,String>> createCollection(
             @Valid @RequestBody NftCollectionCreateRequest request) {
         log.info("NFT 컬렉션 등록 요청: name={}", request.getName());
-        NftCollectionResponse collection = nftCollectionService.createCollection(request);
-        return ResponseEntity.ok(collection);
+        nftCollectionService.createCollection(request);
+        return ResponseEntity.ok(Map.of(
+                "message","FT등록을 성공하였습니다."
+        ));
     }
 
     // NFT 컬렉션 수정
