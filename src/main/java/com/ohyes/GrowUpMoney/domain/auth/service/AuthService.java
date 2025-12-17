@@ -1,5 +1,6 @@
 package com.ohyes.GrowUpMoney.domain.auth.service;
 
+import com.ohyes.GrowUpMoney.domain.auth.dto.request.ChangePassWordRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.LoginResponse;
 import com.ohyes.GrowUpMoney.domain.auth.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.SignUpResponse;
@@ -126,4 +127,20 @@ public class AuthService {
         );
     }
 
+    public void changePassword(CustomUser user, ChangePassWordRequest request) {
+        String newPassword = passwordEncoder.encode(request.getNewPassword());
+        Member member = memberRepository.findByUsername(user.getUsername())
+                .orElseThrow(UserNotFoundException::new);
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), member.getPassword())) {
+            throw new PasswordException.InvalidPasswordException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        if (passwordEncoder.matches(request.getNewPassword(), member.getPassword())) {
+            throw new PasswordException.SamePasswordException("새 비밀번호는 기존 비밀번호와 달라야 합니다.");
+        }
+
+        member.setPassword(newPassword);
+        memberRepository.save(member);
+    }
 }

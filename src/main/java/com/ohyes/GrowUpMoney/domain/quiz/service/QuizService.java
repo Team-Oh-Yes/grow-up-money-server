@@ -87,9 +87,9 @@ public class QuizService {
             throw new QuizException.PremiumAccessDeniedException();
         }
 
-        if (quizAttemptRepository.existsCorrectAttempt(username, questionId)) {
-            throw new QuizException.AlreadyCorrectException(questionId);
-        }
+//        if (quizAttemptRepository.existsCorrectAttempt(username, questionId)) {
+//            throw new QuizException.AlreadyCorrectException(questionId);
+//        }
 
         boolean isCorrect = question.checkAnswer(request.getAnswer());
         int awardedPoints = 0;

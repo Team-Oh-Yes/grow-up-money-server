@@ -77,7 +77,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/error").permitAll()
-                                .requestMatchers("/users/signup","/users/login","/users/logout", "/users/me").permitAll()
+                                .requestMatchers("/users/signup","/users/login","/users/logout", "/users/me", "/users/sendEmail", "/users/verifyEmail").permitAll()
                                 .requestMatchers("/healthCheck").permitAll()
                                 .requestMatchers(
                                         "/oauth2/**",
