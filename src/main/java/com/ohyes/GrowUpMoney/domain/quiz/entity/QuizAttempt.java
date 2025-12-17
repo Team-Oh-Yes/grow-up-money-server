@@ -29,7 +29,7 @@ public class QuizAttempt {
 
     // 회원
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", referencedColumnName = "username", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     // 문제 아이디

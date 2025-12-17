@@ -108,4 +108,11 @@ public interface UserLessonProgressRepository extends JpaRepository<UserLessonPr
             @Param("lessonId") Long lessonId,
             @Param("status") ProgressStatus status
     );
+
+    // 사용자가 지금 진행 중인 단원
+    @Query("SELECT ulp FROM UserLessonProgress ulp " +
+            "WHERE ulp.member.username = :username " +
+            "AND ulp.status = 'IN_PROGRESS' " +
+            "ORDER BY ulp.updatedAt DESC")
+    List<UserLessonProgress> findInProgressByUsername(@Param("username") String username);
 }
