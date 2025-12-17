@@ -187,4 +187,61 @@ public class QuizRewardService {
             return new TotalCompletionResult(false, 0);
         }
     }
+
+    @Transactional
+    public LessonCompletionResult rewardLessonCompletion(String username, Long lessonId) {
+        log.info("단원 완료 보상 처리: username={}, lessonId={}", username, lessonId);
+
+        Member member = findMember(username);
+        Lesson lesson = findLesson(lessonId);
+
+        // 이미 완료한 단원인지 확인
+        UserLessonProgress progress = userLessonProgressRepository
+                .findByUsernameAndLessonId(username, lessonId)
+                .orElse(null);
+
+        if (progress != null && progress.getStatus() == ProgressStatus.COMPLETED) {
+            log.warn("이미 완료한 단원: username={}, lessonId={}", username, lessonId);
+            return LessonCompletionResult.alreadyCompleted();
+        }
+
+        // 정답 개수 확인
+        long totalQuestions = questionRepository.countByLessonId(lessonId);
+        long correctCount = quizAttemptRepository.countCorrectByUsernameAndLessonId(username, lessonId);
+
+        if (correctCount < totalQuestions) {
+            return LessonCompletionResult.notCompleted((int) correctCount, (int) totalQuestions);
+        }
+
+        // 프리미엄 확인 (role 기반)
+        boolean isPremium = member.getRole() != null && member.getRole().contains("PREMIUM");
+        int bonusPoints = isPremium ?
+                QuizRewardConstants.PREMIUM_LESSON_BONUS : QuizRewardConstants.NORMAL_LESSON_BONUS;
+
+        // 귀속 포인트로 지급 (Member.addBoundPoint 사용)
+        member.addBoundPoint(bonusPoints);
+
+        // 뽑기권 지급 추가
+        member.addGachaTickets(QuizRewardConstants.GACHA_TICKET_PER_LESSON);
+
+        memberRepository.save(member);
+
+        if (progress == null) {
+            progress = UserLessonProgress.builder()
+                    .member(member)
+                    .lesson(lesson)
+                    .status(ProgressStatus.COMPLETED)
+                    .build();
+        } else {
+            progress.completeLesson((int) correctCount, (int) totalQuestions);
+        }
+        userLessonProgressRepository.save(progress);
+
+        log.info("단원 완료 보상 지급: lessonId={}, bonusPoints={}, gachaTicket=1", lessonId, bonusPoints);
+
+        checkAndRewardThemeCompletion(username, lesson.getTheme().getId());
+
+        return LessonCompletionResult.completed(bonusPoints, 1);
+    }
+
 }

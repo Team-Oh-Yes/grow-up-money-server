@@ -4,9 +4,9 @@ import com.ohyes.GrowUpMoney.domain.gacha.enums.GachaRewardType;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tb_gacha_history")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GachaHistory {
 
@@ -43,7 +44,6 @@ public class GachaHistory {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Builder
     public GachaHistory(Member member, GachaRewardType rewardType, Integer rewardValue,
                         Long nftCollectionId, Long nftTokenId) {
         this.member = member;
@@ -51,6 +51,25 @@ public class GachaHistory {
         this.rewardValue = rewardValue;
         this.nftCollectionId = nftCollectionId;
         this.nftTokenId = nftTokenId;
+    }
+
+    // 정적 팩토리 메서드 - NFT 보상
+    public static GachaHistory forNft(Member member, Long nftCollectionId, Long nftTokenId) {
+        GachaHistory history = new GachaHistory();
+        history.member = member;
+        history.rewardType = GachaRewardType.NFT;
+        history.nftCollectionId = nftCollectionId;
+        history.nftTokenId = nftTokenId;
+        return history;
+    }
+
+    // 정적 팩토리 메서드 - 귀속 포인트 보상
+    public static GachaHistory forBoundPoint(Member member, Integer points) {
+        GachaHistory history = new GachaHistory();
+        history.member = member;
+        history.rewardType = GachaRewardType.BOUND_POINT;
+        history.rewardValue = points;
+        return history;
     }
 
     public String getUsername() {
