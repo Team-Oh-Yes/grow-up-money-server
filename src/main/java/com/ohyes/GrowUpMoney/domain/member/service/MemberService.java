@@ -64,11 +64,20 @@ public class MemberService {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(UserNotFoundException::new);
 
-        var inProgressTheme = userLessonProgressRepository.findInProgressByUsername(user.getUsername());
+        var currentLesson = roadmapService.getCurrentLesson(user.getUsername());
 
+        if (currentLesson == null) {
+            return StatisticsResponse.builder()
+                    .totalEarnedPoints(member.getTotalEarnedPoints())
+                    .userRank(rankingService.getUserRanking(user.getMemberId()).getRank())
+                    .percentage(0D)
+                    .build();
+        }
+
+        Long inProgressTheme = currentLesson.getThemeId();
         var userTotalEarnedPoints = member.getTotalEarnedPoints();
         var userRank = rankingService.getUserRanking(user.getMemberId()).getRank();
-        var percentage = roadmapService.getThemeWithLessons("유저가 진행중인 테마",user.getUsername()).getProgressPercentage();
+        var percentage = roadmapService.getThemeWithLessons(inProgressTheme, user.getUsername()).getProgressPercentage();
 
         return StatisticsResponse.builder()
                 .totalEarnedPoints(userTotalEarnedPoints)
