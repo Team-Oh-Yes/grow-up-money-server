@@ -68,6 +68,9 @@ public class Member {
     private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
 
     @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer totalEarnedBoundPoint = 0;  // 누적 획득 귀속 포인트
+
+    @Column(nullable = false, columnDefinition = "int default 0")
     private Integer gachaTickets = 0;  // 뽑기권 개수
 
     // ========================================================================
@@ -193,6 +196,7 @@ public class Member {
     public void addBoundPoint(Integer amount) {
         this.boundPoint += amount;
         this.totalEarnedPoints += amount;
+        this.totalEarnedBoundPoint += amount;
         this.dailyEarnedPoints += amount;  // 일일 포인트에도 추가
     }
 
