@@ -1,6 +1,7 @@
 package com.ohyes.GrowUpMoney.domain.roadmap.controller;
 
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.request.ProgressUpdateRequest;
+import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.LessonResponse;
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.ProgressResponse;
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.RoadmapResponse;
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.ThemeResponse;
@@ -103,5 +104,22 @@ public class RoadmapController {
         }
 
         return ResponseEntity.ok("진행 상황이 업데이트되었습니다.");
+    }
+
+    // 현재 진행 중인 단원 조회
+    // GET /roadmap/current
+    @GetMapping("/current")
+    public ResponseEntity<LessonResponse> getCurrentLesson(
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        log.info("현재 진행 중인 단원 조회 요청 - 사용자: {}", userDetails.getUsername());
+
+        LessonResponse response = roadmapService.getCurrentLesson(userDetails.getUsername());
+
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(response);
     }
 }
