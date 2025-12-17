@@ -42,7 +42,7 @@ public class RoadmapController {
 
         log.info("테마 상세 조회 요청 - 테마ID: {}, 사용자: {}", themeId, userDetails.getUsername());
 
-        ThemeResponse response = roadmapService.getThemeWithLessons(themeId, userDetails.getUsername());
+        ThemeResponse response = roadmapService.    getThemeWithLessons(themeId, userDetails.getUsername());
         return ResponseEntity.ok(response);
     }
 

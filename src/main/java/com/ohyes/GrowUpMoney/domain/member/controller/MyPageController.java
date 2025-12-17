@@ -4,6 +4,7 @@ import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.ProfileRequest;
 import com.ohyes.GrowUpMoney.domain.member.dto.response.PresignedUrlResponse;
 import com.ohyes.GrowUpMoney.domain.member.dto.response.ProfileResponse;
+import com.ohyes.GrowUpMoney.domain.member.dto.response.StatisticsResponse;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.member.service.MemberService;
@@ -54,9 +55,11 @@ public class MyPageController {
     }
 
     @GetMapping("/statistics")
-    public ResponseEntity<?>getstatistics(){
-
-        return ResponseEntity.ok(200);
+    public ResponseEntity<StatisticsResponse>getstatistics(
+            @AuthenticationPrincipal CustomUser user
+    ){
+        var response = memberService.getStatistics(user);
+        return ResponseEntity.ok(response);
     }
 
     //presignedUrl발급

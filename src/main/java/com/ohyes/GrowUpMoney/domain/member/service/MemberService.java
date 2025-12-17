@@ -5,10 +5,16 @@ import com.ohyes.GrowUpMoney.domain.auth.exception.DuplicateUserException;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.ProfileRequest;
+import com.ohyes.GrowUpMoney.domain.member.dto.response.StatisticsResponse;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.enums.PointType;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.ranking.repository.RankingRepository;
+import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
+import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
+import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
+import com.ohyes.GrowUpMoney.domain.roadmap.service.RoadmapService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +27,9 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final RankingService rankingService;
+    private final RoadmapService roadmapService;
+    private final UserLessonProgressRepository userLessonProgressRepository;
 
     public Page<MemberResponse> getMembers(int page, int size){
         Pageable pageable = PageRequest.of(page,size);
@@ -49,5 +58,22 @@ public class MemberService {
         member.setIntroduction(request.getIntroduction());
         member.setDisplayName(request.getDisplayName());
         memberRepository.save(member);
+    }
+
+    public StatisticsResponse getStatistics(CustomUser user) {
+        Member member = memberRepository.findByUsername(user.getUsername())
+                .orElseThrow(UserNotFoundException::new);
+
+        var inProgressTheme = userLessonProgressRepository.findInProgressByUsername(user.getUsername());
+
+        var userTotalEarnedPoints = member.getTotalEarnedPoints();
+        var userRank = rankingService.getUserRanking(user.getMemberId()).getRank();
+        var percentage = roadmapService.getThemeWithLessons("유저가 진행중인 테마",user.getUsername()).getProgressPercentage();
+
+        return StatisticsResponse.builder()
+                .totalEarnedPoints(userTotalEarnedPoints)
+                .userRank(userRank)
+                .percentage(percentage)
+                .build();
     }
 }
