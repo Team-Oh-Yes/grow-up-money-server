@@ -68,7 +68,7 @@ public class MyPageController {
         String username = user.getUsername();
         String key = "profiles/" + username + "/" + fileName;
         String presignedUrl = s3Service.createPresignedUrl(key);
-        s3Service.uploadPresignedUrl(user,presignedUrl);
+        s3Service.uploadProfilePresignedUrl(user,presignedUrl);
 
         return ResponseEntity.ok(PresignedUrlResponse.builder()
                 .presignedUrl(presignedUrl)
