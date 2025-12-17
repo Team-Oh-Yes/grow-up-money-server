@@ -12,6 +12,7 @@ import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.ranking.repository.RankingRepository;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
+import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.LessonResponse;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.service.RoadmapService;
@@ -64,7 +65,7 @@ public class MemberService {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(UserNotFoundException::new);
 
-        var currentLesson = roadmapService.getCurrentLesson(user.getUsername());
+        LessonResponse currentLesson = roadmapService.getCurrentLesson(user.getUsername());
 
         if (currentLesson == null) {
             return StatisticsResponse.builder()
