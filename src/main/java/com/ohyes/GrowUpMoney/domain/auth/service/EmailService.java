@@ -72,7 +72,7 @@ public class EmailService {
                 "<p>5분 내에 입력해주세요.</p>",
                 code
         );
-        sendEmail(email, "[GrowUpMoney] 이메일 인증코드", content);
+        sendEmail(email, "[인증번호 : " + code + "] GrowMoney 이메일 인증을 진행해주세요!", content);
     }
 
 }
