@@ -1,11 +1,10 @@
 package com.ohyes.GrowUpMoney.domain.auth.controller;
 
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.ChangePassWordRequest;
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.LoginRequest;
+import com.ohyes.GrowUpMoney.domain.auth.dto.request.*;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.LoginResponse;
-import com.ohyes.GrowUpMoney.domain.auth.dto.request.SignUpRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.SignUpResponse;
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.auth.service.EmailService;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.auth.service.AuthService;
 import com.ohyes.GrowUpMoney.domain.auth.service.RefreshTokenService;
@@ -39,6 +38,7 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
+    private final EmailService emailService;
 
 //    @GetMapping(value = "/me" ,produces = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<UserInfoResponse> getCurrentUser(
@@ -160,6 +160,26 @@ public class AuthController {
 
         return ResponseEntity.ok(Map.of(
                 "message","비밀번호가 변경되었습니다."
+        ));
+    }
+
+    @PostMapping("/sendEmail")
+    public ResponseEntity<Map<String,String>> sendEmail(
+            @RequestBody EmailRequest request
+    ) {
+        emailService.sendCodeToEmail(request.getEmail());
+        return ResponseEntity.ok(Map.of(
+                "message","이메일을 발송하였습니다."
+        ));
+    }
+
+    @PostMapping("/verifyEmail")
+    public ResponseEntity<Map<String,String>> verifyEmail(
+            @RequestBody EmailVerifyRequest requestDto
+    ) {
+        emailService.verifyCode(requestDto.getEmail(), requestDto.getVerificationCode());
+        return ResponseEntity.ok(Map.of(
+                "message","이메일 인증에 성공하였습니다."
         ));
     }
 

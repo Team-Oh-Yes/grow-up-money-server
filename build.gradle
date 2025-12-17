@@ -49,6 +49,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     //s3
     implementation 'software.amazon.awssdk:s3:2.26.0'  // 최신 버전
+    //email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 }
 
