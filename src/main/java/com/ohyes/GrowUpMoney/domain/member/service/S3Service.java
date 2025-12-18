@@ -29,14 +29,14 @@ public class S3Service {
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
-    public String createPresignedUrl(String path) {
+    public String createPresignedUrl(String path, int minutes) {
 
         var putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(path)
                 .build();
         var preSignRequest = PutObjectPresignRequest.builder()
-                .signatureDuration(Duration.ofMinutes(3))
+                .signatureDuration(Duration.ofMinutes(minutes))
                 .putObjectRequest(putObjectRequest)
                 .build();
 

@@ -88,7 +88,7 @@ public class AdminNftController {
             ){
         String key = "nft/" + fileName;
 
-        String presignedUrl = s3Service.createPresignedUrl(key);
+        String presignedUrl = s3Service.createPresignedUrl(key,10);
 
         return presignedUrl;
     }
