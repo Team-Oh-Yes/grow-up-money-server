@@ -5,11 +5,13 @@ import com.ohyes.GrowUpMoney.domain.auth.exception.DuplicateUserException;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.GrantPointRequest;
 import com.ohyes.GrowUpMoney.domain.auth.dto.response.MemberResponse;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.ProfileRequest;
+import com.ohyes.GrowUpMoney.domain.member.dto.response.ProfileResponse;
 import com.ohyes.GrowUpMoney.domain.member.dto.response.StatisticsResponse;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.enums.PointType;
 import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
+import com.ohyes.GrowUpMoney.domain.nft.service.NftCollectionService;
 import com.ohyes.GrowUpMoney.domain.ranking.repository.RankingRepository;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.LessonResponse;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +38,7 @@ public class MemberService {
     private final RankingService rankingService;
     private final RoadmapService roadmapService;
     private final UserLessonProgressRepository userLessonProgressRepository;
+    private final NftCollectionService nftCollectionService;
 
     public Page<MemberResponse> getMembers(int page, int size){
         Pageable pageable = PageRequest.of(page,size);
@@ -144,6 +148,21 @@ public class MemberService {
                 .currentLesson(currentLessonInfo)
                 .totalCorrect(progress.getTotalCorrectCount())  // Count 추가
                 .totalAttempted(progress.getTotalAttemptedCount())  // Count 추가
+                .build();
+    }
+
+    public ProfileResponse getProfile(CustomUser user){
+
+        String displayName = user.getDisplayName();
+        Member member = memberRepository.findByUsername(user.getUsername())
+                .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));
+        String nftUrl =  nftCollectionService.getCollectionById(member.getFavoriteNftId()).getImage2dUrl();
+
+        return ProfileResponse.builder()
+                .displayName(displayName)
+                .introduction(member.getIntroduction())
+                .profileImageUrl(member.getProfileImageUrl())
+                .favoriteNftUrl(nftUrl)
                 .build();
     }
 }

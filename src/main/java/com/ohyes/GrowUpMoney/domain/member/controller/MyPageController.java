@@ -23,23 +23,15 @@ import java.util.Map;
 public class MyPageController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
     private final S3Service s3Service;
 
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse>getProfile(
             @AuthenticationPrincipal CustomUser user
     ){
-        String displayName = user.getDisplayName();
-        Member member = memberRepository.findByUsername(user.getUsername())
-                .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));
+        var response = memberService.getProfile(user);
 
-        return ResponseEntity.ok(ProfileResponse.builder()
-                .displayName(displayName)
-                .introduction(member.getIntroduction())
-                .profileImageUrl(member.getProfileImageUrl())
-                .favoriteNftId(member.getFavoriteNftId())//추후에 id가아닌 nft이미지로 변경예정
-                .build());
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/profile")
