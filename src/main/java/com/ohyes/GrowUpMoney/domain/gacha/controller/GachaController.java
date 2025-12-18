@@ -1,8 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.gacha.controller;
 
 import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
+import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaHistoryPageResponse;
+import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaHistoryResponse;
 import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaResponse;
-import com.ohyes.GrowUpMoney.domain.gacha.entity.GachaHistory;
 import com.ohyes.GrowUpMoney.domain.gacha.service.GachaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,20 +64,38 @@ public class GachaController {
     }
 
     @GetMapping("/history")
-    @Operation(summary = "뽑기 이력 조회", description = "사용자의 뽑기 이력을 조회합니다.")
-    public ResponseEntity<List<GachaHistory>> getHistory(@AuthenticationPrincipal CustomUser customUser) {
-        log.info("뽑기 이력 조회: username={}", customUser.getUsername());
-        List<GachaHistory> history = gachaService.getHistory(customUser.getUsername());
+    @Operation(summary = "뽑기 이력 조회 (전체)", description = "사용자의 모든 뽑기 이력을 조회합니다.")
+    public ResponseEntity<List<GachaHistoryResponse>> getHistory(@AuthenticationPrincipal CustomUser customUser) {
+        log.info("뽑기 이력 조회 (전체): username={}", customUser.getUsername());
+        List<GachaHistoryResponse> history = gachaService.getHistory(customUser.getUsername());
         return ResponseEntity.ok(history);
+    }
+
+    @GetMapping("/history/paged")
+    @Operation(summary = "뽑기 이력 조회 (페이징)", description = "사용자의 뽑기 이력을 페이징하여 조회합니다.")
+    public ResponseEntity<GachaHistoryPageResponse> getHistoryPaged(
+            @AuthenticationPrincipal CustomUser customUser,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        log.info("뽑기 이력 조회 (페이징): username={}, page={}, size={}", customUser.getUsername(), page, size);
+
+        org.springframework.data.domain.Pageable pageable =
+                org.springframework.data.domain.PageRequest.of(page, size);
+
+        org.springframework.data.domain.Page<GachaHistoryResponse> historyPage =
+                gachaService.getHistoryPaged(customUser.getUsername(), pageable);
+
+        GachaHistoryPageResponse response = GachaHistoryPageResponse.from(historyPage);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/history/recent")
     @Operation(summary = "최근 뽑기 이력 조회", description = "최근 N개의 뽑기 이력을 조회합니다.")
-    public ResponseEntity<List<GachaHistory>> getRecentHistory(
+    public ResponseEntity<List<GachaHistoryResponse>> getRecentHistory(
             @AuthenticationPrincipal CustomUser customUser,
             @RequestParam(defaultValue = "10") int limit) {
         log.info("최근 뽑기 이력 조회: username={}, limit={}", customUser.getUsername(), limit);
-        List<GachaHistory> history = gachaService.getRecentHistory(customUser.getUsername(), limit);
+        List<GachaHistoryResponse> history = gachaService.getRecentHistory(customUser.getUsername(), limit);
         return ResponseEntity.ok(history);
     }
 

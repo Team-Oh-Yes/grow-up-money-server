@@ -1,9 +1,9 @@
 package com.ohyes.GrowUpMoney.domain.gacha.service;
 
+import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaHistoryResponse;
 import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaResponse;
 import com.ohyes.GrowUpMoney.domain.gacha.dto.response.GachaResultItem;
 import com.ohyes.GrowUpMoney.domain.gacha.entity.GachaHistory;
-import com.ohyes.GrowUpMoney.domain.gacha.enums.GachaRewardType;
 import com.ohyes.GrowUpMoney.domain.gacha.repository.GachaHistoryRepository;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
@@ -14,6 +14,8 @@ import com.ohyes.GrowUpMoney.domain.nft.repository.NftCollectionRepository;
 import com.ohyes.GrowUpMoney.domain.nft.repository.NftTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -209,16 +211,28 @@ public class GachaService {
     }
 
     // 뽑기 이력 조회
-    public List<GachaHistory> getHistory(String username) {
-        return gachaHistoryRepository.findByUsername(username);
+    public Page<GachaHistoryResponse> getHistoryPaged(String username, Pageable pageable) {
+        Page<GachaHistory> historyPage = gachaHistoryRepository.findByUsername(username, pageable);
+        return historyPage.map(GachaHistoryResponse::from);
+    }
+
+    // 뽑기 이력 조회 (전체)
+    public List<GachaHistoryResponse> getHistory(String username) {
+        List<GachaHistory> histories = gachaHistoryRepository.findAllByUsername(username);
+        return histories.stream()
+                .map(GachaHistoryResponse::from)
+                .collect(java.util.stream.Collectors.toList());
     }
 
     // 최근 뽑기 이력 조회
-    public List<GachaHistory> getRecentHistory(String username, int limit) {
-        return gachaHistoryRepository.findRecentByUsername(
+    public List<GachaHistoryResponse> getRecentHistory(String username, int limit) {
+        List<GachaHistory> histories = gachaHistoryRepository.findRecentByUsername(
                 username,
                 org.springframework.data.domain.PageRequest.of(0, limit)
         );
+        return histories.stream()
+                .map(GachaHistoryResponse::from)
+                .collect(java.util.stream.Collectors.toList());
     }
 
     // 뽑기 통계
