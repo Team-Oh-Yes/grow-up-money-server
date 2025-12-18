@@ -58,7 +58,7 @@ public class MyPageController {
     public ResponseEntity<StatisticsResponse>getstatistics(
             @AuthenticationPrincipal CustomUser user
     ){
-        var response = memberService.getStatistics(user);
+        var response = memberService.getDetailStatistics(user.getUsername());
         return ResponseEntity.ok(response);
     }
 
