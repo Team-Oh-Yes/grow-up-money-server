@@ -157,10 +157,13 @@ public class MemberService {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));
         var favoriteNftId = member.getFavoriteNftId();
+        String nftUrl;
         if (favoriteNftId == null){
-            String nftUrl =  null;
+            nftUrl =  null;
+        }else{
+            nftUrl =  nftCollectionService.getCollectionById(favoriteNftId).getImage2dUrl();
         }
-        String nftUrl =  nftCollectionService.getCollectionById(favoriteNftId).getImage2dUrl();
+
 
         return ProfileResponse.builder()
                 .displayName(displayName)
