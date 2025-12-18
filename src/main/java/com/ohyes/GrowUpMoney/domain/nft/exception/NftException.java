@@ -82,11 +82,19 @@ public class NftException {
         }
     }
 
-    // 가격 범위 벗어남
+    // 가격 범위 벗어남 (Getter 추가)
+    @Getter
     public static class PriceOutOfRangeException extends RuntimeException {
+        private final Integer inputPrice;
+        private final Integer minPrice;
+        private final Integer maxPrice;
+
         public PriceOutOfRangeException(Integer price, Integer minPrice, Integer maxPrice) {
             super(String.format("가격이 허용 범위를 벗어났습니다. 입력: %d, 범위: %d ~ %d",
                     price, minPrice, maxPrice));
+            this.inputPrice = price;
+            this.minPrice = minPrice;
+            this.maxPrice = maxPrice;
         }
     }
 

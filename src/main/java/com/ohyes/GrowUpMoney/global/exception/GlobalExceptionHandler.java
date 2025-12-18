@@ -194,14 +194,33 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-    // NFT 비즈니스 로직 오류 (400)
+    // 가격 범위 오류 (400) - 별도 처리
+    @ExceptionHandler(NftException.PriceOutOfRangeException.class)
+    public ResponseEntity<ProblemDetail> handlePriceOutOfRange(NftException.PriceOutOfRangeException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Price Out Of Range");
+        problemDetail.setProperty("error_code", "E400_PRICE_OUT_OF_RANGE");
+        // ===== 가격 범위 정보 추가 =====
+        problemDetail.setProperty("inputPrice", ex.getInputPrice());
+        problemDetail.setProperty("minPrice", ex.getMinPrice());
+        problemDetail.setProperty("maxPrice", ex.getMaxPrice());
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // NFT 비즈니스 로직 오류 (400) - PriceOutOfRangeException 제외
     @ExceptionHandler({
             NftException.MaxSupplyExceededException.class,
             NftException.CollectionNftNotTradeableException.class,
             NftException.AlreadyOnSaleException.class,
             NftException.NotOnSaleException.class,
             NftException.InsufficientPointException.class,
-            NftException.PriceOutOfRangeException.class,
+            // NftException.PriceOutOfRangeException.class,  ← 별도 처리
             NftException.CannotBuyOwnNftException.class,
             NftException.InvalidTradeStatusException.class,
             NftException.DuplicateRewardException.class,
