@@ -151,7 +151,7 @@ public class GachaService {
         return GachaResultItem.nft(
                 selected.getId(),
                 selected.getName(),
-                selected.getImage3dUrl(),  // 3D 이미지 사용
+                selected.getImage2dUrl(),
                 selected.getRarity().name(),
                 token.getId()
         );
