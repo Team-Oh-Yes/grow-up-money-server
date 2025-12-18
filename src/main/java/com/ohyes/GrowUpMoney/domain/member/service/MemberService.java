@@ -12,6 +12,8 @@ import com.ohyes.GrowUpMoney.domain.auth.exception.UserNotFoundException;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.ranking.repository.RankingRepository;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
+import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.LessonResponse;
+import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.ProgressResponse;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.LessonRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.repository.UserLessonProgressRepository;
 import com.ohyes.GrowUpMoney.domain.roadmap.service.RoadmapService;
@@ -21,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +69,7 @@ public class MemberService {
         Member member = memberRepository.findByUsername(user.getUsername())
                 .orElseThrow(UserNotFoundException::new);
 
-        var currentLesson = roadmapService.getCurrentLesson(user.getUsername());
+        LessonResponse currentLesson = roadmapService.getCurrentLesson(user.getUsername());
 
         if (currentLesson == null) {
             return StatisticsResponse.builder()
@@ -83,6 +88,62 @@ public class MemberService {
                 .totalEarnedPoints(userTotalEarnedPoints)
                 .userRank(userRank)
                 .percentage(percentage)
+                .build();
+    }
+
+    public StatisticsResponse getDetailStatistics(String username) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+
+        ProgressResponse progress = roadmapService.getUserProgress(username);
+        LessonResponse currentLesson = roadmapService.getCurrentLesson(username);
+
+        StatisticsResponse.CurrentLessonInfo currentLessonInfo = null;
+        if (currentLesson != null) {
+            currentLessonInfo = StatisticsResponse.CurrentLessonInfo.builder()
+                    .lessonId(currentLesson.getLessonId())
+                    .themeId(currentLesson.getThemeId())
+                    .title(currentLesson.getTitle())
+                    .orderIndex(currentLesson.getOrderIndex())
+                    .status(currentLesson.getStatus() != null ? currentLesson.getStatus().name() : null)
+                    .correctCount(currentLesson.getCorrectCount())
+                    .totalAttempted(currentLesson.getTotalAttempted())
+                    .accuracy(currentLesson.getAccuracy())
+                    .build();
+        }
+
+        List<StatisticsResponse.ThemeProgress> themeProgresses = progress.getThemeProgresses().stream()
+                .map(tp -> StatisticsResponse.ThemeProgress.builder()
+                        .themeId(tp.getThemeId())
+                        .themeTitle(tp.getThemeTitle())
+                        .orderIndex(tp.getOrderIndex())
+                        .totalLessons(tp.getTotalLessons())
+                        .completedLessons(tp.getCompletedLessons())
+                        .progressPercentage(tp.getProgressPercentage())
+                        .isCompleted(tp.getIsCompleted())
+                        .build())
+                .collect(Collectors.toList());
+
+        // 랭킹 조회
+        Integer userRank = rankingService.getUserRanking(member.getId()).getRank();
+
+        return StatisticsResponse.builder()
+                .username(member.getUsername())
+                .pointBalance(member.getPointBalance())
+                .boundPoint(member.getBoundPoint())
+                .totalEarnedBoundPoint(member.getTotalEarnedBoundPoint())
+                .totalEarnedPoints(member.getTotalEarnedPoints())
+                .hearts(member.getHearts())
+                .tier(member.getTier())
+                .userRank(userRank)  // 추가
+                .overallProgress(progress.getOverallProgress())
+                .totalThemes(progress.getTotalThemes())
+                .totalLessons(progress.getTotalLessons())
+                .completedLessons(progress.getCompletedLessons())
+                .themeProgresses(themeProgresses)
+                .currentLesson(currentLessonInfo)
+                .totalCorrect(progress.getTotalCorrectCount())  // Count 추가
+                .totalAttempted(progress.getTotalAttemptedCount())  // Count 추가
                 .build();
     }
 }
