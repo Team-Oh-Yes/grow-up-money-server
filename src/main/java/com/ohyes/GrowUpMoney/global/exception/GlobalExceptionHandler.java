@@ -6,6 +6,9 @@ import com.ohyes.GrowUpMoney.domain.auth.exception.PasswordException;
 import com.ohyes.GrowUpMoney.domain.nft.exception.NftException;
 import com.ohyes.GrowUpMoney.domain.quiz.exception.QuizException;
 import com.ohyes.GrowUpMoney.domain.roadmap.exception.RoadmapException;
+import com.ohyes.GrowUpMoney.domain.shop.exception.AlreadyOwnedItemException;
+import com.ohyes.GrowUpMoney.domain.shop.exception.InsufficientBoundPointException;
+import com.ohyes.GrowUpMoney.domain.shop.exception.ItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -153,7 +156,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-    // ===== NFT 예외 처리 (추가) =====
+    // ===== NFT 예외 처리 =====
 
     // NFT 리소스를 찾을 수 없음 (404)
     @ExceptionHandler({
@@ -205,7 +208,6 @@ public class GlobalExceptionHandler {
         );
         problemDetail.setTitle("Price Out Of Range");
         problemDetail.setProperty("error_code", "E400_PRICE_OUT_OF_RANGE");
-        // ===== 가격 범위 정보 추가 =====
         problemDetail.setProperty("inputPrice", ex.getInputPrice());
         problemDetail.setProperty("minPrice", ex.getMinPrice());
         problemDetail.setProperty("maxPrice", ex.getMaxPrice());
@@ -213,14 +215,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-    // NFT 비즈니스 로직 오류 (400) - PriceOutOfRangeException 제외
+    // NFT 비즈니스 로직 오류 (400)
     @ExceptionHandler({
             NftException.MaxSupplyExceededException.class,
             NftException.CollectionNftNotTradeableException.class,
             NftException.AlreadyOnSaleException.class,
             NftException.NotOnSaleException.class,
             NftException.InsufficientPointException.class,
-            // NftException.PriceOutOfRangeException.class,  ← 별도 처리
             NftException.CannotBuyOwnNftException.class,
             NftException.InvalidTradeStatusException.class,
             NftException.DuplicateRewardException.class,
@@ -235,6 +236,53 @@ public class GlobalExceptionHandler {
         );
         problemDetail.setTitle("NFT Business Logic Error");
         problemDetail.setProperty("error_code", "E400_NFT_BUSINESS_ERROR");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // ===== Shop 예외 처리 (추가) =====
+
+    // 상점 아이템을 찾을 수 없음 (404)
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleItemNotFound(ItemNotFoundException ex) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Item Not Found");
+        problemDetail.setProperty("error_code", "E404_ITEM_NOT_FOUND");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // 이미 보유한 아이템 (409)
+    @ExceptionHandler(AlreadyOwnedItemException.class)
+    public ResponseEntity<ProblemDetail> handleAlreadyOwnedItem(AlreadyOwnedItemException ex) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Already Owned Item");
+        problemDetail.setProperty("error_code", "E409_ALREADY_OWNED");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // 귀속 포인트 부족 (400)
+    @ExceptionHandler(InsufficientBoundPointException.class)
+    public ResponseEntity<ProblemDetail> handleInsufficientBoundPoint(InsufficientBoundPointException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("Insufficient Bound Point");
+        problemDetail.setProperty("error_code", "E400_INSUFFICIENT_BOUND_POINT");
 
         return ResponseEntity.status(status).body(problemDetail);
     }
