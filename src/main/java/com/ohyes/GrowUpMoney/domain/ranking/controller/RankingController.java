@@ -39,7 +39,9 @@ public class RankingController {
      * GET /rank/{userId}
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<RankingResponse> getUserRanking(@PathVariable Long userId) {
+    public ResponseEntity<RankingResponse> getUserRanking(
+            @PathVariable Long userId
+    ) {
         log.info("사용자 랭킹 조회 요청 - userId: {}", userId);
         RankingResponse ranking = rankingService.getUserRanking(userId);
         return ResponseEntity.ok(ranking);

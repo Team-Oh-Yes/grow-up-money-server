@@ -44,6 +44,7 @@ public class RankingService {
                     member.getDisplayName(),
                     rank,
                     member.getTotalEarnedPoints(),
+                    member.getProfileImageUrl(),
                     member.getTier()
             ));
         }
