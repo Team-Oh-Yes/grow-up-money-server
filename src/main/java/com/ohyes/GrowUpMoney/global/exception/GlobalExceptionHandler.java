@@ -3,6 +3,7 @@ package com.ohyes.GrowUpMoney.global.exception;
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountSuspendedException;
 import com.ohyes.GrowUpMoney.domain.auth.exception.AccountWithdrawnException;
 import com.ohyes.GrowUpMoney.domain.auth.exception.PasswordException;
+import com.ohyes.GrowUpMoney.domain.nft.exception.NftException;
 import com.ohyes.GrowUpMoney.domain.quiz.exception.QuizException;
 import com.ohyes.GrowUpMoney.domain.roadmap.exception.RoadmapException;
 import org.springframework.http.HttpStatus;
@@ -138,7 +139,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-
     @ExceptionHandler(PasswordException.class)
     public ResponseEntity<ProblemDetail> handlePasswordException(PasswordException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -149,6 +149,73 @@ public class GlobalExceptionHandler {
         );
         problemDetail.setTitle("Password Error");
         problemDetail.setProperty("error_code", "E400_PASSWORD_ERROR");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // ===== NFT 예외 처리 (추가) =====
+
+    // NFT 리소스를 찾을 수 없음 (404)
+    @ExceptionHandler({
+            NftException.NftCollectionNotFoundException.class,
+            NftException.NftTokenNotFoundException.class,
+            NftException.TradeNotFoundException.class,
+            NftException.ThemeRewardNotFoundException.class
+    })
+    public ResponseEntity<ProblemDetail> handleNftNotFound(RuntimeException ex) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("NFT Resource Not Found");
+        problemDetail.setProperty("error_code", "E404_NFT_NOT_FOUND");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // NFT 권한 오류 (403)
+    @ExceptionHandler({
+            NftException.NotNftOwnerException.class,
+            NftException.UnauthorizedTradeAccessException.class,
+            NftException.ThemeNotCompletedException.class
+    })
+    public ResponseEntity<ProblemDetail> handleNftUnauthorized(RuntimeException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("NFT Unauthorized Access");
+        problemDetail.setProperty("error_code", "E403_NFT_UNAUTHORIZED");
+
+        return ResponseEntity.status(status).body(problemDetail);
+    }
+
+    // NFT 비즈니스 로직 오류 (400)
+    @ExceptionHandler({
+            NftException.MaxSupplyExceededException.class,
+            NftException.CollectionNftNotTradeableException.class,
+            NftException.AlreadyOnSaleException.class,
+            NftException.NotOnSaleException.class,
+            NftException.InsufficientPointException.class,
+            NftException.PriceOutOfRangeException.class,
+            NftException.CannotBuyOwnNftException.class,
+            NftException.InvalidTradeStatusException.class,
+            NftException.DuplicateRewardException.class,
+            NftException.CollectionNotInThemeException.class
+    })
+    public ResponseEntity<ProblemDetail> handleNftBusinessError(RuntimeException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problemDetail.setTitle("NFT Business Logic Error");
+        problemDetail.setProperty("error_code", "E400_NFT_BUSINESS_ERROR");
 
         return ResponseEntity.status(status).body(problemDetail);
     }
