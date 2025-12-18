@@ -4,6 +4,7 @@ import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.RankingResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.UserRankResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,9 @@ public class RankingController {
      * GET /rank/{userId}
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<RankingResponse> getUserRanking(@PathVariable Long userId) {
+    public ResponseEntity<RankingResponse> getUserRanking(
+            @PathVariable Long userId
+    ) {
         log.info("사용자 랭킹 조회 요청 - userId: {}", userId);
         RankingResponse ranking = rankingService.getUserRanking(userId);
         return ResponseEntity.ok(ranking);

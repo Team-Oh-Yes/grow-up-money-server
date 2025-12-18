@@ -28,6 +28,7 @@ public class NftCollectionService {
     @Transactional
     public void createCollection(NftCollectionCreateRequest request) {
         log.info("NFT 컬렉션 생성 시작: {}", request.getName());
+        String imagePresignedUrl = request.getImage2dUrl().split("\\?")[0];
 
         Theme theme = themeRepository.findById(request.getThemeId())
                 .orElseThrow(() -> new IllegalArgumentException("테마를 찾을 수 없습니다. ID: " + request.getThemeId()));
@@ -36,7 +37,7 @@ public class NftCollectionService {
         collection.setTheme(theme);
         collection.setName(request.getName());
         collection.setRarity(request.getRarity());
-        collection.setImage2dUrl(request.getImage2dUrl());
+        collection.setImage2dUrl(imagePresignedUrl);
         collection.setMaxSupply(request.getMaxSupply());
         collection.setDescription(request.getDescription());
 
