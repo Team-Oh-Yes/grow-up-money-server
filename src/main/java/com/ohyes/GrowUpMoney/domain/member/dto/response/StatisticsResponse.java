@@ -1,4 +1,3 @@
-// StatisticsResponse.java
 package com.ohyes.GrowUpMoney.domain.member.dto.response;
 
 import com.ohyes.GrowUpMoney.domain.roadmap.dto.response.LessonResponse;
