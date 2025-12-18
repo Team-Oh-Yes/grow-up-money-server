@@ -41,7 +41,7 @@ public class NftCollection {
     private String image2dUrl;
 
     @Column(name = "image_3d_url", nullable = false)
-    private String image3dUrl;
+    private String image3dUrl = "";
 
     @Column(name = "max_supply", nullable = false)
     private Integer maxSupply;

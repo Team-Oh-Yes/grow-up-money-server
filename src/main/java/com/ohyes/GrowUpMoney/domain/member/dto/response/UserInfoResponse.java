@@ -19,4 +19,6 @@ public class UserInfoResponse {
 
     private String tier;
 
+    private Integer gachaTickets;  // 뽑기권 개수
+
 }

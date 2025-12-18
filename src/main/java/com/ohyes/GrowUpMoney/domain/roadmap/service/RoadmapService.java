@@ -240,4 +240,29 @@ public class RoadmapService {
         progress.updateQuizResult(isCorrect);
         log.info("사용자 {}의 단원 {} 퀴즈 결과 업데이트: {}", username, lessonId, isCorrect);
     }
+
+    // 현재 진행 중인 단원 조회
+    // GET /roadmap/current
+    @Transactional(readOnly = true)
+    public LessonResponse getCurrentLesson(String username) {
+        List<UserLessonProgress> inProgressList = progressRepository.findInProgressByUsername(username);
+
+        if (inProgressList.isEmpty()) {
+            // 진행 중인 단원이 없으면 null 또는 예외
+            return null;
+        }
+
+        // 가장 최근에 업데이트된 진행 중인 단원
+        UserLessonProgress currentProgress = inProgressList.get(0);
+        Lesson lesson = currentProgress.getLesson();
+
+        return LessonResponse.fromWithProgress(
+                lesson,
+                currentProgress.getStatus(),
+                currentProgress.getCorrectCount(),
+                currentProgress.getTotalAttempted(),
+                currentProgress.getAccuracy(),
+                currentProgress.getUpdatedAt()
+        );
+    }
 }

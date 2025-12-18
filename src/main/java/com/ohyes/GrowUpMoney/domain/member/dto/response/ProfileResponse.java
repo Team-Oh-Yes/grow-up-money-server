@@ -15,5 +15,5 @@ public class ProfileResponse {
 
     private String profileImageUrl; //프로필 이미지
 
-    private Long favoriteNftId; //대표 예쁘띠id
+    private String favoriteNftUrl; //대표 예쁘띠id
 }

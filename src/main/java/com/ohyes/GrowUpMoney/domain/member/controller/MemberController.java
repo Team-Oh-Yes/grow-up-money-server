@@ -32,6 +32,7 @@ public class MemberController {
                 .boundPoint(member.getBoundPoint())
                 .hearts(member.getHearts())
                 .tier(member.getTier())
+                .gachaTickets(member.getGachaTickets())
                 .build());
     }
 

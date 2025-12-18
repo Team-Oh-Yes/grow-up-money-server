@@ -4,6 +4,7 @@ import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.member.dto.request.ProfileRequest;
 import com.ohyes.GrowUpMoney.domain.member.dto.response.PresignedUrlResponse;
 import com.ohyes.GrowUpMoney.domain.member.dto.response.ProfileResponse;
+import com.ohyes.GrowUpMoney.domain.member.dto.response.StatisticsResponse;
 import com.ohyes.GrowUpMoney.domain.member.entity.Member;
 import com.ohyes.GrowUpMoney.domain.member.repository.MemberRepository;
 import com.ohyes.GrowUpMoney.domain.member.service.MemberService;
@@ -22,23 +23,15 @@ import java.util.Map;
 public class MyPageController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
     private final S3Service s3Service;
 
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse>getProfile(
             @AuthenticationPrincipal CustomUser user
     ){
-        String displayName = user.getDisplayName();
-        Member member = memberRepository.findByUsername(user.getUsername())
-                .orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 사용자 입니다"));
+        var response = memberService.getProfile(user);
 
-        return ResponseEntity.ok(ProfileResponse.builder()
-                .displayName(displayName)
-                .introduction(member.getIntroduction())
-                .profileImageUrl(member.getProfileImageUrl())
-                .favoriteNftId(member.getFavoriteNftId())//추후에 id가아닌 nft이미지로 변경예정
-                .build());
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/profile")
@@ -54,9 +47,11 @@ public class MyPageController {
     }
 
     @GetMapping("/statistics")
-    public ResponseEntity<?>getstatistics(){
-
-        return ResponseEntity.ok(200);
+    public ResponseEntity<StatisticsResponse>getstatistics(
+            @AuthenticationPrincipal CustomUser user
+    ){
+        var response = memberService.getDetailStatistics(user.getUsername());
+        return ResponseEntity.ok(response);
     }
 
     //presignedUrl발급
@@ -68,7 +63,7 @@ public class MyPageController {
         String username = user.getUsername();
         String key = "profiles/" + username + "/" + fileName;
         String presignedUrl = s3Service.createPresignedUrl(key);
-        s3Service.uploadPresignedUrl(user,presignedUrl);
+        s3Service.uploadProfilePresignedUrl(user,presignedUrl);
 
         return ResponseEntity.ok(PresignedUrlResponse.builder()
                 .presignedUrl(presignedUrl)

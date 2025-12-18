@@ -33,6 +33,12 @@ public interface NftCollectionRepository extends JpaRepository<NftCollection, Lo
     @Query("SELECT DISTINCT c FROM NftCollection c LEFT JOIN FETCH c.theme ORDER BY c.theme.id, c.id")
     List<NftCollection> findAllWithTheme();
 
+    // 뽑기 가능한 NFT 조회 (재고가 남아있는 것만)
+    @Query("SELECT nc FROM NftCollection nc " +
+            "WHERE (SELECT COUNT(nt) FROM NftToken nt WHERE nt.collection = nc) < nc.maxSupply " +
+            "ORDER BY nc.maxSupply ASC")
+    List<NftCollection> findAvailableForGacha();
+
     // 특정 테마에 속한 컬렉션 개수
     long countByThemeId(Long themeId);
 

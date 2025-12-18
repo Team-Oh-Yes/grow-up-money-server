@@ -66,6 +66,13 @@ public class Member {
 
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer totalEarnedPoints = 0;  // 누적 획득 포인트
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer totalEarnedBoundPoint = 0;  // 누적 획득 귀속 포인트
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer gachaTickets = 0;  // 뽑기권 개수
+
     // ========================================================================
 
     @Column(length = 20)
@@ -189,6 +196,7 @@ public class Member {
     public void addBoundPoint(Integer amount) {
         this.boundPoint += amount;
         this.totalEarnedPoints += amount;
+        this.totalEarnedBoundPoint += amount;
         this.dailyEarnedPoints += amount;  // 일일 포인트에도 추가
     }
 
@@ -260,5 +268,26 @@ public class Member {
         } else {
             this.tier = "BEGINNER";
         }
+    }
+
+    // ========================================================================
+    // 뽑기권 관련 메서드
+
+    // 뽑기권 추가 (단원 완료시)
+    public void addGachaTickets(Integer count) {
+        this.gachaTickets += count;
+    }
+
+    // 뽑기권 차감
+    public void useGachaTickets(Integer count) {
+        if (this.gachaTickets < count) {
+            throw new IllegalStateException("뽑기권이 부족합니다. 현재: " + this.gachaTickets + "개, 필요: " + count + "개");
+        }
+        this.gachaTickets -= count;
+    }
+
+    // 뽑기권 확인
+    public boolean hasGachaTickets(Integer count) {
+        return this.gachaTickets >= count;
     }
 }
