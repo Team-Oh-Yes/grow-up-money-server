@@ -4,6 +4,7 @@ import com.ohyes.GrowUpMoney.domain.auth.entity.CustomUser;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.RankingResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.dto.response.UserRankResponse;
 import com.ohyes.GrowUpMoney.domain.ranking.service.RankingService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
