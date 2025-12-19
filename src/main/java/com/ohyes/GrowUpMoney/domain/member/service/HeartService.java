@@ -18,7 +18,7 @@ public class HeartService {
     private final MemberRepository memberRepository;
 
     // 상수
-    private static final int DEFAULT_HEARTS = 5;
+    private static final int DEFAULT_HEARTS = 10;
     private static final int MAX_HEARTS = 10;
     private static final int HEART_COST_POINTS = 50;
 
